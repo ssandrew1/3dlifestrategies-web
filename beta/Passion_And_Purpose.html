@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Passion & Purpose – 3D Life Strategies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0f172a',
+              slate: '#1e293b',
+              teal: '#0f766e',
+              tealLight: '#14b8a6',
+              amber: '#d97706',
+              amberLight: '#fbbf24',
+              muted: '#64748b',
+              light: '#f8fafc',
+              border: '#e2e8f0'
+            }
+          },
+          fontFamily: {
+            display: ['Cinzel', 'serif'],
+            body: ['Raleway', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Raleway', sans-serif; }
+    .font-display { font-family: 'Cinzel', serif; }
+
+    body { background-color: #f8fafc; }
+
+    /* Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #0f766e; border-radius: 10px; }
+
+    /* Header gradient accent line */
+    .header-accent {
+      background: linear-gradient(90deg, #0f766e, #d97706, #0f766e);
+      height: 3px;
+    }
+
+    /* Card hover glow */
+    .goal-card {
+      transition: all 0.25s ease;
+      border-bottom: 3px solid transparent;
+    }
+    .goal-card:hover {
+      border-bottom-color: #0f766e;
+      box-shadow: 0 8px 30px rgba(15, 118, 110, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* Tag pill */
+    .tag-pill {
+      background: #f0fdf4;
+      border: 1px solid #d1fae5;
+      color: #065f46;
+    }
+
+    /* Modal backdrop */
+    .modal-backdrop { backdrop-filter: blur(4px); }
+
+    /* Prompt code block */
+    .prompt-block {
+      background: #0f172a;
+      color: #a3e635;
+      border-left: 4px solid #0f766e;
+    }
+
+    /* Subtext label */
+    .label-badge {
+      background: linear-gradient(135deg, #0f766e22, #0f766e11);
+      border: 1px solid #0f766e33;
+      color: #0f766e;
+    }
+
+    /* Category badge in card */
+    .cat-badge {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #92400e;
+    }
+
+    /* Stats bar */
+    #statsBar {
+      font-size: 0.75rem;
+      color: #64748b;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    /* Select & input focus */
+    select:focus, input:focus {
+      outline: none;
+      border-color: #0f766e;
+      box-shadow: 0 0 0 3px rgba(15,118,110,0.15);
+    }
+
+    /* Section divider text */
+    .divider-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #94a3b8;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .divider-label::before, .divider-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    /* Fade-in animation for cards */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .goal-card { animation: fadeInUp 0.35s ease both; }
+
+    /* Button primary */
+    .btn-primary {
+      background: #0f766e;
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+    .btn-primary:hover { background: #0d6b64; transform: scale(1.02); }
+
+    /* Button secondary */
+    .btn-secondary {
+      background: #1e293b;
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      transition: background 0.2s ease;
+    }
+    .BROWNbtn-secondary:hover { background: #c5a47e; }
+    .btn-secondary:hover { background: #0f172a; }
+
+    /* Footer bar */
+    .footer-bar {
+      background: #0f172a;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body class="text-brand-slate">
+
+<!-- Header accent line -->
+<div class="header-accent"></div>
+
+<header class="sticky top-0 z-40 bg-white shadow-sm border-b border-brand-border">
+  <div class="max-w-7xl mx-auto px-6 py-3 flex flex-col sm:flex-row sm:items-center gap-3">
+
+    <!-- Back link -->
+    <a href="https://3dlifestrategies.org/beta/steps.html"
+       class="flex items-center gap-1.5 text-brand-teal text-sm font-semibold hover:text-brand-navy transition-colors whitespace-nowrap font-body">
+	    <span class="text-[#c5a47e] text-base leading-none">← </span> Steps
+    </a>
+
+    <!-- Divider -->
+    <div class="hidden sm:block w-px h-5 bg-brand-border"></div>
+
+    <!-- Title -->
+    <span class="font-display text-brand-navy text-sm font-semibold hidden sm:block">Passion &amp; Purpose</span>
+
+    <!-- Spacer -->
+    <div class="flex-1"></div>
+
+    <!-- Controls -->
+    <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+      <input id="searchInput" type="text" placeholder="Search goals, tags…"
+        class="px-4 py-2 border border-brand-border rounded-lg text-sm w-full sm:w-56 text-brand-slate placeholder-brand-muted font-body transition-all" />
+
+      <select id="categoryFilter" class="px-3 py-2 border border-brand-border rounded-lg text-sm bg-white text-brand-slate font-body transition-all">
+        <option value="all">All Dimensions</option>
+        <option value="Personal Growth">🌱 Personal Growth</option>
+        <option value="Service & Faith">❤️ Service & Faith</option>
+        <option value="Creativity">🎨 Creativity</option>
+        <option value="Learning">🧠 Learning</option>
+        <option value="Health">🚶‍♂️ Health & Vitality</option>
+        <option value="Relationships">👨‍👩‍👧 Relationships</option>
+        <option value="Adventure">🌍 Adventure</option>
+        <option value="Legacy">🛠 Legacy</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+
+
+<main class="max-w-7xl mx-auto px-6 py-8">
+  <div id="statsBar" class="mb-4"></div>
+  <div id="goalGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <!-- Cards injected here -->
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer-bar mt-12 py-6 px-6 text-center text-xs">
+  <p class="font-body tracking-wide">© 2026 <span class="text-slate-400 font-semibold">3D Life Strategies</span> · Empowering individuals to realize their God-given gifts through strategic development and holistic stewardship.</p>
+</footer>
+
+<!-- PROMPT MODAL -->
+<div id="promptModal" class="hidden fixed inset-0 bg-brand-navy/70 modal-backdrop flex items-center justify-center z-50 p-4">
+  <div class="bg-white max-w-2xl w-full rounded-2xl shadow-2xl flex flex-col max-h-[92vh] overflow-hidden">
+
+    <!-- Modal header -->
+    <div class="px-6 py-5 border-b border-brand-border flex justify-between items-start bg-brand-navy rounded-t-2xl">
+      <div>
+        <p class="text-brand-tealLight font-body text-[10px] uppercase tracking-widest mb-1" id="modalSub"></p>
+        <h2 id="modalTitle" class="font-display text-white text-lg font-semibold"></h2>
+      </div>
+      <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors text-2xl leading-none mt-1">✕</button>
+    </div>
+
+    <!-- Modal body -->
+    <div class="p-6 overflow-y-auto custom-scrollbar space-y-5 flex-1">
+
+      <div>
+        <label class="text-[10px] font-bold uppercase tracking-widest text-brand-teal mb-2 block font-body">Generated Coaching Prompt</label>
+        <div class="prompt-block rounded-xl p-4 overflow-x-auto">
+          <pre id="promptDisplay" class="text-xs leading-relaxed whitespace-pre-wrap font-mono"></pre>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="copyToClipboard()" class="btn-secondary flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-body">
+          <span>📋</span> Copy Prompt
+        </button>
+        <button id="openAIButton" class="btn-primary flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-body">
+          <span>🤖</span> Open in ChatGPT
+        </button>
+      </div>
+    </div>
+
+    <div class="px-6 py-3 bg-brand-navy/5 border-t border-brand-border rounded-b-2xl">
+      <p class="text-[10px] text-center text-brand-muted uppercase tracking-widest font-body">Copy this prompt · Paste into your preferred AI · Begin your coaching session</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const passions = [
+  {id:1,  cat:"Personal Growth", icon:"🌱", title:"Discover core values",             sub:"Foundation",   tags:["Identity","Clarity","Values"]},
+  {id:2,  cat:"Personal Growth", icon:"🌱", title:"Write a calling statement",         sub:"Mission",      tags:["Purpose","Writing","Vision"]},
+  {id:3,  cat:"Personal Growth", icon:"🌱", title:"Daily reflective practice",         sub:"Rhythm",       tags:["Habits","Prayer","Mindfulness"]},
+  {id:4,  cat:"Personal Growth", icon:"🌱", title:"Balance work, rest, and purpose",   sub:"Lifestyle",    tags:["Equilibrium","Sabbath","Health"]},
+  {id:5,  cat:"Personal Growth", icon:"🌱", title:"Heal a meaningful relationship",    sub:"Restoration",  tags:["Forgiveness","Peace","Family"]},
+  {id:6,  cat:"Service & Faith", icon:"❤️", title:"Volunteer with a local cause",      sub:"Community",    tags:["Service","Impact","Giving"]},
+  {id:7,  cat:"Service & Faith", icon:"❤️", title:"Create a ministry or nonprofit",    sub:"Leadership",   tags:["Entrepreneurship","Faith","Organization"]},
+  {id:8,  cat:"Service & Faith", icon:"❤️", title:"Intentional generosity plan",       sub:"Stewardship",  tags:["Finance","Time","Kindness"]},
+  {id:9,  cat:"Service & Faith", icon:"❤️", title:"Pray for/encourage one person daily",sub:"Discipline",  tags:["Connection","Faith","Encouragement"]},
+  {id:10, cat:"Creativity",      icon:"🎨", title:"Write a blog or memoir",            sub:"Expression",   tags:["Writing","Legacy","Storytelling"]},
+  {id:11, cat:"Creativity",      icon:"🎨", title:"Create a digital course/tool",      sub:"Utility",      tags:["Build","Tech","Education"]},
+  {id:12, cat:"Creativity",      icon:"🎨", title:"Document wisdom for others",        sub:"Inheritance",  tags:["Knowledge","Mentoring","Family"]},
+  {id:13, cat:"Learning",        icon:"🧠", title:"Become 'dangerously good' at a skill",sub:"Excellence", tags:["Mastery","Discipline","Focus"]},
+  {id:14, cat:"Learning",        icon:"🧠", title:"Build a personal knowledge system", sub:"Growth",       tags:["Organization","Brain","Second Brain"]},
+  {id:15, cat:"Learning",        icon:"🧠", title:"Study theology or philosophy deeply",sub:"Intellectual", tags:["Deep Work","Wisdom","Reading"]},
+  {id:16, cat:"Health",          icon:"🚶‍♂️",title:"Sustainable fitness habit",         sub:"Physical",     tags:["Habits","Energy","Body"]},
+  {id:17, cat:"Health",          icon:"🚶‍♂️",title:"Solo reflection retreats",          sub:"Mental",       tags:["Silence","Solitude","Mental Health"]},
+  {id:18, cat:"Health",          icon:"🚶‍♂️",title:"Age with strength and mobility",    sub:"Longevity",    tags:["Future","Wellness","Stewardship"]},
+  {id:19, cat:"Relationships",   icon:"👨‍👩‍👧",title:"Deep presence with family",         sub:"Connection",   tags:["Love","Time","Listening"]},
+  {id:20, cat:"Relationships",   icon:"👨‍👩‍👧",title:"Weekly connection rituals",         sub:"Structure",    tags:["Marriage","Family","Traditions"]},
+  {id:21, cat:"Adventure",       icon:"🌍", title:"Travel with purpose",               sub:"Discovery",    tags:["World","Experience","Culture"]},
+  {id:22, cat:"Adventure",       icon:"🌍", title:"Choose wonder over routine",        sub:"Mindset",      tags:["Spontaneity","Joy","Nature"]},
+  {id:23, cat:"Legacy",          icon:"🛠", title:"Build something that outlives you", sub:"Duration",     tags:["Impact","Construction","Generations"]},
+  {id:24, cat:"Legacy",          icon:"🛠", title:"Finish life with few regrets",      sub:"Alignment",    tags:["Values","Retrospective","Integrity"]}
+];
+
+const grid = document.getElementById('goalGrid');
+const searchInput = document.getElementById('searchInput');
+const categoryFilter = document.getElementById('categoryFilter');
+const statsBar = document.getElementById('statsBar');
+
+// Category → dimension color mapping aligned to 3D philosophy
+const catColors = {
+  "Personal Growth":  {dot:"#0f766e", bg:"#f0fdf4", text:"#065f46"},
+  "Service & Faith":  {dot:"#be185d", bg:"#fdf2f8", text:"#831843"},
+  "Creativity":       {dot:"#d97706", bg:"#fff7ed", text:"#92400e"},
+  "Learning":         {dot:"#1d4ed8", bg:"#eff6ff", text:"#1e3a8a"},
+  "Health":           {dot:"#15803d", bg:"#f0fdf4", text:"#14532d"},
+  "Relationships":    {dot:"#7c3aed", bg:"#f5f3ff", text:"#4c1d95"},
+  "Adventure":        {dot:"#0369a1", bg:"#f0f9ff", text:"#0c4a6e"},
+  "Legacy":           {dot:"#b45309", bg:"#fffbeb", text:"#78350f"},
+};
+
+function render() {
+  const searchTerm = searchInput.value.toLowerCase();
+  const catTerm = categoryFilter.value;
+
+  const filtered = passions.filter(p => {
+    const matchesSearch = p.title.toLowerCase().includes(searchTerm) ||
+                          p.tags.some(t => t.toLowerCase().includes(searchTerm));
+    const matchesCat = catTerm === 'all' || p.cat === catTerm;
+    return matchesSearch && matchesCat;
+  });
+
+  statsBar.innerText = `Showing ${filtered.length} of ${passions.length} areas of focus`;
+  grid.innerHTML = '';
+
+  filtered.forEach((p, i) => {
+    const col = catColors[p.cat] || {dot:"#0f766e", bg:"#f0fdf4", text:"#065f46"};
+    const card = document.createElement('div');
+    card.className = "goal-card bg-white rounded-xl p-5 border border-brand-border cursor-pointer";
+    card.style.animationDelay = `${i * 0.04}s`;
+    card.onclick = () => openModal(p);
+
+    card.innerHTML = `
+      <div class="flex justify-between items-start mb-3">
+        <span class="text-2xl">${p.icon}</span>
+        <span class="text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-md"
+              style="background:${col.bg};color:${col.text};">${p.sub}</span>
+      </div>
+      <h3 class="font-display text-brand-navy text-sm font-semibold leading-snug mb-1 group-hover:text-brand-teal transition-colors">${p.title}</h3>
+      <p class="text-[11px] font-semibold mb-3" style="color:${col.dot};">${p.cat}</p>
+      <div class="flex flex-wrap gap-1 mb-4">
+        ${p.tags.map(t => `<span class="text-[9px] px-2 py-0.5 rounded-full font-semibold tag-pill">#${t}</span>`).join('')}
+      </div>
+      <div class="flex items-center gap-1.5 text-brand-teal text-xs font-semibold mt-auto opacity-0 card-cta transition-opacity">
+        Generate Coaching Prompt <span>→</span>
+      </div>
+    `;
+
+    // Show CTA on hover via JS (since Tailwind group needs parent context)
+    card.addEventListener('mouseenter', () => { card.querySelector('.card-cta').style.opacity = '1'; });
+    card.addEventListener('mouseleave', () => { card.querySelector('.card-cta').style.opacity = '0'; });
+
+    grid.appendChild(card);
+  });
+}
+
+function generatePrompt(item) {
+  return `SYSTEM: You are an expert high-performance life coach and strategic mentor aligned with the 3D Life Strategies framework — integrating Body, Mind, and Spirit into executable action. Your goal is to help the user move from a vague desire to a structured, lifelong growth plan.
+
+USER: I am focusing on this area of my 3D Playbook: "${item.title}" (${item.cat}).
+
+Please provide a structured response including:
+
+1. ## Summary of Mission
+Define why this goal matters for long-term fulfillment across Body, Mind, and Spirit — and what "success" looks like for this specific path.
+
+2. ## Elements that Support This
+List 3–5 core habits, mindsets, or tools that make achieving this goal easier.
+
+3. ## Possible Blockers
+Identify common internal (psychological) or external (environmental) obstacles that might derail progress in this area.
+
+4. ## Example SMART Goal Statements
+Draft 3 specific SMART (Specific, Measurable, Achievable, Relevant, Time-bound) statements for this goal.
+
+5. ## The SMET Upgrade
+Create one SMET goal (Specific, Measurable, Emotive, Targeted) that connects this objective to my deeper "Why" and God-given purpose — aligning my natural skills with the calling placed on my life.`;
+}
+
+let currentPrompt = "";
+
+function openModal(item) {
+  const col = catColors[item.cat] || {dot:"#0f766e"};
+  currentPrompt = generatePrompt(item);
+
+  document.getElementById('modalTitle').innerText = item.title;
+  document.getElementById('modalSub').innerText = `${item.icon}  ${item.cat}  ·  ${item.sub}`;
+  document.getElementById('promptDisplay').innerText = currentPrompt;
+
+  document.getElementById('openAIButton').onclick = () => {
+    window.open(`https://chat.openai.com/?q=${encodeURIComponent(currentPrompt)}`, '_blank');
+  };
+
+  document.getElementById('promptModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('promptModal').classList.add('hidden');
+  document.body.style.overflow = 'auto';
+}
+
+function copyToClipboard() {
+  navigator.clipboard.writeText(currentPrompt).then(() => {
+    const btn = event.currentTarget;
+    const orig = btn.innerHTML;
+    btn.innerHTML = "<span>✅</span> Copied!";
+    btn.style.background = "#15803d";
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ""; }, 2000);
+  });
+}
+
+searchInput.addEventListener('input', render);
+categoryFilter.addEventListener('change', render);
+render();
+
+window.onclick = function(e) {
+  if (e.target === document.getElementById('promptModal')) closeModal();
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Life Strategies | Comprehensive Study Guide</title>
+    
+    <!-- Google Material Icons & Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #1e293b; 
+            --accent: #c5a47e; 
+            --bg: #f8fafc;
+        }
+
+a {
+  color: blue;
+  text-decoration: none;
+  transition: all 0.3s ease; /* Smooth effect */
+}
+a:hover, a:focus {
+  color: darkred;
+  text-decoration: underline;
+}
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        .serif { font-family: 'Playfair Display', serif; }
+
+        /* TTS Controller Styles */
+        .tts-container { 
+            position: sticky;
+            top: 20px;
+            z-index: 50;
+            padding: 20px; 
+            border: 1px solid rgba(226, 232, 240, 1); 
+            border-radius: 16px; 
+            background: #ffffff; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--accent);
+            max-width: 300px;
+            margin-bottom: 2rem;
+        }
+
+        .tts-header {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.7rem;
+        }
+
+        .tts-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tts-controls button { 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f1f5f9;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+        }
+
+        .tts-controls button:hover:not(:disabled) { 
+            background: var(--accent);
+            color: white;
+        }
+
+        .tts-controls .play-btn { background: var(--primary); color: white; }
+
+        /* Document Styling */
+        .content-card {
+            background: white;
+            padding: 60px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e2e8f0, transparent);
+            margin: 3rem 0;
+        }
+
+        h2 { border-left: 4px solid var(--accent); padding-left: 1rem; margin-top: 3rem; margin-bottom: 1.5rem; font-weight: 700; font-size: 1.75rem; }
+        h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #475569; margin-top: 2rem; }
+
+        /* Table Design */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .custom-table th {
+            background-color: #f8fafc;
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 2px solid var(--accent);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .custom-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* Quiz Styling */
+        .quiz-item { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px dashed #e2e8f0; }
+        .quiz-q { font-weight: 600; color: #334155; }
+        
+        .answer-box { background: #fdfbf9; border: 1px solid #f3e8d7; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; }
+        .answer-item { margin-bottom: 1.25rem; font-size: 0.95rem; }
+        .answer-label { font-weight: 700; color: var(--accent); margin-right: 5px; }
+
+        .tag {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #1a1a1a 0%, #c5a47e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            padding-bottom: 0.1em;
+        }
+
+    </style>
+</head>
+
+<body class="p-4 md:p-12">
+
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row gap-8">
+        
+        <!-- Sidebar Controls -->
+        <aside class="md:w-1/4">
+            <div class="tts-container">
+                <span class="tts-header">Study Audio Guide</span>
+                <div class="tts-controls">
+                    <button id="playBtn" class="play-btn" title="Start Reading">
+                        <span class="material-icons">play_arrow</span>
+                    </button>
+                    <button id="pauseBtn" title="Pause" disabled>
+                        <span class="material-icons">pause</span>
+                    </button>
+                    <button id="stopBtn" title="Reset" disabled>
+                        <span class="material-icons">stop</span>
+                    </button>
+                </div>
+                <div class="mt-4 text-[10px] text-slate-400 uppercase tracking-tighter">
+                    Status: <span id="tts-status-text">Ready</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Document Content -->
+        <main id="text-to-read" class="md:w-3/4 content-card">
+           
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold serif mb-6 leading-tight">
+                <span class="gradient-text">3D Life Strategies: Study Guide</span>
+            </h1>
+
+            <header class="mb-10">
+                <span class="tag">CURRICULUM OVERVIEW</span>
+                <h1 class="serif text-4xl mb-4">Learning to Integrate your Gifts and Talents into Action</h1>
+                <p class="text-slate-500 text-lg leading-relaxed italic">
+                    This study guide provides a comprehensive overview of the "3D Life Strategies" framework, focusing on the holistic development of an individual's Body, Mind, and Spirit.
+                </p>
+            </header>
+
+            <section>
+                <h2 class="serif">I. The 3D Life Strategies Framework</h2>
+                <p>The 3D Life Strategies approach is built upon the premise that every individual possesses God-given gifts and talents. The framework operates through a specific process of personal evolution:</p>
+                
+                <h3>The 3D Process</h3>
+                <ul class="list-disc pl-6 space-y-2 mt-4">
+                    <li><strong>Discovery:</strong> Identifying one's personality, character, and KSAs (Knowledge, Skills, and Abilities).</li>
+                    <li><strong>Decision:</strong> Making the choice to move forward with these identified traits.</li>
+                    <li><strong>Development:</strong> Working with a coach, mentor, or partner to establish SMART Goals that turn latent abilities into active development. see: <a href="https://www.biblegateway.com/passage/?search=Ecclesiastes%204%3A9-10&version=NIV" target=_new>Ecclesiastes 4:9-10</a></li>
+                </ul>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">II. Biblical Foundations of Action and Stewardship</h2>
+                <p>Knowledge without action is "vanity." The following biblical principles form the foundation for using one's talents:</p>
+                <ul class="space-y-4 mt-4">
+                    <li><strong>James 1:22:</strong> Instruction to be "doers of the word" rather than just hearers.</li>
+                    <li><strong>James 4:17:</strong> States that failing to do the right thing when one knows it is considered sin.</li>
+                    <li><strong>John 13:17:</strong> Notes that a blessing comes from doing what is known, not just knowing it.</li>
+                </ul>
+                <h3 class="mt-6">Stewardship and Accountability</h3>
+                  <p class="text-sm mb-4"><strong>Stewardship vs. Ownership:</strong> Individuals are stewards, not owners. Careers and hobbies are "property" entrusted by God.</p>
+                  <p class="text-sm mb-4"><strong>Faithfulness over Scale:</strong> Success is measured by effort relative to what was given.</p>
+                  <p class="text-sm"><strong>The Risk of Inaction:</strong> Fear is the primary enemy of action. "Playing it safe" is a waste of divine opportunity.</p>
+             </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">III. KSAs vs. Spiritual Gifts</h2>
+                <p class="mb-4">While often used interchangeably, natural talents and spiritual gifts have distinct characteristics.</p>
+                
+                <table class="custom-table shadow-sm">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Natural Talents / KSAs</th>
+                            <th>Spiritual Gifts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Source</td><td>Genetic inheritance and environment</td><td>The Holy Spirit (given at spiritual birth)</td></tr>
+                        <tr><td>Development</td><td>Education, practice, and repetition</td><td>Spiritual growth and use in ministry</td></tr>
+                        <tr><td>Purpose</td><td>Personal success or societal benefit</td><td>To edify the Church and glorify God</td></tr>                        
+                        <tr><td>Availability</td><td>All humans (believers and non-believers)</td><td>Only believers in Christ</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 class="mt-8 mb-4">The Intersection Matrix</h3>
+                <div class="grid gap-3 ">
+                    <div class="flex items-center p-3 border rounded-lg hover:border-accent transition-colors">
+                        <div class="w-1/3 font-semibold text-slate-600">Strategic Planning</div>
+                        <div class="w-1/3 text-accent">+ Administration</div>
+                        <div class="w-1/3 text-xs italic">Leading church projects or non-profits.</div>
+                    </div>
+                    <div class="flex items-center p-3 border rounded-lg hover:border-accent transition-colors">
+                        <div class="w-1/3 font-semibold text-slate-600">Empathy / Listening</div>
+                        <div class="w-1/3 text-accent">+ Exhortation</div>
+                        <div class="w-1/3 text-xs italic">Counseling or mentoring.</div>
+                    </div>
+                    <div class="flex items-center p-3 border rounded-lg hover:border-accent transition-colors">
+                        <div class="w-1/3 font-semibold text-slate-600">Communication</div>
+                        <div class="w-1/3 text-accent">+ Teaching</div>
+                        <div class="w-1/3 text-xs italic">Writing devotionals or theology.</div>
+                    </div>
+                    <div class="flex items-center p-3 border rounded-lg hover:border-accent transition-colors">
+                        <div class="w-1/3 font-semibold text-slate-600">Financial Mgmt</div>
+                        <div class="w-1/3 text-accent">+ Giving</div>
+                        <div class="w-1/3 text-xs italic">Strategically funding missions.</div>
+                    </div>
+                </div>
+
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">IV. Identification and Discovery</h2>
+                <p>The "expert's curse" often prevents us from seeing our own talents. Use these methods to clarify your abilities:</p>
+                
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <ul class="space-y-3 text-sm">
+                        <li><strong class="text-accent">Identify "Flow State":</strong> Where do you lose track of time?</li>
+                        <li><strong class="text-accent">External Feedback:</strong> What do others consistently rely on you for?</li>
+                        <li><strong class="text-accent">"Default" Help:</strong> What do you instinctively offer to fix?</li>
+                    </ul>
+                    <div class="p-6 border-2 border-dashed border-slate-200 rounded-xl text-center">
+                        <h3 class="mt-0 text-sm mb-4">The Three-Circle Alignment</h3>
+                        <p class="text-xs uppercase font-bold text-slate-400">Ability (Can) + Affinity (Want) + Affirmation (Call)</p>
+                        <div class="mt-2 text-slate-600 font-serif italic text-lg">"The Sweet Spot for Action"</div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">V. Categories of Human Ability</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="p-3 border rounded text-xs"><strong>Cognitive:</strong> Logic & Patterns</div>
+                    <div class="p-3 border rounded text-xs"><strong>Interpersonal:</strong> Listening & Diplomacy</div>
+                    <div class="p-3 border rounded text-xs"><strong>Creative:</strong> Storytelling & Color</div>
+                    <div class="p-3 border rounded text-xs"><strong>Technical:</strong> Coding & Repair</div>
+                    <div class="p-3 border rounded text-xs"><strong>Physical:</strong> Endurance & Coordination</div>
+                    <div class="p-3 border rounded text-xs"><strong>Organizational:</strong> Systems Thinking</div>
+                    <div class="p-3 border rounded text-xs"><strong>Intrapersonal:</strong> Resilience</div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+            <section>
+                <h2 class="serif">VI. Short-Answer Quiz</h2>
+                <div class="space-y-4">
+                    <div class="quiz-item"><p class="quiz-q">1. What are the three specific "D's" in the 3D process?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">2. Why are KSAs considered only a "starting point"?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">3. How does the Parable of the Talents define the "wicked" servant?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">4. Explain the difference between stewardship and ownership.</p></div>
+                    <div class="quiz-item"><p class="quiz-q">5. What is the "expert's curse"?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">6. Describe the "Three-Circle Alignment."</p></div>
+                    <div class="quiz-item"><p class="quiz-q">7. How do origins of talents differ from spiritual gifts?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">8. Name three diagnostic questions to narrow talents.</p></div>
+                    <div class="quiz-item"><p class="quiz-q">9. How is success measured in the Kingdom of God?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">10. What role does "Flow State" play in identification?</p></div>
+                </div>
+            </section>
+
+            <section class="answer-box">
+                <h2 class="serif mt-0 border-none pl-0">VII. Answer Key</h2>
+                <div class="space-y-4 text-slate-700">
+                    <div class="answer-item"><span class="answer-label">1.</span> Discovery, Decision, and Development.</div>
+                    <div class="answer-item"><span class="answer-label">2.</span> Because without "Action" or "Works," they are considered vanity.</div>
+                    <div class="answer-item"><span class="answer-label">3.</span> One who hid his talent in the ground out of fear/inaction.</div>
+                    <div class="answer-item"><span class="answer-label">4.</span> Stewardship is managing God's property; ownership is the false belief that abilities belong solely to us.</div>
+                    <div class="answer-item"><span class="answer-label">5.</span> Undervaluing a skill because it feels easy or "common sense" to you.</div>
+                    <div class="answer-item"><span class="answer-label">6.</span> Intersection of Ability (Can), Affinity (Want), and Affirmation (Call).</div>
+                    <div class="answer-item"><span class="answer-label">7.</span> Talents are genetic/environmental; Gifts are from the Holy Spirit at spiritual birth.</div>
+                    <div class="answer-item"><span class="answer-label">8.</span> Problem Solver instinct, Energy Source (feeling strong), and the "Easy" Task.</div>
+                    <div class="answer-item"><span class="answer-label">9.</span> By faithfulness and effort relative to what was specifically given.</div>
+                    <div class="answer-item"><span class="answer-label">10.</span> It identifies activities that energize and fulfill, aligning with God-given design.</div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">VIII. Essay Prompts</h2>
+                <div class="space-y-6">
+                    <div class="p-4 bg-slate-50 rounded border-l-4 border-accent">
+                        <p class="font-bold mb-2">The Relationship Between Faith and Works</p>
+                        <p class="text-sm">Analyze the biblical argument that knowledge without action is "meaningless." Use three references.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded border-l-4 border-accent">
+                        <p class="font-bold mb-2">The Vessel Concept</p>
+                        <p class="text-sm">Explain how natural skills (KSAs) act as the "vessel" for Spiritual Gifts using a specific example.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">IX. The Business Perspective: Organizational Stewardship</h2>
+                <div class="space-y-6">
+                    <p class="font-italic mb-2">In a corporate or organizational setting, the "Business" acts as the Chief Steward of the collective talents of its workforce. By leveraging AI, the business moves from "Human Resources" (extracting value) to "Human Flourishing" (cultivating value).</p>
+                </div>
+                <div class="space-y-6">
+                    <p class="font-bold mb-2">The AI-Enhanced Growth Model</p>
+                    <p class="font-italic mb-2">
+                      Businesses now use AI as a Precision Diagnostic Tool to bridge the gap between job descriptions and divine design:</p>                         
+                    </p>                    
+                    <li>
+                        <b>Data-Driven Discovery:</b> AI analyzes work patterns, "Flow State" indicators, and project outcomes to reveal an employee’s Personal Best KSAs—often identifying strengths the employee didn't realize they possessed (counteracting the "Expert’s Curse").
+                    </li>
+                    <li>
+                      <b>Alignment of Purpose:</b> AI assists in mapping an employee's Spiritual Growth and core values to the company's mission. When an employee’s "Inner Why" aligns with the "Corporate What," productivity becomes an act of worship/vocation.
+                    </li>
+                    <li>
+                      <b>Predictive Mentorship:</b> Using AI to pair employees with the right mentors based on complementary 3D profiles, ensuring the "Development" phase of the 3D process is targeted and effective.
+                    </li>                    
+                </div>
+                          
+              <div class="space-y-6">                    
+                   <p class="font-bold mb-2">
+                      <b>The Business "Return on Investment" (ROI)</b>
+                      </p>
+                      <p class="font-italic mb-2"></p>
+                      <i>Integrating spiritual growth and personal bests isn't just "nice to do"; it is a strategic advantage:</i>
+                    </p>
+                  
+
+                  <table class="custom-table shadow-sm">
+                    <thead>
+                        <tr><th >Business Metric</th><th>The 3D Integration Benefit</th></tr>
+                    </thead>
+                
+
+                    <tr>
+                        <td><b>Retention</b></td>
+                        <td>Employees stay where they feel "seen" and where their spiritual/personal growth is prioritized.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Engagement</b></td>
+                        <td>Productivity spikes when employees operate in their "Sweet Spot" (Ability + Affinity + Affirmation).</td>
+                    </tr>
+                    <tr>
+                        <td><b>Innovation</b></td>
+                        <td>Spiritual growth fosters resilience and ethical clarity, leading to more courageous and creative problem-solving.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Culture</b></td>
+                        <td>A shift from a "Contractual" workplace to a "Covenantal" community.</td>
+                    </tr>
+                </table>
+                </div>
+            </section>            
+
+            <div class="section-divider"></div>
+            <section>
+                <h2 class="serif">X. Updated Quiz (Business Perspective)</h2>
+                <div class="space-y-4">
+                    <div class="quiz-item"><p class="quiz-q">11. How does AI serve as a "Mirror" in the Discovery phase?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">12. Define the difference between a "Contractual" and "Covenantal" business perspective.</p></div>
+                    <div class="quiz-item"><p class="quiz-q">13. Why is "Spiritual Growth" relevant to a business's bottom line?</p></div>                    
+                </div>
+            </section>
+
+            <section class="answer-box">
+                <h2 class="serif mt-0 border-none pl-0">Answer Key</h2>
+                <div class="space-y-4 text-slate-700">
+                    <div class="answer-item"><span class="answer-label">11.</span> AI analyzes objective data to identify an employee’s natural strengths and "Personal Best" KSAs that may be invisible to the individual.</div>                    
+                    <div class="answer-item"><span class="answer-label">12.</span> Contractual focuses on trading time for money; Covenantal focuses on the mutual stewardship of the employee’s growth and the company’s mission.</div>
+                    <div class="answer-item"><span class="answer-label">13.</span> Spiritual growth develops character, resilience, and a sense of purpose, which reduces burnout and increases intrinsic motivation.</div>                    
+                </div>
+            </section>
+            
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">XI. New Essay Prompt: The Ethics of AI in Talent Stewardship</h2>
+                <div class="space-y-6">
+                    <div class="p-4 bg-slate-50 rounded border-l-4 border-accent">
+                        <p class="font-bold mb-2">Argue how a business can ethically use AI to support an employee's spiritual and professional growth without overstepping boundaries. </p>                        
+                        <p class="text-sm">How does this reflect the biblical principle of "watching over the souls" of those in one's care?</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded border-l-4 border-accent">
+                    <p class="font-bold mb-2">
+                     <a target=_new href="https://chatgpt.com?q=Act%2Bas%2Ba%2Bbusiness%2Bstrategy%2Bconsultant%2Band%2Bpersonal%2Bdevelopment%2Bcoach.%2BExplain%2Bthe%2Bvalue%2Bof%2Bhttps://3dlifestrategies.org%2Bfor%2Bboth%2Bthe%2Bemployee%2Bon%2Ba%2Bpersonal%2Blevel%2Band%2Bthe%2Bbusiness%2Bon%2Ba%2Bgrowth%2Blevel.%2BFocus%2Bon%2Bhow%2Bintegrating%2BBody,%2BMind,%2Band%2BSpirit%2Bleads%2Bto%2Bbetter%2BKSAs,%2Bhigher%2Bretention,%2Band%2Bgenuine%2Bworkplace%2Bflourishing.">Click here to analyze 3D Life Strategies on ChatGPT</a>
+                    </p>
+                    <p class="font-bold mb-2">The "Deep Dive" Prompt Text</p>
+                    <p class="text-sm mb-2">
+                        If you want to paste a more detailed version into an AI, use this:
+                    </p>
+<pre>
+<b>Prompt:</b> "Analyze the framework at https://3dlifestrategies.org. 
+Explain the dual-value proposition of this program.
+
+1. For the Employee: How does the '3D Process' (Discovery, Decision,
+   Development) help an individual identify their 'Personal Best' KSAs
+   and find spiritual alignment in their daily work?
+
+2. For the Business: How does a company benefit from employees 
+   who are operating in their 'Sweet Spot' of Ability, Affinity, and
+   Affirmation? 
+   Focus on metrics like engagement, reduced burnout, and 
+   'Covenantal' leadership.
+
+- Summarize why this holistic approach is more effective than 
+  traditional corporate training."
+</pre>
+                    </div>                     
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">XII. Glossary</h2>
+                <div class="glossary-grid">
+                    <div class="glossary-card"><span class="glossary-term"><b>Affinity</b></span> - The "Want" circle; areas you inherently care about.</div>
+                    <div class="glossary-card"><span class="glossary-term"><b>Affirmation</b></span> - The "Call" circle; external validation of fruit.</div>
+                    <div class="glossary-card"><span class="glossary-term"><b>Expert's Curse</b></span> - Undervaluing skills that come naturally.</div>
+                    <div class="glossary-card"><span class="glossary-term"><b>SMART Goals</b></span> - Specific, Measurable, Achievable, Relevant, Time-bound.</div>                    
+                    <div class="glossary-card"><span class="glossary-term"><b>AI-KSA Mapping</b></span> - The use of machine learning to objectively identify an individual’s highest-performing skills and potential.</div>                    
+                    <div class="glossary-card"><span class="glossary-term"><b>Vocation Alignment</b></span> - The strategic effort by a business to ensure an employee’s daily tasks resonate with their spiritual calling and personal mission.</div>
+                    <div class="glossary-card"><span class="glossary-term"><b>Chief Steward</b></span> - A leadership philosophy where the employer views employees as entrusted talents rather than mere expenses.</div>
+                </div>
+            </section>
+
+            <footer class="mt-20 pt-10 border-t text-center text-xs text-slate-400">
+                &copy; 2026 3D Life Strategies | Comprehensive Study Guide
+            </footer>
+
+        </main>
+    </div>
+ 
+    <script>
+      const playBtn = document.getElementById('playBtn');
+      const pauseBtn = document.getElementById('pauseBtn');
+      const stopBtn = document.getElementById('stopBtn');
+      const statusText = document.getElementById('tts-status-text');
+
+      const synth = window.speechSynthesis;
+      let chunks = [];
+      let chunkIndex = 0;
+      let currentUtterance = null;
+      let isPaused = false;
+
+      function getVoices() {
+          return new Promise((resolve) => {
+              let voices = synth.getVoices();
+              if (voices.length > 0) { resolve(voices); return; }
+              synth.onvoiceschanged = () => resolve(synth.getVoices());
+          });
+      }
+
+      async function findBestVoice() {
+          const voices = await getVoices();
+          const preferred = ['Google US English', 'Microsoft Zira', 'Samantha', 'en-US'];
+          for (let name of preferred) {
+              const voice = voices.find(v => v.name.includes(name));
+              if (voice) return voice;
+          }
+          return voices.find(v => v.lang.startsWith('en')) || voices[0];
+      }
+
+      // BUG, required this fix: 
+      //  Split text into ~200-word chunks, breaking on sentence boundaries
+      function chunkText(text, maxWords = 200) {
+          const sentences = text.match(/[^.!?]+[.!?]+[\s]*/g) || [text];
+          const result = [];
+          let current = '';
+
+          for (const sentence of sentences) {
+              const wordCount = (current + sentence).split(/\s+/).length;
+              if (wordCount > maxWords && current) {
+                  result.push(current.trim());
+                  current = sentence;
+              } else {
+                  current += sentence;
+              }
+          }
+          if (current.trim()) result.push(current.trim());
+          return result;
+      }
+
+      async function speakChunk(index, voice) {
+          if (index >= chunks.length) {
+              statusText.innerText = "Finished";
+              toggleButtons(false);
+              return;
+          }
+
+          const utt = new SpeechSynthesisUtterance(chunks[index]);
+          utt.rate = 1.0;
+          utt.pitch = 1.0;
+          if (voice) utt.voice = voice;
+          currentUtterance = utt;
+
+          utt.onend = () => {
+              if (!isPaused) {
+                  chunkIndex++;
+                  speakChunk(chunkIndex, voice);
+              }
+          };
+
+          utt.onerror = (e) => {
+              if (e.error === 'interrupted') return; // expected on stop/pause
+              console.error("Speech Error:", e);
+              statusText.innerText = "Audio Error";
+              toggleButtons(false);
+          };
+
+          synth.speak(utt);
+      }
+
+      playBtn.addEventListener('click', async () => {
+          if (!synth) { statusText.innerText = "TTS Not Supported"; return; }
+
+          // Resume from pause
+          if (isPaused) {
+              isPaused = false;
+              synth.resume();
+              statusText.innerText = "Speaking...";
+              toggleButtons(true);
+              return;
+          }
+
+          // Fresh start
+          synth.cancel();
+          isPaused = false;
+          chunkIndex = 0;
+
+          const text = document.getElementById('text-to-read').innerText;
+          if (!text.trim()) return;
+
+          chunks = chunkText(text);
+          const voice = await findBestVoice();
+
+          statusText.innerText = "Speaking...";
+          toggleButtons(true);
+          speakChunk(chunkIndex, voice);
+      });
+
+      pauseBtn.addEventListener('click', () => {
+          if (synth.speaking && !synth.paused) {
+              isPaused = true;
+              synth.pause();
+              statusText.innerText = "Paused";
+              playBtn.disabled = false;
+              pauseBtn.disabled = true;
+          }
+      });
+
+      stopBtn.addEventListener('click', () => {
+          isPaused = false;
+          chunkIndex = 0;
+          chunks = [];
+          synth.cancel();
+          statusText.innerText = "Stopped";
+          toggleButtons(false);
+      });
+
+      function toggleButtons(isPlaying) {
+          playBtn.disabled = isPlaying;
+          pauseBtn.disabled = !isPlaying;
+          stopBtn.disabled = !isPlaying;
+      }
+
+      window.onload = () => {
+          getVoices().then(() => { statusText.innerText = "Ready"; });
+      };
+    </script>
+</body>
+</html>
+
+
+        

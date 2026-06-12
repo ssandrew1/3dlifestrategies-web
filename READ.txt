@@ -1,0 +1,23 @@
+
+Actual: 
+  sudo cat /etc/nginx/nginx.conf
+
+Calls: 
+        # Virtual Host Configs
+        ##
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+
+CONFIGS: 
+ssandrew@google3d-server1:/var/www/3dlifestrategies.org/html$ ls /etc/nginx/sites-enabled/*
+   /etc/nginx/sites-enabled/3dlifestrategies.org  
+   /etc/nginx/sites-enabled/default
+
+LINKS TO FILES: 
+        /var/www/default/html
+        /var/www/3dlifestrategies.org/html
+
+Check for syntax errors: sudo nginx -t (Do this first!)
+         Reload changes: sudo systemctl reload nginx
+           Check status: sudo systemctl status nginx
+

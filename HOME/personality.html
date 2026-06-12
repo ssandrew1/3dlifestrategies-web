@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Five Personality Test</title>
+    <style type="text/css">
+        body { background-color: #F5F5F5; font-family: Arial, sans-serif; display: flex; justify-content: center; padding-top: 50px; }
+        #container { max-width: 500px; width: 100%; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .ans_button { border: 2px solid #DEB887; background-color: #FFF8DC; display: block; padding: 12px; margin-bottom: 8px; cursor: pointer; border-radius: 4px; user-select: none; }
+        .ans_button:hover { background-color: #EFE8CC; }
+        .ans_button input { margin-right: 10px; }
+        #itext { height: 3.5em; font-size: 1.2em; font-weight: bold; color: #333; }
+        .controls { margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .redo_button, .skip_button { padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em; border: 1px solid #ccc; }
+        .redo_button { background-color: #F0FFF0; border-color: #556B2F; }
+        .skip_button { background-color: #E6E6FA; border-color: #6A5ACD; }
+        #results_page { display: none; }
+        .score-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .score-val { font-weight: bold; color: #6A5ACD; }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <div id="test_page">
+        <div id="itext"></div>
+        
+        <label class="ans_button"><input type="radio" name="Q" onclick="ans_select(1)"> Disagree</label>
+        <label class="ans_button"><input type="radio" name="Q" onclick="ans_select(2)"> Slightly disagree</label>
+        <label class="ans_button"><input type="radio" name="Q" onclick="ans_select(3)"> Neutral</label>
+        <label class="ans_button"><input type="radio" name="Q" onclick="ans_select(4)"> Slightly agree</label>
+        <label class="ans_button"><input type="radio" name="Q" onclick="ans_select(5)"> Agree</label>
+
+        <div class="controls">
+            <span class="redo_button" onclick="undo()" id="undobutton" style="display:none;">&#8635; Previous</span>
+            <span id="countersign">1</span> / 50
+            <span class="skip_button" onclick="ans_select(-1)">Skip &rarr;</span>
+        </div>
+    </div>
+
+    <div id="results_page">
+        <h2>Your Results</h2>
+        <p>Scores are averaged on a scale of 1 to 5.</p>
+        <div id="score_display"></div>
+        <br>
+        <button onclick="location.reload()" style="width:100%; padding:10px; cursor:pointer;">Retake Test</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const itemtext = {'EXT1' : ['I am the life of the party.', 1],'EXT2' : ['I don\'t talk a lot.', -1],'EXT3' : ['I feel comfortable around people.', 1],'EXT4' : ['I keep in the background.', -1],'EXT5' : ['I start conversations.', 1],'EXT6' : ['I have little to say.', -1],'EXT7' : ['I talk to a lot of different people at parties.', 1],'EXT8' : ['I don\'t like to draw attention to myself.', -1],'EXT9' : ['I don\'t mind being the center of attention.', 1],'EXT10' : ['I am quiet around strangers.', -1],'AGR1' : ['I feel little concern for others.', -1],'AGR2' : ['I am interested in people.', 1],'AGR3' : ['I insult people.', -1],'AGR4' : ['I sympathize with others\' feelings.', 1],'AGR5' : ['I am not interested in other people\'s problems.', -1],'AGR6' : ['I have a soft heart.', 1],'AGR7' : ['I am not really interested in others.', -1],'AGR8' : ['I take time out for others.', 1],'AGR9' : ['I feel others\' emotions.', 1],'AGR10' : ['I make people feel at ease.', 1],'EST1' : ['I get stressed out easily.', -1],'EST2' : ['I am relaxed most of the time.', 1],'EST3' : ['I worry about things.', -1],'EST4' : ['I seldom feel blue.', 1],'EST5' : ['I am easily disturbed.', -1],'EST6' : ['I get upset easily.', -1],'EST7' : ['I change my mood a lot.', -1],'EST8' : ['I have frequent mood swings.', -1],'EST9' : ['I get irritated easily.', -1],'EST10' : ['I often feel blue.', -1],'CSN1' : ['I am always prepared.', 1],'CSN2' : ['I leave my belongings around.', -1],'CSN3' : ['I pay attention to details.', 1],'CSN4' : ['I make a mess of things.', -1],'CSN5' : ['I get chores done right away.', 1],'CSN6' : ['I often forget to put things back in their proper place.', -1],'CSN7' : ['I like order.', 1],'CSN8' : ['I shirk my duties.', -1],'CSN9' : ['I follow a schedule.', 1],'CSN10' : ['I am exacting in my work.', 1],'OPN1' : ['I have a rich vocabulary.', 1],'OPN2' : ['I have difficulty understanding abstract ideas.', -1],'OPN3' : ['I have a vivid imagination.', 1],'OPN4' : ['I am not interested in abstract ideas.', -1],'OPN5' : ['I have excellent ideas.', 1],'OPN6' : ['I do not have a good imagination.', -1],'OPN7' : ['I am quick to understand things.', 1],'OPN8' : ['I use difficult words.', 1],'OPN9' : ['I spend time reflecting on things.', 1],'OPN10' : ['I am full of ideas.', 1]};
+    const itemorder = ['EXT1', 'AGR1', 'EST1', 'CSN1', 'OPN1', 'EXT2', 'AGR2', 'EST2', 'CSN2', 'OPN2', 'EXT3', 'AGR3', 'EST3', 'CSN3', 'OPN3', 'EXT4', 'AGR4', 'EST4', 'CSN4', 'OPN4', 'EXT5', 'AGR5', 'EST5', 'CSN5', 'OPN5', 'EXT6', 'AGR6', 'EST6', 'CSN6', 'OPN6', 'EXT7', 'AGR7', 'EST7', 'CSN7', 'OPN7', 'EXT8', 'AGR8', 'EST8', 'CSN8', 'OPN8', 'EXT9', 'AGR9', 'EST9', 'CSN9', 'OPN9', 'EXT10', 'AGR10', 'EST10', 'CSN10', 'OPN10'];
+    
+    let itemindex = 0;
+    let scores = { "EXT": [], "AGR": [], "CSN": [], "EST": [], "OPN": [] };
+    let waiting = false;
+
+    function setNextItem() {
+        document.getElementById("itext").innerHTML = itemtext[itemorder[itemindex]][0];
+        document.getElementById("countersign").innerHTML = itemindex + 1;
+        document.getElementById("undobutton").style.display = (itemindex > 0) ? "inline" : "none";
+        
+        // Reset radio buttons
+        const radios = document.getElementsByName("Q");
+        for(let i=0; i<radios.length; i++) radios[i].checked = false;
+    }
+
+    function ans_select(ans) {
+        if (waiting) return;
+        waiting = true;
+
+        setTimeout(() => {
+            let curitem = itemorder[itemindex];
+            if (ans > 0) {
+                let category = curitem.substring(0, 3);
+                let direction = itemtext[curitem][1];
+                let val = (direction === 1) ? ans : (6 - ans);
+                scores[category][itemindex] = val; // Store at index to allow undo/overwrite
+            }
+
+            if (itemindex < 49) {
+                itemindex++;
+                setNextItem();
+            } else {
+                showResults();
+            }
+            waiting = false;
+        }, 150);
+    }
+
+    function undo() {
+        if (itemindex > 0) {
+            itemindex--;
+            setNextItem();
+        }
+    }
+
+    function showResults() {
+        document.getElementById("test_page").style.display = "none";
+        document.getElementById("results_page").style.display = "block";
+        
+        const labels = {
+            "EXT": "Extraversion",
+            "AGR": "Agreeableness",
+            "CSN": "Conscientiousness",
+            "EST": "Emotional Stability",
+            "OPN": "Openness to Experience"
+        };
+
+        let html = "";
+        for (let cat in scores) {
+            let filtered = scores[cat].filter(n => n !== undefined);
+            let avg = filtered.length ? (filtered.reduce((a, b) => a + b, 0) / filtered.length).toFixed(2) : "N/A";
+            html += `<div class="score-row"><span>${labels[cat]}</span><span class="score-val">${avg}</span></div>`;
+        }
+        document.getElementById("score_display").innerHTML = html;
+    }
+
+    window.onload = setNextItem;
+</script>
+</body>
+</html>

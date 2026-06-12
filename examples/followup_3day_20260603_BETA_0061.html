@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Life Strategies Action Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #f8f4ee;
+            --dark: #1a1612;
+            --gold: #c9922a;
+            --gold-light: #f0c96a;
+            --body: #2e2a26;
+            --accent-blue: #2a5c8f;
+            --accent-green: #2d6a52;
+            --card-bg: #ffffff;
+            --muted: #7a7369;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--body);
+            background: var(--cream);
+        }
+
+        header {
+            background: var(--dark);
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                rgba(201, 146, 42, 0.04),
+                rgba(201, 146, 42, 0.04) 40px,
+                transparent 40px,
+                transparent 80px
+            );
+            pointer-events: none;
+        }
+
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            color: var(--cream);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        header h1 .highlight {
+            color: var(--gold-light);
+        }
+
+        .header-description {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            font-size: 1rem;
+            color: rgba(248, 244, 238, 0.65);
+            max-width: 560px;
+            margin-bottom: 28px;
+        }
+
+        .domain-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .domain-pill {
+            border: 1.5px solid;
+            border-radius: 100px;
+            padding: 8px 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        .domain-pill.body {
+            border-color: #7ab4e8;
+            color: #7ab4e8;
+        }
+
+        .domain-pill.mind {
+            border-color: var(--gold-light);
+            color: var(--gold-light);
+        }
+
+        .domain-pill.spirit {
+            border-color: #7ecfaa;
+            color: #7ecfaa;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 56px 24px 80px 24px;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #d6cfc5;
+        }
+
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 20px;
+            margin-bottom: 56px;
+        }
+
+        .domain-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+            animation: fadeUp 0.6s ease both;
+            transition: transform 0.25s ease;
+        }
+
+        .domain-card:nth-child(1) { animation-delay: 0.1s; }
+        .domain-card:nth-child(2) { animation-delay: 0.2s; }
+        .domain-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .domain-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .domain-header {
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .domain-card.body .domain-header {
+            background: #eef5fc;
+        }
+
+        .domain-card.mind .domain-header {
+            background: #fdf5e6;
+        }
+
+        .domain-card.spirit .domain-header {
+            background: #edf7f2;
+        }
+
+        .domain-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .domain-card.body .domain-icon-box {
+            background: #cde2f7;
+        }
+
+        .domain-card.mind .domain-icon-box {
+            background: #fce9b3;
+        }
+
+        .domain-card.spirit .domain-icon-box {
+            background: #b8e8d3;
+        }
+
+        .domain-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+
+        .domain-subtitle {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .domain-body {
+            padding: 24px;
+        }
+
+        .domain-body ul {
+            list-style: none;
+        }
+
+        .domain-body li {
+            margin-bottom: 12px;
+            font-size: 0.93rem;
+            line-height: 1.5;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .domain-body li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        .domain-card.body .domain-body li::before {
+            color: var(--accent-blue);
+        }
+
+        .domain-card.mind .domain-body li::before {
+            color: var(--gold);
+        }
+
+        .domain-card.spirit .domain-body li::before {
+            color: var(--accent-green);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 16px;
+            margin-bottom: 56px;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            border-left: 4px solid;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+            animation: fadeUp 0.6s ease both;
+            transition: transform 0.25s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .book-card.body {
+            border-color: var(--accent-blue);
+        }
+
+        .book-card.mind {
+            border-color: var(--gold);
+        }
+
+        .book-card.spirit {
+            border-color: var(--accent-green);
+        }
+
+        .book-card.mind-body {
+            border-color: var(--accent-green);
+        }
+
+        .book-domain-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .book-card.body .book-domain-tag {
+            color: var(--accent-blue);
+        }
+
+        .book-card.mind .book-domain-tag {
+            color: var(--gold);
+        }
+
+        .book-card.spirit .book-domain-tag {
+            color: var(--accent-green);
+        }
+
+        .book-card.mind-body .book-domain-tag {
+            color: var(--accent-green);
+        }
+
+        .book-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .book-author {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-style: italic;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .book-why {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--body);
+        }
+
+        .prompts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 56px;
+        }
+
+        .prompt-card {
+            background: var(--dark);
+            border-radius: 14px;
+            overflow: hidden;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .prompt-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .prompt-top-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .prompt-badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            border: 1px solid;
+            border-radius: 100px;
+            padding: 4px 10px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .prompt-badge.pb-blue {
+            border-color: #7ab4e8;
+            color: #7ab4e8;
+        }
+
+        .prompt-badge.pb-gold {
+            border-color: var(--gold-light);
+            color: var(--gold-light);
+        }
+
+        .prompt-badge.pb-green {
+            border-color: #7ecfaa;
+            color: #7ecfaa;
+        }
+
+        .prompt-label {
+            font-size: 0.88rem;
+            color: rgba(248, 244, 238, 0.9);
+            font-weight: 400;
+        }
+
+        .prompt-number {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 0.05em;
+        }
+
+        .prompt-body {
+            padding: 18px 22px;
+        }
+
+        .prompt-text {
+            font-style: italic;
+            color: rgba(248, 244, 238, 0.82);
+            margin-bottom: 14px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .try-prompt-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: var(--dark);
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.25s ease;
+        }
+
+        .try-prompt-btn:hover {
+            background: var(--gold-light);
+        }
+
+        .try-prompt-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .milestones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 56px;
+        }
+
+        .milestone-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+            animation: fadeUp 0.6s ease both;
+            transition: transform 0.25s ease;
+        }
+
+        .milestone-card:nth-child(1) { animation-delay: 0.1s; }
+        .milestone-card:nth-child(2) { animation-delay: 0.2s; }
+        .milestone-card:nth-child(3) { animation-delay: 0.3s; }
+        .milestone-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .milestone-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .milestone-emoji {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .milestone-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .milestone-text {
+            font-size: 0.83rem;
+            color: #5a5550;
+            line-height: 1.5;
+        }
+
+        .final-quote {
+            background: var(--dark);
+            border-radius: 18px;
+            padding: 48px;
+            text-align: center;
+            position: relative;
+            animation: fadeUp 0.6s ease 0.4s both;
+        }
+
+        .final-quote::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 14rem;
+            color: rgba(201, 146, 42, 0.08);
+            line-height: 1;
+        }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.2rem, 3vw, 1.7rem);
+            color: var(--cream);
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-text .highlight {
+            color: var(--gold-light);
+        }
+
+        .quote-attribution {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 40px 20px;
+            }
+
+            main {
+                padding: 36px 16px 56px 16px;
+            }
+
+            .final-quote {
+                padding: 36px 24px;
+            }
+
+            .final-quote::before {
+                font-size: 8rem;
+                top: -10px;
+                left: 10px;
+            }
+
+            .domain-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .milestones {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: #1a1612;
+            }
+
+            main {
+                background: white;
+            }
+
+            header {
+                background: #f4f4f2;
+                color: #1a1612;
+            }
+
+            header h1 {
+                color: #1a1612;
+            }
+
+            header h1 .highlight {
+                color: #966b1d;
+            }
+
+            .header-eyebrow {
+                color: #966b1d;
+            }
+
+            .header-description {
+                color: #1a1612;
+            }
+
+            .domain-pill {
+                border-color: #999;
+                color: #1a1612;
+                background: #f9f9f9;
+            }
+
+            .domain-card {
+                background: white;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+
+            .domain-header {
+                background: #f9f9f9 !important;
+            }
+
+            .domain-icon-box {
+                background: #e8e8e8 !important;
+            }
+
+            .book-card {
+                background: white;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+
+            .prompt-card {
+                background: #f4f4f2;
+                color: #1a1612;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+
+            .prompt-top {
+                border-color: #ddd;
+            }
+
+            .prompt-text {
+                color: #1a1612;
+            }
+
+            .try-prompt-btn {
+                background: #966b1d;
+                color: white;
+                display: none;
+            }
+
+            .milestone-card {
+                background: white;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+
+            .final-quote {
+                background: #f4f4f2;
+                color: #1a1612;
+                border: 1px solid #ccc;
+            }
+
+            .quote-text {
+                color: #1a1612;
+            }
+
+            .quote-text .highlight {
+                color: #966b1d;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="header-eyebrow">3D Life Strategies: Body-Mind-Spirit · Action Plan</div>
+        <h1>Your <span class="highlight">Action Items</span> for Transformation</h1>
+        <p class="header-description">A focused 90-day roadmap to reconnect with your body, reclaim your professional identity, and rebuild your sense of purpose and joy.</p>
+        <div class="domain-pills">
+            <div class="domain-pill body">⚡ Body — 2/5</div>
+            <div class="domain-pill mind">🧠 Mind — 2/5</div>
+            <div class="domain-pill spirit">✝ Spirit — 2/5</div>
+        </div>
+    </div>
+</header>
+
+<main>
+
+<!-- SECTION 1: DOMAIN ACTION CARDS -->
+<div class="section-label">Priority Actions by Domain</div>
+
+<div class="domain-grid">
+    <!-- BODY CARD -->
+    <div class="domain-card body">
+        <div class="domain-header">
+            <div class="domain-icon-box">🏃</div>
+            <div>
+                <div class="domain-title">Body</div>
+                <div class="domain-subtitle">Physical Foundation</div>
+            </div>
+        </div>
+        <div class="domain-body">
+            <ul>
+                <li>Begin a 15–20 minute daily walk, 3–4 times per week during available school hours</li>
+                <li>Move bedtime 30 minutes earlier to target 7+ hours of sleep per night</li>
+                <li>Research and plan one affordable, nutritious weekly meal using beans or eggs as protein</li>
+                <li>Download the Flipp app to compare local grocery prices and plan budget-friendly meals</li>
+                <li>Commit to one simple stretching or bodyweight routine at home, 2 times per week</li>
+                <li>Schedule your annual health check-up and discuss sleep quality with your doctor</li>
+                <li>Replace one sugary beverage per day with water to build a sustainable hydration habit</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- MIND CARD -->
+    <div class="domain-card mind">
+        <div class="domain-header">
+            <div class="domain-icon-box">💡</div>
+            <div>
+                <div class="domain-title">Mind</div>
+                <div class="domain-subtitle">Career & Learning</div>
+            </div>
+        </div>
+        <div class="domain-body">
+            <ul>
+                <li>Update or create a simple one-page résumé using a free template from Canva.com</li>
+                <li>Listen to one career or job-return podcast episode per week during household chores</li>
+                <li>Identify 3–5 target job types that align with your skills and family schedule needs</li>
+                <li>Research local workforce development centers and free job coaching resources</li>
+                <li>Take one free short course on Google Career Certificates or LinkedIn Learning basics</li>
+                <li>Draft a confident 2–3 sentence explanation of your career gap for interview practice</li>
+                <li>Apply to one well-researched position per week rather than applying broadly</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SPIRIT CARD -->
+    <div class="domain-card spirit">
+        <div class="domain-header">
+            <div class="domain-icon-box">✝</div>
+            <div>
+                <div class="domain-title">Spirit</div>
+                <div class="domain-subtitle">Connection & Purpose</div>
+            </div>
+        </div>
+        <div class="domain-body">
+            <ul>
+                <li>Schedule a monthly coffee or walk with one neighborhood mom or friend</li>
+                <li>Text or call your sister one genuine, meaningful message each week</li>
+                <li>Create one weekly family ritual—Friday movie night, Sunday pancakes, or family walk</li>
+                <li>Write down or mentally note 2–3 things you are grateful for each morning or evening</li>
+                <li>Reclaim one small piece of your former self—a walk with music you love, 10 minutes to read</li>
+                <li>Identify one person in your life or through media who can serve as a steady mentor</li>
+                <li>Practice noticing moments of ordinary connection with your kids and husband as meaningful</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 2: BOOKS TO READ -->
+<div class="section-label">Books to Read</div>
+
+<div class="books-grid">
+    <div class="book-card mind">
+        <div class="book-domain-tag">Mind</div>
+        <div class="book-title">You Are a Badass</div>
+        <div class="book-author">Jen Sincero, 2013</div>
+        <div class="book-why">This book directly addresses the belief that life cannot change. Written in a warm, humorous tone, it speaks to anyone who has underestimated their own capacity to create transformation—exactly where you are right now.</div>
+    </div>
+
+    <div class="book-card spirit">
+        <div class="book-domain-tag">Spirit</div>
+        <div class="book-title">The Gifts of Imperfection</div>
+        <div class="book-author">Brené Brown, 2010</div>
+        <div class="book-why">Brown explores how caregivers and mothers suppress their own worth. Her research-based storytelling validates your experience and offers practical tools to reclaim your sense of value and belonging.</div>
+    </div>
+
+    <div class="book-card body">
+        <div class="book-domain-tag">Body</div>
+        <div class="book-title">The Circadian Code</div>
+        <div class="book-author">Dr. Satchin Panda, 2019</div>
+        <div class="book-why">This book explains how the timing of eating and sleeping—not just the content—affects energy and mood. It offers cost-free tools that work within your budget constraints.</div>
+    </div>
+
+    <div class="book-card body">
+        <div class="book-domain-tag">Body</div>
+        <div class="book-title">Spark: The Revolutionary New Science of Exercise and the Brain</div>
+        <div class="book-author">John Ratey, 2008</div>
+        <div class="book-why">Ratey provides compelling evidence that even modest aerobic activity like brisk walking dramatically improves mood, anxiety, and focus—exactly the benefits you need most right now.</div>
+    </div>
+
+    <div class="book-card mind">
+        <div class="book-domain-tag">Mind</div>
+        <div class="book-title">What Color Is Your Parachute?</div>
+        <div class="book-author">Richard N. Bolles, updated annually</div>
+        <div class="book-why">The world's most trusted job-search guide includes specific chapters on returning to work after a gap, identifying transferable skills, and finding roles that fit your life. Practical, step-by-step, and affordable.</div>
+    </div>
+
+    <div class="book-card mind">
+        <div class="book-domain-tag">Mind</div>
+        <div class="book-title">Pivot</div>
+        <div class="book-author">Jenny Blake, 2016</div>
+        <div class="book-why">Blake presents a low-risk method for career transitions by building on existing strengths. Perfect for someone who feels paralyzed by "I don't know where to start" and already has real, marketable skills.</div>
+    </div>
+
+    <div class="book-card spirit">
+        <div class="book-domain-tag">Spirit</div>
+        <div class="book-title">The Power of Now</div>
+        <div class="book-author">Eckhart Tolle, 1997</div>
+        <div class="book-why">Tolle teaches finding peace in the present moment rather than waiting for future circumstances to improve. Learning to find contentment today will reduce daily burden and increase your resilience.</div>
+    </div>
+
+    <div class="book-card spirit">
+        <div class="book-domain-tag">Spirit</div>
+        <div class="book-title">Present Over Perfect</div>
+        <div class="book-author">Shauna Niequist, 2016</div>
+        <div class="book-why">Written for people carrying caregiver burnout, Niequist offers warm, story-driven permission to slow down and reconnect with what matters most—without guilt or pressure.</div>
+    </div>
+</div>
+
+<!-- SECTION 3: AI PROMPTS TO TRY NOW -->
+<div class="section-label">AI Prompts to Try Now</div>
+
+<div class="prompts-list">
+    <div class="prompt-card">
+        <div class="prompt-top">
+            <div class="prompt-top-left">
+                <div class="prompt-badge pb-gold">Mind</div>
+                <div class="prompt-label">Job Re-Entry Career Strategy</div>
+            </div>
+            <div class="prompt-number">#01</div>
+        </div>
+        <div class="prompt-body">
+            <p class="prompt-text">"Act as a career counselor specializing in helping parents return to the workforce after a multi-year break. I have a 2-year AA degree, secretarial experience, and strong communication and people skills. I have been out of the workforce for about 10 years while raising my children. Help me understand what the modern job market looks like for someone in my position, what my transferable skills are worth, and what flexible job options I should consider. Ask me about my schedule needs and what type of work environment I prefer."</p>
+            <a href="https://chatgpt.com?prompt=Act%20as%20a%20career%20counselor%20specializing%20in%20helping%20parents%20return%20to%20the%20workforce%20after%20a%20multi-year%20break.%20I%20have%20a%202-year%20AA%20degree%2C%20secretarial%20experience%2C%20and%20strong%20communication%20and%20people%20skills.%20I%20have%20been%20out%20of%20the%20workforce%20for%20about%2010%20years%20while%20raising%20my%20children.%20Help%20me%20understand%20what%20the%20modern%20job%20market%20looks%20like%20for%20someone%20in%20my%20position%2C%20what%20my%20transferable%20skills%20are%20worth%2C%20and%20what%20flexible%20job%20options%20I%20should%20consider.%20Ask%20me%20about%20my%20schedule%20needs%20and%20what%20type%20of%20work%20environment%20I%20prefer." class="try-prompt-btn">Try This Prompt <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L7.414 8l3.293 3.293a1 1 0 11-1.414 1.414l-4-4z" clip-rule="evenodd" transform="rotate(-90 10 10)"/></svg></a>
+        </div>
+    </div>
+
+    <div class="prompt-card">
+        <div class="prompt-top">
+            <div class="prompt-top-left">
+                <div class="prompt-badge pb-gold">Mind</div>
+                <div class="prompt-label">Simple Affordable Meal Planning</div>
+            </div>
+            <div class="prompt-number">#02</div>
+        </div>
+        <div class="prompt-body">
+            <p class="prompt-text">"Act as a nutritionist and family meal planning expert. Help me build a simple, healthy weekly grocery list and meal plan for a family of four on a tight budget. I understand basic nutrition but cost drives most of my grocery decisions. Focus on affordable protein sources, vegetables, and simple meals that do not require a lot of prep time. Ask me what foods my family already enjoys and what my approximate weekly grocery budget is."</p>
+            <a href="https://chatgpt.com?prompt=Act%20as%20a%20nutritionist%20and%20family%20meal%20planning%20expert.%20Help%20me%20build%20a%20simple%2C%20healthy%20weekly%20grocery%20list%20and%20meal%20plan%20for%20a%20family%20of%20four%20on%20a%20tight%20budget.%20I%20understand%20basic%20nutrition%20but%20cost%20drives%20most%20of%20my%20grocery%20decisions.%20Focus%20on%20affordable%20protein%20sources%2C%20vegetables%2C%20and%20simple%20meals%20that%20do%20not%20require%20a%20lot%20of%20prep%20time.%20Ask%20me%20what%20foods%20my%20family%20already%20enjoys%20and%20what%20my%20approximate%20weekly%20grocery%20budget%20is." class="try-prompt-btn">Try This Prompt <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L7.414 8l3.293 3.293a1 1 0 11-1.414 1.414l-4-4z" clip-rule="evenodd" transform="rotate(-90 10 10)"/></svg></a>
+        </div>
+    </div>
+
+    <div class="prompt-card">
+        <div class="prompt-top">
+            <div class="prompt-top-left">
+                <div class="prompt-badge pb-blue">Body</div>
+                <div class="prompt-label">Stress Management & Resilience</div>
+            </div>
+            <div class="prompt-number">#03</div>
+        </div>
+        <div class="prompt-body">
+            <p class="prompt-text">"Act as a compassionate wellness coach with expertise in stress management for busy parents. I am a mother in my early forties managing a full household, a child with special needs, and a husband who works long hours. I experience high stress and occasional loneliness. Help me build a simple, realistic daily or weekly self-care rhythm that does not require a lot of time or money. Start by asking me about my daily schedule and what small windows of time I might have for myself."</p>
+            <a href="https://chatgpt.com?prompt=Act%20as%20a%20compassionate%20wellness%20coach%20with%20expertise%20in%20stress%20management%20for%20busy%20parents.%20I%20am%20a%20mother%20in%20my%20early%20forties%20managing%20a%20full%20household%2C%20a%20child%20with%20special%20needs%2C%20and%20a%20husband%20who%20works%20long%20hours.%20I%20experience%20high%20stress%20and%20occasional%20loneliness.%20Help%20me%20build%20a%20simple%2C%20realistic%20daily%20or%20weekly%20self-care%20rhythm%20that%20does%20not%20require%20a%20lot%20of%20time%20or%20money.%20Start%20by%20asking%20me%20about%20my%20daily%20schedule%20and%20what%20small%20windows%20of%20time%20I%20might%20have%20for%20myself." class="try-prompt-btn">Try This Prompt <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L7.414 8l3.293 3.293a1 1 0 11-1.414 1.414l-4-4z" clip-rule="evenodd" transform="rotate(-90 10 10)"/></svg></a>
+        </div>
+    </div>
+
+    <div class="prompt-card">
+        <div class="prompt-top">
+            <div class="prompt-top-left">
+                <div class="prompt-badge pb-gold">Mind</div>
+                <div class="prompt-label">30-Day Job Re-Entry Action Plan</div>
+            </div>
+            <div class="prompt-number">#04</div>
+        </div>
+        <div class="prompt-body">
+            <p class="prompt-text">"Act as a career coach and job search strategist. Help me create a simple 30-day job re-entry action plan. I am a woman in my early forties with a 2-year AA degree and secretarial background returning to work after about 10 years. I need flexible hours due to family responsibilities including a child with special needs. Generate a checkbox-style weekly task list for the next 4 weeks that moves me from 'no résumé and no plan' to 'actively applying for appropriate positions.' Include tasks like résumé building, identifying job types, researching local resources, and one small action per day. Also suggest 2-3 apps or websites that could help track applications and job leads."</p>
+            <a href="https://chatgpt.com?prompt=Act%20as%20a%20career%20coach%20and%20job%20search%20strategist.%20Help%20me%20create%20a%20simple%2030-day%20job%20re-entry%20action%20plan.%20I%20am%20a%20woman%20in%20my%20early%20forties%20with%20a%202-year%20AA%20degree%20and%20secretarial%20background%20returning%20to%20work%20after%20about%2010%20years.%20I%20need%20flexible%20hours%20due%20to%20family%20responsibilities%20including%20a%20child%20with%20special%20needs.%20Generate%20a%20checkbox-style%20weekly%20task%20list%20for%20the%20next%204%20weeks%20that%20moves%20me%20from%20%27no%20r%C3%A9sum%C3%A9%20and%20no%20plan%27%20to%20%27actively%20applying%20for%20appropriate%20positions.%27%20Include%20tasks%20like%20r%C3%A9sum%C3%A9%20building%2C%20identifying%20job%20types%2C%20researching%20local%20resources%2C%20and%20one%20small%20action%20per%20day.%20Also%20suggest%202-3%20apps%20or%20websites%20that%20could%20help%20track%20applications%20and%20job%20leads." class="try-prompt-btn">Try This Prompt <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L7.414 8l3.293 3.293a1 1 0 11-1.414 1.414l-4-4z" clip-rule="evenodd" transform="rotate(-90 10 10)"/></svg></a>
+        </div>
+    </div>
+
+    <div class="prompt-card">
+        <div class="prompt-top">
+            <div class="prompt-top-left">
+                <div class="prompt-badge pb-gold">Mind</div>
+                <div class="prompt-label">Résumé Writing for Career Re-Entry</div>
+            </div>
+            <div class="prompt-number">#05</div>
+        </div>
+        <div class="prompt-body">
+            <p class="prompt-text">"Act as a résumé writing expert and help me create a simple, clean one-page résumé for an administrative or receptionist position. I have a 2-year AA degree and prior secretarial experience. I have had a career break for family care. Guide me through each section of the résumé step by step and help me write it in a way that highlights my strengths confidently."</p>
+            <a href="https://chatgpt.com?prompt=Act%20as%20a%20r%C3%A9sum%C3%A9%20writing%20expert%20and%20help%20me%20create%20a%20simple%2C%20clean%20one-page%20r%C3%A9sum%C3%A9%20for%20an%20administrative%20or%20receptionist%20position.%20I%20have%20a%202-year%20AA%20degree%20and%20prior%20secretarial%20experience.%20I%20have%20had%20a%20career%20break%20for%20family%20care.%20Guide%20me%20through%20each%20section%20of%20the%20r%C3%A9sum%C3%A9%20step%20by%20step%20and%20help%20me%20write%20it%20in%20a%20way%20that%20highlights%20my%20strengths%20confidently." class="try-prompt-btn">Try This Prompt <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L7.414 8l3.293 3.293a1 1 0 11-1.414 1.414l-4-4z" clip-rule="evenodd" transform="rotate(-90 10 10)"/></svg></a>
+        </div>
+    </div>
+
+    <div class="prompt-card">
+        <div class="prompt-top">
+            <div class="prompt-top-left">
+                <div class="prompt-badge pb-gold">Mind</div>
+                <div class="prompt-label">Interview Coaching for Soft Re-Entry</div>
+            </div>
+            <div class="prompt-number">#06</div>
+        </div>
+        <div class="prompt-body">
+            <p class="prompt-text">"Act as a job interview coach and help me practice answering the most common interview questions for an administrative assistant or receptionist position. I am returning to work after a long break and want to feel confident. Start with the question: 'Tell me about yourself' and help me craft a strong answer."</p>
+            <a href="https://chatgpt.com?prompt=Act%20as%20a%20job%20interview%20coach%20and%20help%20me%20practice%20answering%20the%20most%20common%20interview%20questions%20for%20an%20administrative%20assistant%20or%20receptionist%20position.%20I%20am%20returning%20to%20work%20after%20a%20long%20break%20and%20want%20to%20feel%20confident.%20Start%20with%20the%20question%3A%20%27Tell%20me%20about%20yourself%27%20and%20help%20me%20craft%20a%20strong%20answer." class="try-prompt-btn">Try This Prompt <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L7.414 8l3.293 3.293a1 1 0 11-1.414 1.414l-4-4z" clip-rule="evenodd" transform="rotate(-90 10 10)"/></svg></a>
+        </div>
+    </div>
+
+    <div class="prompt-card">
+        <div class="prompt-top">
+            <div class="prompt-top-left">
+                <div class="prompt-badge pb-green">Spirit</div>
+                <div class="prompt-label">Non-Religious Connection & Meaning</div>
+            </div>
+            <div class="prompt-number">#07</div>
+        </div>
+        <div class="prompt-body">
+            <p class="prompt-text">"Act as a compassionate life coach who does not assume religious belief. I am a busy mother in my early forties feeling stressed and sometimes lonely. Help me explore practical, non-religious ways to build more peace, connection, and daily meaning into my life. Ask me what I enjoy and what feels most draining, and help me build a simple weekly rhythm that includes some form of rest and connection."</p>
+            <a href="https://chatgpt.com?prompt=Act%20as%20a%20compassionate%20life%20coach%20who%20does%20not%20assume%20religious%20belief.%20I%20am%20a%20busy%20mother%20in%20my%20early%20forties%20feeling%20stressed%20and%20sometimes%20lonely.%20Help%20me%20explore%20practical%2C%20non-religious%20ways%20to%20build%20more%20peace%2C%20connection%2C%20and%20daily%20meaning%20into%20my%20life.%20Ask%20me%20what%20I%20enjoy%20and%20what%20feels%20most%20draining%2C%20and%20help%20me%20build%20a%20simple%20weekly%20rhythm%20that%20includes%20some%20form%20of%20rest%20and%20connection." class="try-prompt-btn">Try This Prompt <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L7.414 8l3.293 3.293a1 1 0 11-1.414 1.414l-4-4z" clip-rule="evenodd" transform="rotate(-90 10 10)"/></svg></a>
+        </div>
+    </div>
+
+    <div class="prompt-card">
+        <div class="prompt-top">
+            <div class="prompt-top-left">
+                <div class="prompt-badge pb-green">Spirit</div>
+                <div class="prompt-label">Positive Psychology & Wellbeing Practices</div>
+            </div>
+            <div class="prompt-number">#08</div>
+        </div>
+        <div class="prompt-body">
+            <p class="prompt-text">"Act as a positive psychology coach and teach me about the research behind gratitude, belonging, and daily meaning. Explain in simple terms why these things matter for mental and emotional health, and give me 3-5 very simple practices I can begin this week that take less than 10 minutes per day."</p>
+            <a href="https://chatgpt.com?prompt=Act%20as%20a%20positive%20psychology%20coach%20and%20teach%20me%20about%20the%20research%20behind%20gratitude%2C%20belonging%2C%20and%20daily%20meaning.%20Explain%20in%20simple%20terms%20why%20these%20things%20matter%20for%20mental%20and%20emotional%20health%2C%20and%20give%20me%203-5%20very%20simple%20practices%20I%20can%20begin%20this%20week%20that%20take%20less%20than%2010%20minutes%20per%20day." class="try-prompt-btn">Try This Prompt <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L7.414 8l3.293 3.293a1 1 0 11-1.414 1.414l-4-4z" clip-rule="evenodd" transform="rotate(-90 10 10)"/></svg></a>
+        </div>
+    </div>
+
+    <div class="prompt-card">
+        <div class="prompt-top">
+            <div class="prompt-top-left">
+                <div class="prompt-badge pb-green">Spirit</div>
+                <div class="prompt-label">Deepening Existing Relationships</div>
+            </div>
+            <div class="prompt-number">#09</div>
+        </div>
+        <div class="prompt-body">
+            <p class="prompt-text">"Act as a relationship and connection coach and help me think through how to invest in the friendships and family relationships that matter most to me. I have limited time and energy. Help me identify 2-3 simple, low-effort ways to deepen connection with the people already in my life, starting with my husband, my sister, and a neighbor friend."</p>
+            <a href="https://chatgpt.com?prompt=Act%20as%20a%20relationship%20and%20connection%20coach%20and%20help%20me%20think%20through%20how%20to%20invest%20in%20the%20friendships%20and%20family%20relationships%20that%20matter%20most%20to%20me.%20I%20have%20limited%20time%20and%20energy.%20Help%20me%20identify%202-3%20simple%2C%20low-effort%20ways%20to%20deepen%20connection%20with%20the%20people%20already%20in%20my%20life%2C%20starting%20with%20my%20husband%2C%20my%20sister%2C%20and%20a%20neighbor%20friend." class="try-prompt-btn">Try This Prompt <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L7.414 8l3.293 3.293a1 1 0 11-1.414 1.414l-4-4z" clip-rule="evenodd" transform="rotate(-90 10 10)"/></svg></a>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 4: 90-DAY FOUNDATION MILESTONES -->
+<div class="section-label">90-Day Foundation Milestones</div>
+
+<div class="milestones">
+    <div class="milestone-card">
+        <div class="milestone-emoji">🏃</div>
+        <div class="milestone-title">Body</div>
+        <div class="milestone-text">Establish a consistent walking habit (15–20 min, 3+ times per week) and improve sleep by moving bedtime 30 min earlier. Small wins in physical energy compound quickly.</div>
+    </div>
+
+    <div class="milestone-card">
+        <div class="milestone-emoji">💼</div>
+        <div class="milestone-title">Mind</div>
+        <div class="milestone-text">Complete a polished résumé, research 5–10 target positions, and apply to 3–4 well-fit opportunities. Position yourself actively in the job market with clarity and confidence.</div>
+    </div>
+
+    <div class="milestone-card">
+        <div class="milestone-emoji">🤝</div>
+        <div class="milestone-title">Connection</div>
+        <div class="milestone-text">Establish one weekly family ritual and one monthly friendship connection. Build the relational anchors that make daily stress bearable and joy accessible.</div>
+    </div>
+
+    <div class="milestone-card">
+        <div class="milestone-emoji">✨</div>
+        <div class="milestone-title">Purpose</div>
+        <div class="milestone-text">Shift from "no path forward" to "one clear next step." Feel the difference a small daily practice of gratitude and intentional rest makes in your overall sense of possibility.</div>
+    </div>
+</div>
+
+<!-- SECTION 5: CLOSING QUOTE -->
+<div class="final-quote">
+    <p class="quote-text">The most encouraging thing about this survey is that you already know what you want: a job that fits your family, a little more <span class="highlight">energy in your body</span>, and more <span class="highlight">joy in your everyday life</span>. That kind of <span class="highlight">clarity is rare</span> and is the foundation everything else can be built upon.</p>
+    <div class="quote-attribution">— From Your Coaching Report</div>
+</div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Body · Mind · Spirit Prompt Library</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f7f3ec;
+      --card: #ffffff;
+      --accent: #b46b3f;
+      --accent-soft: #e3c3a5;
+      --text-main: #2f2a26;
+      --text-muted: #6b625c;
+      --border-soft: #ddcbb8;
+      --shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.08);
+      --radius-lg: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #fdf7f0 0, #f3ece4 40%, #efe5da 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    /* Top return bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .top-bar a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .top-bar-icon {
+      font-size: 0.9rem;
+    }
+
+    /* Header */
+    .hero {
+      background: linear-gradient(135deg, #fdf7f0, #f3e0cf);
+      border-radius: var(--radius-lg);
+      padding: 22px 22px 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: 1.9rem;
+      margin: 0 0 6px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+    }
+
+    .hero-tagline {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      border-left: 3px solid var(--accent-soft);
+      padding-left: 10px;
+      margin: 10px 0 0;
+    }
+
+    /* Section layout */
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .section-card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
+      color: var(--accent);
+    }
+
+    .section-intro {
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* Prompt list */
+    .prompt-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .prompt-item {
+      margin-bottom: 10px;
+      padding: 10px 10px 9px;
+      border-radius: var(--radius-sm);
+      background: #faf6f1;
+      border: 1px solid #e7d7c6;
+    }
+
+    .prompt-heading {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    .prompt-text {
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    /* Integration section full width */
+    .integration-card {
+      margin-top: 22px;
+      background: #f9f2ea;
+    }
+
+    .footer-note {
+      margin-top: 26px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Return link at the top -->
+    <div class="top-bar">
+      <a href="#top">
+        <span class="top-bar-icon">⟵</span>
+        <span>Return</span>
+      </a>
+      <span>Body · Mind · Spirit Prompt Library</span>
+    </div>
+
+    <!-- Hero / Header -->
+    <header id="top" class="hero">
+      <h1 class="hero-title">Body · Mind · Spirit Prompt Library</h1>
+      <p class="hero-subtitle">
+        Christian-leaning reflection prompts to help uncover your KSA (Knowledge, Skills, Abilities) and Spiritual Gifts.
+      </p>
+      <p class="hero-tagline">
+        Use these questions in coaching, journaling, or small groups as you discern how God has uniquely wired you to
+        serve others in the marketplace and beyond.
+      </p>
+    </header>
+
+    <!-- Body / Mind / Spirit sections -->
+    <main>
+      <div class="section-grid">
+
+        <!-- BODY -->
+        <section class="section-card">
+          <div class="section-label">Body</div>
+          <h2 class="section-title">Stewardship and Physical Presence</h2>
+          <p class="section-intro">
+            Explore how your physical energy, habits, and presence can become a living expression of worship and service.
+          </p>
+          <ul class="prompt-list">
+            <li class="prompt-item">
+              <div class="prompt-heading">Physical Strength</div>
+              <div class="prompt-text">
+                “What physical activities make you feel most alive and ‘in the zone’? How might God be using your
+                physical vitality to serve others?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Rest and Renewal</div>
+              <div class="prompt-text">
+                “In what ways does your body signal it needs rest? How can you better honor the ‘Temple of the Holy
+                Spirit’ through your daily habits?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Sensory Awareness</div>
+              <div class="prompt-text">
+                “Describe a moment this week when you felt God’s presence through your senses (sight, sound, touch).
+                What was your body telling you in that moment?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Skill Mastery</div>
+              <div class="prompt-text">
+                “What is a physical skill or craft you have mastered with ease? How does using this skill bring glory
+                to God?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Health as Service</div>
+              <div class="prompt-text">
+                “How does your current physical health impact your ability to exercise your spiritual gifts? What is
+                one small step toward better stewardship today?”
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- MIND -->
+        <section class="section-card">
+          <div class="section-label">Mind</div>
+          <h2 class="section-title">Knowledge and Intellectual Growth</h2>
+          <p class="section-intro">
+            Notice where your curiosity, thinking patterns, and wisdom point to God’s design in your inner wiring.
+          </p>
+          <ul class="prompt-list">
+            <li class="prompt-item">
+              <div class="prompt-heading">Knowledge Discovery</div>
+              <div class="prompt-text">
+                “What topics or subjects do you find yourself constantly researching or ‘hungry’ to learn more about?
+                Is there a pattern in this knowledge?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Mental Renewal</div>
+              <div class="prompt-text">
+                “Reflect on Romans 12:2. What ‘patterns of this world’ are currently cluttering your mind, and how can
+                you invite the Holy Spirit to renew your thinking?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Problem Solving</div>
+              <div class="prompt-text">
+                “When faced with a challenge, what is your go-to mental strategy? Do you lean toward logic, intuition,
+                or creative ‘out-of-the-box’ thinking?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Clarity of Vision</div>
+              <div class="prompt-text">
+                “If you could remove all distractions for one hour, what deep questions would you ask God about your
+                mental focus and career path?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Wisdom Application</div>
+              <div class="prompt-text">
+                “Recall a time you gave advice that truly helped someone. What ‘Knowledge’ or ‘Wisdom’ (KSA) did you
+                draw upon in that moment?”
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- SPIRIT -->
+        <section class="section-card">
+          <div class="section-label">Spirit</div>
+          <h2 class="section-title">Gifts and Divine Connection</h2>
+          <p class="section-intro">
+            Discern the spiritual gifts, fruit, and patterns of connection that reveal how the Holy Spirit moves
+            through you.
+          </p>
+          <ul class="prompt-list">
+            <li class="prompt-item">
+              <div class="prompt-heading">Gift Identification</div>
+              <div class="prompt-text">
+                “Which spiritual gifts (e.g., encouragement, leadership, mercy) do others often affirm in you? How do
+                you feel when operating in these areas?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Fruit of the Spirit</div>
+              <div class="prompt-text">
+                “Which ‘Fruit of the Spirit’ (Galatians 5:22) is most evident in your life right now, and which one do
+                you feel led to cultivate further?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Prayer Patterns</div>
+              <div class="prompt-text">
+                “When do you feel most connected to God during prayer? Is it in silence, through song, or while serving
+                others?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Spiritual Legacy</div>
+              <div class="prompt-text">
+                “If you were to be remembered for one ‘Spiritual Gift’ that impacted the lives of those around you,
+                what would you want it to be?”
+              </div>
+            </li>
+            <li class="prompt-item">
+              <div class="prompt-heading">Divine Promptings</div>
+              <div class="prompt-text">
+                “Has there been a ‘nudge’ or a ‘whisper’ from the Holy Spirit lately that you have been resisting? What
+                is holding you back from total surrender?”
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Integration / Marketplace Ministry -->
+      <section class="section-card integration-card">
+        <div class="section-label">Integration</div>
+        <h2 class="section-title">Purpose and Marketplace Ministry</h2>
+        <p class="section-intro">
+          Bring Body, Mind, and Spirit together as you consider how your KSA and Gifts show up in real work, real
+          relationships, and real service.
+        </p>
+        <ul class="prompt-list">
+          <li class="prompt-item">
+            <div class="prompt-heading">Marketplace Ministry</div>
+            <div class="prompt-text">
+              “How can your specific ‘Ability’ (KSA) be used as a form of ministry in your current workplace or
+              business setting?”
+            </div>
+          </li>
+          <li class="prompt-item">
+            <div class="prompt-heading">The ‘Sweet Spot’</div>
+            <div class="prompt-text">
+              “Describe a task where your Knowledge, Skill, and Spiritual Gift all overlapped perfectly. What was the
+              outcome for you and for others?”
+            </div>
+          </li>
+          <li class="prompt-item">
+            <div class="prompt-heading">Overcoming Burnout</div>
+            <div class="prompt-text">
+              “Where is your ‘Soul’ feeling heavy or misaligned with your daily work? What shift is needed to move
+              toward ‘God’s design’ for your life?”
+            </div>
+          </li>
+          <li class="prompt-item">
+            <div class="prompt-heading">Service Reflection</div>
+            <div class="prompt-text">
+              “Think of a time you served someone ‘behind the scenes.’ How did that experience refine your
+              understanding of your unique contribution to the Body of Christ?”
+            </div>
+          </li>
+          <li class="prompt-item">
+            <div class="prompt-heading">Vision Casting</div>
+            <div class="prompt-text">
+              “What is one ‘God-sized’ dream you have for your life that requires you to fully lean into your KSA and
+              Gifts?”
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <div class="footer-note">
+      Use these prompts in career transitions, daily devotionals, or coaching conversations as you listen for God’s
+      leading in your Body, Mind, and Spirit.
+    </div>
+  </div>
+</body>
+</html>

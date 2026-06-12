@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Life Strategies - Steve Andrew's Growth Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --body-primary: #2c5f5d;
+            --mind-primary: #7b5e7b;
+            --spirit-primary: #b8860b;
+            --bg-light: #fdfbf7;
+            --bg-paper: #fffef9;
+            --text-dark: #2a2a2a;
+            --text-mid: #5a5a5a;
+            --text-light: #8a8a8a;
+            --accent-gold: #d4af37;
+            --success: #4a8f7f;
+            --shadow-soft: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-medium: 0 4px 24px rgba(0,0,0,0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #fdfbf7 0%, #f5f3ed 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            z-index: 9999;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--body-primary) 0%, var(--mind-primary) 50%, var(--spirit-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.3rem;
+            color: var(--text-mid);
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .admin-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--bg-paper);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .admin-info span {
+            font-size: 0.95rem;
+            color: var(--text-mid);
+        }
+
+        .admin-info strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            animation: fadeIn 1.2s ease-out 0.4s both;
+        }
+
+        .tab-btn {
+            padding: 14px 32px;
+            border: none;
+            background: var(--bg-paper);
+            color: var(--text-mid);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .tab-btn.active {
+            color: white;
+            font-weight: 600;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .tab-btn.body.active {
+            background: linear-gradient(135deg, var(--body-primary), #3a7572);
+        }
+
+        .tab-btn.mind.active {
+            background: linear-gradient(135deg, var(--mind-primary), #8f6e8f);
+        }
+
+        .tab-btn.spirit.active {
+            background: linear-gradient(135deg, var(--spirit-primary), #d4a429);
+        }
+
+        .tab-btn.overview.active {
+            background: linear-gradient(135deg, #555, #777);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-card {
+            background: var(--bg-paper);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-medium);
+            border-top: 4px solid var(--body-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        .section-card.mind {
+            border-top-color: var(--mind-primary);
+        }
+
+        .section-card.spirit {
+            border-top-color: var(--spirit-primary);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .goal-item {
+            background: linear-gradient(135deg, #ffffff, #f9f9f9);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--body-primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .goal-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .goal-item.mind {
+            border-left-color: var(--mind-primary);
+        }
+
+        .goal-item.spirit {
+            border-left-color: var(--spirit-primary);
+        }
+
+        .goal-item.completed {
+            opacity: 0.6;
+            background: linear-gradient(135deg, #f0f9f7, #e8f5f3);
+        }
+
+        .goal-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--text-light);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .goal-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            flex: 1;
+        }
+
+        .goal-description {
+            color: var(--text-mid);
+            font-size: 0.95rem;
+            margin-left: 36px;
+            line-height: 1.6;
+        }
+
+        .frequency-tracker {
+            margin-left: 36px;
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .day-checkbox {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--text-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .day-checkbox:hover {
+            transform: scale(1.05);
+            border-color: var(--body-primary);
+        }
+
+        .day-checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .progress-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f8f8, #ffffff);
+            border-radius: 12px;
+        }
+
+        .progress-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .progress-bars {
+            display: grid;
+            gap: 20px;
+        }
+
+        .progress-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-mid);
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e8e8e8;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--body-primary), #4a8f7f);
+            border-radius: 20px;
+            transition: width 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+
+        @keyframes progressShimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        .progress-fill.mind {
+            background: linear-gradient(90deg, var(--mind-primary), #9a7e9a);
+        }
+
+        .progress-fill.spirit {
+            background: linear-gradient(90deg, var(--spirit-primary), #d4a429);
+        }
+
+        .chart-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0.3px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--body-primary), #3a7572);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-dark);
+            border: 2px solid var(--text-light);
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, var(--accent-gold), #e4c157);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff, #f9f9f9);
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stat-number {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--body-primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-mid);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .notes-section {
+            margin-top: 30px;
+            padding: 24px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: var(--body-primary);
+            box-shadow: 0 0 0 3px rgba(44, 95, 93, 0.1);
+        }
+
+        .calendar-export {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff9e6, #ffffff);
+            border-radius: 12px;
+            border: 2px dashed var(--accent-gold);
+        }
+
+        .calendar-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .calendar-inputs {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .calendar-inputs input {
+            padding: 10px 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .calendar-inputs input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .dimension-summary {
+            background: var(--bg-paper);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-medium);
+            border-left: 6px solid var(--body-primary);
+        }
+
+        .dimension-summary.mind {
+            border-left-color: var(--mind-primary);
+        }
+
+        .dimension-summary.spirit {
+            border-left-color: var(--spirit-primary);
+        }
+
+        .dimension-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .dimension-icon {
+            font-size: 2rem;
+        }
+
+        .dimension-name {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .dimension-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .dimension-stat {
+            text-align: center;
+        }
+
+        .dimension-stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--body-primary);
+        }
+
+        .dimension-stat.mind .dimension-stat-value {
+            color: var(--mind-primary);
+        }
+
+        .dimension-stat.spirit .dimension-stat-value {
+            color: var(--spirit-primary);
+        }
+
+        .dimension-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-mid);
+            margin-top: 4px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-card {
+                padding: 24px;
+            }
+
+            .admin-info {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .tabs {
+                gap: 8px;
+            }
+
+            .tab-btn {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-medium);
+            animation: slideInUp 0.4s ease-out;
+            z-index: 1000;
+            font-weight: 500;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .week-header {
+            font-size: 0.85rem;
+            color: var(--text-mid);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="grain-overlay"></div>
+    
+    <div class="container">
+        <header>
+            <h1>3D Life Strategies</h1>
+            <p class="subtitle">Body • Mind • Spirit Growth Journey</p>
+            <div class="admin-info">
+                <span><strong>Participant:</strong> STEVE.ANDREW</span>
+                <span><strong>Start Date:</strong> <span id="startDate"></span></span>
+                <span><strong>Current Week:</strong> <span id="currentWeek"></span></span>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn overview active" onclick="switchTab('overview')">📊 Overview</button>
+            <button class="tab-btn body" onclick="switchTab('body')">🏃 Body</button>
+            <button class="tab-btn mind" onclick="switchTab('mind')">🧠 Mind</button>
+            <button class="tab-btn spirit" onclick="switchTab('spirit')">✨ Spirit</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalTasks">0</div>
+                    <div class="stat-label">Total Goals</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="completedTasks">0</div>
+                    <div class="stat-label">Completed Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="currentStreak">0</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="overallProgress">0%</div>
+                    <div class="stat-label">Overall Progress</div>
+                </div>
+            </div>
+
+            <div class="overview-grid">
+                <div class="dimension-summary body">
+                    <div class="dimension-header">
+                        <span class="dimension-icon">🏃</span>
+                        <h3 class="dimension-name">Body</h3>
+                    </div>
+                    <p style="color: var(--text-mid); line-height: 1.6;">
+                        Focus on building physical foundation through daily PT exercises, regular movement breaks, and gradual fitness progression while managing C6-C7 compression.
+                    </p>
+                    <div class="dimension-stats">
+                        <div class="dimension-stat body">
+                            <div class="dimension-stat-value" id="bodyCompletion">0%</div>
+                            <div class="dimension-stat-label">Complete</div>
+                        </div>
+                        <div class="dimension-stat body">
+                            <div class="dimension-stat-value" id="bodyActive">0</div>
+                            <div class="dimension-stat-label">Active Goals</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dimension-summary mind">
+                    <div class="dimension-header">
+                        <span class="dimension-icon">🧠</span>
+                        <h3 class="dimension-name">Mind</h3>
+                    </div>
+                    <p style="color: var(--text-mid); line-height: 1.6;">
+                        Continue learning and teaching while managing project complexity. Balance detail-oriented work with strategic thinking and time management.
+                    </p>
+                    <div class="dimension-stats">
+                        <div class="dimension-stat mind">
+                            <div class="dimension-stat-value" id="mindCompletion">0%</div>
+                            <div class="dimension-stat-label">Complete</div>
+                        </div>
+                        <div class="dimension-stat mind">
+                            <div class="dimension-stat-value" id="mindActive">0</div>
+                            <div class="dimension-stat-label">Active Goals</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dimension-summary spirit">
+                    <div class="dimension-header">
+                        <span class="dimension-icon">✨</span>
+                        <h3 class="dimension-name">Spirit</h3>
+                    </div>
+                    <p style="color: var(--text-mid); line-height: 1.6;">
+                        Build consistency in quiet times and spiritual practices. Address perfectionism and doubt while deepening fellowship and service.
+                    </p>
+                    <div class="dimension-stats">
+                        <div class="dimension-stat spirit">
+                            <div class="dimension-stat-value" id="spiritCompletion">0%</div>
+                            <div class="dimension-stat-label">Complete</div>
+                        </div>
+                        <div class="dimension-stat spirit">
+                            <div class="dimension-stat-value" id="spiritActive">0</div>
+                            <div class="dimension-stat-label">Active Goals</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <h3 class="progress-title">Weekly Progress Overview</h3>
+                <div class="progress-bars">
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span>🏃 Body Goals</span>
+                            <span id="bodyProgressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill body" id="bodyProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span>🧠 Mind Goals</span>
+                            <span id="mindProgressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill mind" id="mindProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span>✨ Spirit Goals</span>
+                            <span id="spiritProgressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill spirit" id="spiritProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notes-section">
+                <h3 class="progress-title">Weekly Reflections & Notes</h3>
+                <textarea class="notes-textarea" id="weeklyNotes" placeholder="How is your week going? Any wins, challenges, or insights to note?"></textarea>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="saveData()">💾 Save Progress</button>
+                <button class="btn btn-export" onclick="exportToHTML()">📄 Export Report</button>
+                <button class="btn btn-secondary" onclick="resetWeek()">🔄 Reset Week</button>
+            </div>
+        </div>
+
+        <!-- Body Tab -->
+        <div id="body-tab" class="tab-content">
+            <div class="section-card body">
+                <div class="section-header">
+                    <span class="section-icon">🏃</span>
+                    <h2 class="section-title">Body Goals - Physical Foundation</h2>
+                </div>
+
+                <div class="goal-item body" data-goal="body-pt">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'body-pt')"></div>
+                        <div class="goal-title">Daily PT Exercises</div>
+                    </div>
+                    <div class="goal-description">
+                        Complete your physical therapy exercises for shoulder/neck (C6-C7 compression) management. These exercises are crucial for pain management and preventing further issues.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">This Week:</div>
+                        <div class="day-checkbox" data-day="mon" onclick="toggleDay(this, 'body-pt', 'mon')">M</div>
+                        <div class="day-checkbox" data-day="tue" onclick="toggleDay(this, 'body-pt', 'tue')">T</div>
+                        <div class="day-checkbox" data-day="wed" onclick="toggleDay(this, 'body-pt', 'wed')">W</div>
+                        <div class="day-checkbox" data-day="thu" onclick="toggleDay(this, 'body-pt', 'thu')">T</div>
+                        <div class="day-checkbox" data-day="fri" onclick="toggleDay(this, 'body-pt', 'fri')">F</div>
+                        <div class="day-checkbox" data-day="sat" onclick="toggleDay(this, 'body-pt', 'sat')">S</div>
+                        <div class="day-checkbox" data-day="sun" onclick="toggleDay(this, 'body-pt', 'sun')">S</div>
+                    </div>
+                </div>
+
+                <div class="goal-item body" data-goal="body-standup">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'body-standup')"></div>
+                        <div class="goal-title">Stand & Stretch Breaks (3x Daily)</div>
+                    </div>
+                    <div class="goal-description">
+                        Stand up and stretch 3 times per day away from your computer. Target times: 9am, 1pm, 4pm. This prevents C6-C7 compression from prolonged sitting and helps reduce headaches.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">This Week:</div>
+                        <div class="day-checkbox" data-day="mon" onclick="toggleDay(this, 'body-standup', 'mon')">M</div>
+                        <div class="day-checkbox" data-day="tue" onclick="toggleDay(this, 'body-standup', 'tue')">T</div>
+                        <div class="day-checkbox" data-day="wed" onclick="toggleDay(this, 'body-standup', 'wed')">W</div>
+                        <div class="day-checkbox" data-day="thu" onclick="toggleDay(this, 'body-standup', 'thu')">T</div>
+                        <div class="day-checkbox" data-day="fri" onclick="toggleDay(this, 'body-standup', 'fri')">F</div>
+                        <div class="day-checkbox" data-day="sat" onclick="toggleDay(this, 'body-standup', 'sat')">S</div>
+                        <div class="day-checkbox" data-day="sun" onclick="toggleDay(this, 'body-standup', 'sun')">S</div>
+                    </div>
+                </div>
+
+                <div class="goal-item body" data-goal="body-walk">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'body-walk')"></div>
+                        <div class="goal-title">Daily Walk (Start Small)</div>
+                    </div>
+                    <div class="goal-description">
+                        Walk daily - even if just 2-3 times around the block to start. Build gradually without pushing through pain. Walking with your wife counts!
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">This Week:</div>
+                        <div class="day-checkbox" data-day="mon" onclick="toggleDay(this, 'body-walk', 'mon')">M</div>
+                        <div class="day-checkbox" data-day="tue" onclick="toggleDay(this, 'body-walk', 'tue')">T</div>
+                        <div class="day-checkbox" data-day="wed" onclick="toggleDay(this, 'body-walk', 'wed')">W</div>
+                        <div class="day-checkbox" data-day="thu" onclick="toggleDay(this, 'body-walk', 'thu')">T</div>
+                        <div class="day-checkbox" data-day="fri" onclick="toggleDay(this, 'body-walk', 'fri')">F</div>
+                        <div class="day-checkbox" data-day="sat" onclick="toggleDay(this, 'body-walk', 'sat')">S</div>
+                        <div class="day-checkbox" data-day="sun" onclick="toggleDay(this, 'body-walk', 'sun')">S</div>
+                    </div>
+                </div>
+
+                <div class="goal-item body" data-goal="body-wellness">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'body-wellness')"></div>
+                        <div class="goal-title">Wellness Center Workouts (3x Weekly)</div>
+                    </div>
+                    <div class="goal-description">
+                        Get to the wellness center 3 times per week for 1-hour workouts. Swimming is great when shoulder allows. This is your 3-month SMART goal.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">This Week (Goal: 3):</div>
+                        <div class="day-checkbox" data-day="mon" onclick="toggleDay(this, 'body-wellness', 'mon')">M</div>
+                        <div class="day-checkbox" data-day="tue" onclick="toggleDay(this, 'body-wellness', 'tue')">T</div>
+                        <div class="day-checkbox" data-day="wed" onclick="toggleDay(this, 'body-wellness', 'wed')">W</div>
+                        <div class="day-checkbox" data-day="thu" onclick="toggleDay(this, 'body-wellness', 'thu')">T</div>
+                        <div class="day-checkbox" data-day="fri" onclick="toggleDay(this, 'body-wellness', 'fri')">F</div>
+                        <div class="day-checkbox" data-day="sat" onclick="toggleDay(this, 'body-wellness', 'sat')">S</div>
+                        <div class="day-checkbox" data-day="sun" onclick="toggleDay(this, 'body-wellness', 'sun')">S</div>
+                    </div>
+                </div>
+
+                <div class="calendar-export">
+                    <div class="calendar-title">📅 Export Goals to Calendar</div>
+                    <div class="calendar-inputs">
+                        <input type="date" id="bodyGoalDate" />
+                        <button class="btn btn-export" onclick="exportToCalendar('body')">Add to Calendar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mind Tab -->
+        <div id="mind-tab" class="tab-content">
+            <div class="section-card mind">
+                <div class="section-header">
+                    <span class="section-icon">🧠</span>
+                    <h2 class="section-title">Mind Goals - Learning & Organization</h2>
+                </div>
+
+                <div class="goal-item mind" data-goal="mind-pm">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'mind-pm')"></div>
+                        <div class="goal-title">Explore Project Management Tools</div>
+                    </div>
+                    <div class="goal-description">
+                        Research and test lightweight project management alternatives to JIRA for your 3D Life Strategies startup. Options to explore: Linear, Notion, Trello, ClickUp, or Asana free tier.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">Progress This Week:</div>
+                        <div class="day-checkbox" data-day="research" onclick="toggleDay(this, 'mind-pm', 'research')">📚</div>
+                        <div class="day-checkbox" data-day="test1" onclick="toggleDay(this, 'mind-pm', 'test1')">🧪</div>
+                        <div class="day-checkbox" data-day="test2" onclick="toggleDay(this, 'mind-pm', 'test2')">🧪</div>
+                        <div class="day-checkbox" data-day="decide" onclick="toggleDay(this, 'mind-pm', 'decide')">✓</div>
+                    </div>
+                </div>
+
+                <div class="goal-item mind" data-goal="mind-detail">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'mind-detail')"></div>
+                        <div class="goal-title">Practice "Good Enough" Mindset</div>
+                    </div>
+                    <div class="goal-description">
+                        Combat getting "stuck in details" by consciously practicing "good enough" on one task per day. Set time limits and move on. This addresses your 4/10 time management score.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">This Week:</div>
+                        <div class="day-checkbox" data-day="mon" onclick="toggleDay(this, 'mind-detail', 'mon')">M</div>
+                        <div class="day-checkbox" data-day="tue" onclick="toggleDay(this, 'mind-detail', 'tue')">T</div>
+                        <div class="day-checkbox" data-day="wed" onclick="toggleDay(this, 'mind-detail', 'wed')">W</div>
+                        <div class="day-checkbox" data-day="thu" onclick="toggleDay(this, 'mind-detail', 'thu')">T</div>
+                        <div class="day-checkbox" data-day="fri" onclick="toggleDay(this, 'mind-detail', 'fri')">F</div>
+                        <div class="day-checkbox" data-day="sat" onclick="toggleDay(this, 'mind-detail', 'sat')">S</div>
+                        <div class="day-checkbox" data-day="sun" onclick="toggleDay(this, 'mind-detail', 'sun')">S</div>
+                    </div>
+                </div>
+
+                <div class="goal-item mind" data-goal="mind-learning">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'mind-learning')"></div>
+                        <div class="goal-title">AI Teaching & Learning Sessions</div>
+                    </div>
+                    <div class="goal-description">
+                        Continue teaching AI classes and your own learning through AI, internet, and books. Track your sessions to ensure continuous growth without burnout.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">Sessions This Week:</div>
+                        <div class="day-checkbox" data-day="session1" onclick="toggleDay(this, 'mind-learning', 'session1')">1</div>
+                        <div class="day-checkbox" data-day="session2" onclick="toggleDay(this, 'mind-learning', 'session2')">2</div>
+                        <div class="day-checkbox" data-day="session3" onclick="toggleDay(this, 'mind-learning', 'session3')">3</div>
+                        <div class="day-checkbox" data-day="session4" onclick="toggleDay(this, 'mind-learning', 'session4')">4</div>
+                    </div>
+                </div>
+
+                <div class="calendar-export">
+                    <div class="calendar-title">📅 Export Goals to Calendar</div>
+                    <div class="calendar-inputs">
+                        <input type="date" id="mindGoalDate" />
+                        <button class="btn btn-export" onclick="exportToCalendar('mind')">Add to Calendar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spirit Tab -->
+        <div id="spirit-tab" class="tab-content">
+            <div class="section-card spirit">
+                <div class="section-header">
+                    <span class="section-icon">✨</span>
+                    <h2 class="section-title">Spirit Goals - Faith & Rest</h2>
+                </div>
+
+                <div class="goal-item spirit" data-goal="spirit-quiet">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'spirit-quiet')"></div>
+                        <div class="goal-title">Daily Quiet Time (10-15 min)</div>
+                    </div>
+                    <div class="goal-description">
+                        Start each day with 10-15 minutes of prayer and Bible reading BEFORE checking email or starting projects. Remember: showing up matters more than perfect execution.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">This Week:</div>
+                        <div class="day-checkbox" data-day="mon" onclick="toggleDay(this, 'spirit-quiet', 'mon')">M</div>
+                        <div class="day-checkbox" data-day="tue" onclick="toggleDay(this, 'spirit-quiet', 'tue')">T</div>
+                        <div class="day-checkbox" data-day="wed" onclick="toggleDay(this, 'spirit-quiet', 'wed')">W</div>
+                        <div class="day-checkbox" data-day="thu" onclick="toggleDay(this, 'spirit-quiet', 'thu')">T</div>
+                        <div class="day-checkbox" data-day="fri" onclick="toggleDay(this, 'spirit-quiet', 'fri')">F</div>
+                        <div class="day-checkbox" data-day="sat" onclick="toggleDay(this, 'spirit-quiet', 'sat')">S</div>
+                        <div class="day-checkbox" data-day="sun" onclick="toggleDay(this, 'spirit-quiet', 'sun')">S</div>
+                    </div>
+                </div>
+
+                <div class="goal-item spirit" data-goal="spirit-reading">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'spirit-reading')"></div>
+                        <div class="goal-title">Spiritual Reading Progress</div>
+                    </div>
+                    <div class="goal-description">
+                        Weekly progress on spiritual books (e.g., "Ruthless Elimination of Hurry", "Sacred Rhythms"). Track chapters/pages to build consistency without pressure.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">Reading Days:</div>
+                        <div class="day-checkbox" data-day="mon" onclick="toggleDay(this, 'spirit-reading', 'mon')">M</div>
+                        <div class="day-checkbox" data-day="tue" onclick="toggleDay(this, 'spirit-reading', 'tue')">T</div>
+                        <div class="day-checkbox" data-day="wed" onclick="toggleDay(this, 'spirit-reading', 'wed')">W</div>
+                        <div class="day-checkbox" data-day="thu" onclick="toggleDay(this, 'spirit-reading', 'thu')">T</div>
+                        <div class="day-checkbox" data-day="fri" onclick="toggleDay(this, 'spirit-reading', 'fri')">F</div>
+                        <div class="day-checkbox" data-day="sat" onclick="toggleDay(this, 'spirit-reading', 'sat')">S</div>
+                        <div class="day-checkbox" data-day="sun" onclick="toggleDay(this, 'spirit-reading', 'sun')">S</div>
+                    </div>
+                </div>
+
+                <div class="goal-item spirit" data-goal="spirit-fellowship">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'spirit-fellowship')"></div>
+                        <div class="goal-title">Men's Group & Fellowship</div>
+                    </div>
+                    <div class="goal-description">
+                        Attend your men's group meetings and church fellowship. Track attendance and share your perfectionism/doubt challenges for accountability.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">This Week:</div>
+                        <div class="day-checkbox" data-day="mens" onclick="toggleDay(this, 'spirit-fellowship', 'mens')">👥</div>
+                        <div class="day-checkbox" data-day="church" onclick="toggleDay(this, 'spirit-fellowship', 'church')">⛪</div>
+                        <div class="day-checkbox" data-day="other" onclick="toggleDay(this, 'spirit-fellowship', 'other')">🤝</div>
+                    </div>
+                </div>
+
+                <div class="goal-item spirit" data-goal="spirit-recreation">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'spirit-recreation')"></div>
+                        <div class="goal-title">Recreation & "Joy Tank" Activities</div>
+                    </div>
+                    <div class="goal-description">
+                        This is your IDENTIFIED GAP. Schedule activities that bring pure joy and refill your tank - NOT productivity or learning. Examples: time with wife, music, nature, hobbies.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">Joy Activities:</div>
+                        <div class="day-checkbox" data-day="mon" onclick="toggleDay(this, 'spirit-recreation', 'mon')">M</div>
+                        <div class="day-checkbox" data-day="tue" onclick="toggleDay(this, 'spirit-recreation', 'tue')">T</div>
+                        <div class="day-checkbox" data-day="wed" onclick="toggleDay(this, 'spirit-recreation', 'wed')">W</div>
+                        <div class="day-checkbox" data-day="thu" onclick="toggleDay(this, 'spirit-recreation', 'thu')">T</div>
+                        <div class="day-checkbox" data-day="fri" onclick="toggleDay(this, 'spirit-recreation', 'fri')">F</div>
+                        <div class="day-checkbox" data-day="sat" onclick="toggleDay(this, 'spirit-recreation', 'sat')">S</div>
+                        <div class="day-checkbox" data-day="sun" onclick="toggleDay(this, 'spirit-recreation', 'sun')">S</div>
+                    </div>
+                </div>
+
+                <div class="goal-item spirit" data-goal="spirit-sabbath">
+                    <div class="goal-header">
+                        <div class="checkbox" onclick="toggleGoal(this, 'spirit-sabbath')"></div>
+                        <div class="goal-title">Weekly Sabbath Rest (No Productivity)</div>
+                    </div>
+                    <div class="goal-description">
+                        One day per week with ZERO productivity goals. Just be, worship, rest. Let God remind you that your worth isn't in your works. This addresses your perfectionism challenge.
+                    </div>
+                    <div class="frequency-tracker">
+                        <div class="week-header">Sabbath Day:</div>
+                        <div class="day-checkbox" data-day="sun" onclick="toggleDay(this, 'spirit-sabbath', 'sun')">Sunday</div>
+                    </div>
+                </div>
+
+                <div class="calendar-export">
+                    <div class="calendar-title">📅 Export Goals to Calendar</div>
+                    <div class="calendar-inputs">
+                        <input type="date" id="spiritGoalDate" />
+                        <button class="btn btn-export" onclick="exportToCalendar('spirit')">Add to Calendar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize data structure
+        let userData = {
+            startDate: new Date().toISOString().split('T')[0],
+            goals: {},
+            weeklyNotes: '',
+            streak: 0,
+            lastActive: new Date().toISOString().split('T')[0]
+        };
+
+        // Load data from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('3d-life-tracker');
+            if (saved) {
+                userData = JSON.parse(saved);
+            }
+            updateUI();
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('3d-life-tracker', JSON.stringify(userData));
+            showToast('Progress saved successfully! 💾');
+            updateUI();
+        }
+
+        // Update all UI elements
+        function updateUI() {
+            document.getElementById('startDate').textContent = userData.startDate;
+            
+            const weeksSinceStart = Math.floor((new Date() - new Date(userData.startDate)) / (7 * 24 * 60 * 60 * 1000));
+            document.getElementById('currentWeek').textContent = weeksSinceStart + 1;
+
+            // Update streak
+            updateStreak();
+            
+            // Update weekly notes
+            if (userData.weeklyNotes) {
+                document.getElementById('weeklyNotes').value = userData.weeklyNotes;
+            }
+
+            // Restore checkboxes
+            Object.keys(userData.goals || {}).forEach(goalId => {
+                const goal = userData.goals[goalId];
+                
+                // Main checkbox
+                const goalElement = document.querySelector(`[data-goal="${goalId}"]`);
+                if (goalElement) {
+                    const checkbox = goalElement.querySelector('.checkbox');
+                    if (goal.completed) {
+                        checkbox.classList.add('checked');
+                        goalElement.classList.add('completed');
+                    }
+                }
+
+                // Day checkboxes
+                Object.keys(goal.days || {}).forEach(day => {
+                    if (goal.days[day]) {
+                        const dayCheckbox = document.querySelector(`[data-goal="${goalId}"] [data-day="${day}"]`);
+                        if (dayCheckbox) {
+                            dayCheckbox.classList.add('checked');
+                        }
+                    }
+                });
+            });
+
+            updateStats();
+        }
+
+        // Toggle goal completion
+        function toggleGoal(checkbox, goalId) {
+            if (!userData.goals[goalId]) {
+                userData.goals[goalId] = { completed: false, days: {} };
+            }
+            
+            userData.goals[goalId].completed = !userData.goals[goalId].completed;
+            checkbox.classList.toggle('checked');
+            checkbox.closest('.goal-item').classList.toggle('completed');
+            
+            saveData();
+        }
+
+        // Toggle day checkbox
+        function toggleDay(dayBox, goalId, day) {
+            if (!userData.goals[goalId]) {
+                userData.goals[goalId] = { completed: false, days: {} };
+            }
+            
+            if (!userData.goals[goalId].days) {
+                userData.goals[goalId].days = {};
+            }
+            
+            userData.goals[goalId].days[day] = !userData.goals[goalId].days[day];
+            dayBox.classList.toggle('checked');
+            
+            saveData();
+        }
+
+        // Update statistics
+        function updateStats() {
+            const goals = userData.goals || {};
+            const today = new Date().toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase().substring(0, 3);
+            
+            let totalGoals = 0;
+            let completedToday = 0;
+            let bodyCompleted = 0, bodyTotal = 0;
+            let mindCompleted = 0, mindTotal = 0;
+            let spiritCompleted = 0, spiritTotal = 0;
+
+            Object.keys(goals).forEach(goalId => {
+                const goal = goals[goalId];
+                totalGoals++;
+                
+                if (goal.days && goal.days[today]) {
+                    completedToday++;
+                }
+
+                const dimension = goalId.split('-')[0];
+                const dayCount = Object.values(goal.days || {}).filter(Boolean).length;
+                const totalDays = Object.keys(goal.days || {}).length;
+
+                if (dimension === 'body') {
+                    bodyTotal++;
+                    if (dayCount >= totalDays * 0.7) bodyCompleted++;
+                } else if (dimension === 'mind') {
+                    mindTotal++;
+                    if (dayCount >= totalDays * 0.7) mindCompleted++;
+                } else if (dimension === 'spirit') {
+                    spiritTotal++;
+                    if (dayCount >= totalDays * 0.7) spiritCompleted++;
+                }
+            });
+
+            document.getElementById('totalTasks').textContent = totalGoals;
+            document.getElementById('completedTasks').textContent = completedToday;
+            document.getElementById('currentStreak').textContent = userData.streak || 0;
+
+            const overallProgress = totalGoals > 0 ? Math.round((completedToday / totalGoals) * 100) : 0;
+            document.getElementById('overallProgress').textContent = overallProgress + '%';
+
+            // Update dimension stats
+            const bodyPercent = bodyTotal > 0 ? Math.round((bodyCompleted / bodyTotal) * 100) : 0;
+            const mindPercent = mindTotal > 0 ? Math.round((mindCompleted / mindTotal) * 100) : 0;
+            const spiritPercent = spiritTotal > 0 ? Math.round((spiritCompleted / spiritTotal) * 100) : 0;
+
+            document.getElementById('bodyCompletion').textContent = bodyPercent + '%';
+            document.getElementById('bodyActive').textContent = bodyTotal;
+            document.getElementById('mindCompletion').textContent = mindPercent + '%';
+            document.getElementById('mindActive').textContent = mindTotal;
+            document.getElementById('spiritCompletion').textContent = spiritPercent + '%';
+            document.getElementById('spiritActive').textContent = spiritTotal;
+
+            // Update progress bars
+            document.getElementById('bodyProgressBar').style.width = bodyPercent + '%';
+            document.getElementById('bodyProgressPercent').textContent = bodyPercent + '%';
+            document.getElementById('mindProgressBar').style.width = mindPercent + '%';
+            document.getElementById('mindProgressPercent').textContent = mindPercent + '%';
+            document.getElementById('spiritProgressBar').style.width = spiritPercent + '%';
+            document.getElementById('spiritProgressPercent').textContent = spiritPercent + '%';
+        }
+
+        // Update streak
+        function updateStreak() {
+            const today = new Date().toISOString().split('T')[0];
+            const lastActive = userData.lastActive;
+            
+            if (lastActive === today) {
+                return; // Already counted today
+            }
+            
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split('T')[0];
+            
+            if (lastActive === yesterdayStr) {
+                userData.streak = (userData.streak || 0) + 1;
+            } else if (lastActive !== today) {
+                userData.streak = 1;
+            }
+            
+            userData.lastActive = today;
+            saveData();
+        }
+
+        // Switch tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName + '-tab').classList.add('active');
+            document.querySelector(`.tab-btn.${tabName}`).classList.add('active');
+        }
+
+        // Reset week
+        function resetWeek() {
+            if (confirm('Are you sure you want to reset this week? This will clear all daily checkboxes but keep your overall progress.')) {
+                Object.keys(userData.goals || {}).forEach(goalId => {
+                    if (userData.goals[goalId].days) {
+                        userData.goals[goalId].days = {};
+                    }
+                });
+                
+                document.querySelectorAll('.day-checkbox').forEach(box => {
+                    box.classList.remove('checked');
+                });
+                
+                saveData();
+                showToast('Week reset successfully! 🔄');
+            }
+        }
+
+        // Export to HTML
+        function exportToHTML() {
+            const goals = userData.goals || {};
+            let html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3D Life Strategies Progress Report - ${new Date().toLocaleDateString()}</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+        h1 { color: #2c5f5d; }
+        .section { margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px; }
+        .goal { margin: 15px 0; padding: 15px; background: white; border-left: 4px solid #2c5f5d; }
+        .completed { opacity: 0.6; text-decoration: line-through; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .stat-box { text-align: center; padding: 20px; background: white; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>3D Life Strategies Progress Report</h1>
+    <p><strong>Participant:</strong> STEVE.ANDREW</p>
+    <p><strong>Report Date:</strong> ${new Date().toLocaleDateString()}</p>
+    
+    <div class="stats">
+        <div class="stat-box">
+            <h3>${document.getElementById('totalTasks').textContent}</h3>
+            <p>Total Goals</p>
+        </div>
+        <div class="stat-box">
+            <h3>${document.getElementById('completedTasks').textContent}</h3>
+            <p>Completed Today</p>
+        </div>
+        <div class="stat-box">
+            <h3>${document.getElementById('currentStreak').textContent}</h3>
+            <p>Day Streak</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>🏃 Body Goals</h2>
+        ${generateGoalHTML('body')}
+    </div>
+    
+    <div class="section">
+        <h2>🧠 Mind Goals</h2>
+        ${generateGoalHTML('mind')}
+    </div>
+    
+    <div class="section">
+        <h2>✨ Spirit Goals</h2>
+        ${generateGoalHTML('spirit')}
+    </div>
+    
+    <div class="section">
+        <h3>Weekly Notes</h3>
+        <p>${document.getElementById('weeklyNotes').value || 'No notes yet.'}</p>
+    </div>
+</body>
+</html>
+            `;
+            
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `3D-Life-Progress-${new Date().toISOString().split('T')[0]}.html`;
+            a.click();
+            
+            showToast('Report exported successfully! 📄');
+        }
+
+        function generateGoalHTML(dimension) {
+            const goals = Object.keys(userData.goals || {}).filter(id => id.startsWith(dimension));
+            if (goals.length === 0) return '<p>No goals tracked yet.</p>';
+            
+            return goals.map(goalId => {
+                const goal = userData.goals[goalId];
+                const dayCount = Object.values(goal.days || {}).filter(Boolean).length;
+                const totalDays = Object.keys(goal.days || {}).length;
+                const completed = goal.completed ? ' completed' : '';
+                
+                return `
+                    <div class="goal${completed}">
+                        <strong>${goalId}</strong><br>
+                        Progress: ${dayCount}/${totalDays} days completed
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Export to calendar
+        function exportToCalendar(dimension) {
+            const dateInput = document.getElementById(dimension + 'GoalDate');
+            const date = dateInput.value;
+            
+            if (!date) {
+                alert('Please select a date first!');
+                return;
+            }
+            
+            const titles = {
+                'body': '🏃 Body Goal: Wellness Center Workout',
+                'mind': '🧠 Mind Goal: Learning Session',
+                'spirit': '✨ Spirit Goal: Quiet Time & Reflection'
+            };
+            
+            const descriptions = {
+                'body': 'Complete 1-hour workout at wellness center. Swimming or other shoulder-friendly exercises.',
+                'mind': 'Learning session or teaching AI class. Remember to practice "good enough" mindset.',
+                'spirit': 'Daily quiet time (10-15 min) and spiritual reading. No perfectionism required!'
+            };
+            
+            const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//3D Life Strategies//EN
+BEGIN:VEVENT
+DTSTART:${date.replace(/-/g, '')}T090000Z
+DTEND:${date.replace(/-/g, '')}T100000Z
+SUMMARY:${titles[dimension]}
+DESCRIPTION:${descriptions[dimension]}
+LOCATION:Home / Wellness Center
+END:VEVENT
+END:VCALENDAR`;
+            
+            const blob = new Blob([icsContent], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `3D-${dimension}-goal-${date}.ics`;
+            a.click();
+            
+            showToast('Calendar event created! 📅');
+        }
+
+        // Save notes
+        document.getElementById('weeklyNotes').addEventListener('blur', function() {
+            userData.weeklyNotes = this.value;
+            saveData();
+        });
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>

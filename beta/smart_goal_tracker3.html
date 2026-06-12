@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART Goal Tracker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap');
+        
+        :root {
+            --bg-primary: #fdfbf7;
+            --bg-secondary: #f5f1ea;
+            --bg-tertiary: #ebe5da;
+            --text-primary: #2c2416;
+            --text-secondary: #5a5244;
+            --text-tertiary: #8b8375;
+            --accent-body: #d4745f;
+            --accent-mind: #6b8fb3;
+            --accent-spirit: #8fae7d;
+            --accent-custom: #b88fae;
+            --border-light: #e0d8ca;
+            --border-medium: #c9bfaf;
+            --shadow-sm: 0 2px 8px rgba(44, 36, 22, 0.06);
+            --shadow-md: 0 4px 16px rgba(44, 36, 22, 0.1);
+            --shadow-lg: 0 8px 32px rgba(44, 36, 22, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-bottom: 2px solid var(--border-light);
+            padding: 1.5rem 2rem;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.6s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        h1::before {
+            content: '◆';
+            color: var(--accent-body);
+            font-size: 1.5rem;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* Navigation Tabs */
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--border-light);
+            padding: 0 2rem;
+            background: var(--bg-primary);
+            position: sticky;
+            top: 88px;
+            z-index: 999;
+        }
+        
+        nav button {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav button:hover {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+        
+        nav button.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--accent-body);
+            font-weight: 600;
+        }
+        
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 250px);
+        }
+        
+        .view {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Buttons */
+        button {
+            font-family: 'Source Sans 3', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background: var(--accent-body);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-primary:hover {
+            background: #c16451;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid var(--border-medium);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+        
+        .stat-card h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: var(--text-primary);
+        }
+        
+        /* Goal Cards */
+        .goals-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .goal-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-body);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            animation: slideIn 0.4s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .goal-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+        
+        .goal-card.category-mind {
+            border-left-color: var(--accent-mind);
+        }
+        
+        .goal-card.category-spirit {
+            border-left-color: var(--accent-spirit);
+        }
+        
+        .goal-card.category-custom {
+            border-left-color: var(--accent-custom);
+        }
+        
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+        
+        .goal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+        }
+        
+        .goal-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .goal-actions button {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .goal-actions button:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .goal-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .goal-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .progress-container {
+            margin-top: 1rem;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-body), #e68573);
+            border-radius: 6px;
+            transition: width 0.6s ease;
+        }
+        
+        .category-mind .progress-fill {
+            background: linear-gradient(90deg, var(--accent-mind), #8baac4);
+        }
+        
+        .category-spirit .progress-fill {
+            background: linear-gradient(90deg, var(--accent-spirit), #a4c095);
+        }
+        
+        .category-custom .progress-fill {
+            background: linear-gradient(90deg, var(--accent-custom), #c9a4c0);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 36, 22, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.4s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.75rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-modal:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-body);
+            box-shadow: 0 0 0 3px rgba(212, 116, 95, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+        
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 8px;
+            border: 2px solid var(--border-light);
+            z-index: 1001;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .dropdown.active .dropdown-content {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .dropdown-content button {
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .dropdown-content button:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .dropdown-content .dropdown-divider {
+            height: 1px;
+            background: var(--border-light);
+            margin: 0.25rem 0;
+        }
+        
+        /* Charts */
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .chart-container h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        canvas {
+            max-width: 100%;
+        }
+        
+        /* History/Search */
+        .search-bar {
+            margin-bottom: 2rem;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent-body);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Quick Entry Widget */
+        .quick-entry {
+            background: linear-gradient(135deg, var(--accent-body), #e68573);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+        
+        .quick-entry h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .quick-entry-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+        
+        .quick-entry select,
+        .quick-entry input {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            color: var(--text-primary);
+        }
+        
+        .quick-entry select {
+            cursor: pointer;
+            appearance: auto;
+            -webkit-appearance: menulist;
+            -moz-appearance: menulist;
+        }
+        
+        .quick-entry select option {
+            background: white;
+            color: var(--text-primary);
+            padding: 0.5rem;
+        }
+        
+        .quick-entry button {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: var(--accent-body);
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .quick-entry button:hover {
+            background: var(--bg-primary);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .empty-state p {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav {
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-entry-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        /* Help Content Styling */
+        .help-content h3 {
+            color: var(--accent-body);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+        
+        .help-content h4 {
+            color: var(--text-primary);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .help-content p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .help-content ul, .help-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .help-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .help-content strong {
+            color: var(--text-primary);
+        }
+        
+        .help-box {
+            background: var(--bg-secondary);
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-body);
+        }
+        
+        .help-tip {
+            background: #e8f4f8;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-mind);
+        }
+        
+        .help-quote {
+            font-style: italic;
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--border-medium);
+            margin: 1rem 0;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Goal Tracker</h1>
+            <div class="header-actions">
+                <button class="btn-primary" onclick="openGoalModal()">+ New Goal</button>
+                
+                <div class="dropdown" id="exportDropdown">
+                    <button class="btn-secondary" onclick="toggleDropdown('exportDropdown')">
+                        Export ▾
+                    </button>
+                    <div class="dropdown-content">
+                        <button onclick="exportData('json')">📄 Export as JSON</button>
+                        <button onclick="exportData('csv')">📊 Export as CSV</button>
+                        <button onclick="exportData('html')">🌐 Export as HTML</button>
+                        <button onclick="exportData('text')">📝 Export as Text</button>
+                    </div>
+                </div>
+                
+                <div class="dropdown" id="calendarDropdown">
+                    <button class="btn-secondary" onclick="toggleDropdown('calendarDropdown')">
+                        Calendar ▾
+                    </button>
+                    <div class="dropdown-content">
+                        <button onclick="exportCalendar('google')">📅 Add to Google Calendar</button>
+                        <button onclick="exportCalendar('outlook')">📆 Add to Outlook</button>
+                        <button onclick="exportCalendar('ics')">📋 Download ICS File</button>
+                    </div>
+                </div>
+                
+                <div class="dropdown" id="helpDropdown">
+                    <button class="btn-secondary" onclick="toggleDropdown('helpDropdown')">
+                        Help ▾
+                    </button>
+                    <div class="dropdown-content" style="min-width: 250px;">
+                        <button onclick="showHelp('about')">ℹ️ About This App</button>
+                        <button onclick="showHelp('smart')">🎯 What are SMART Goals?</button>
+                        <button onclick="showHelp('atomic')">⚛️ Atomic Habits Principles</button>
+                        <div class="dropdown-divider"></div>
+                        <button onclick="showHelp('features')">✨ Features Guide</button>
+                        <button onclick="showHelp('export')">💾 Export & Backup</button>
+                        <button onclick="showHelp('calendar')">📅 Calendar Integration</button>
+                        <div class="dropdown-divider"></div>
+                        <button onclick="openChatGPTHelp()">💬 Ask ChatGPT about SMART Goals</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <button class="active" onclick="switchView('dashboard')">Dashboard</button>
+        <button onclick="switchView('goals')">All Goals</button>
+        <button onclick="switchView('analytics')">Analytics</button>
+        <button onclick="switchView('history')">History</button>
+    </nav>
+    
+    <main>
+        <!-- Dashboard View -->
+        <div id="dashboard" class="view active">
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <h3>Active Goals</h3>
+                    <div class="stat-value" id="activeGoalsCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed Goals</h3>
+                    <div class="stat-value" id="completedGoalsCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Average Progress</h3>
+                    <div class="stat-value" id="averageProgress">0%</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Current Streak</h3>
+                    <div class="stat-value" id="currentStreak">0</div>
+                </div>
+            </div>
+            
+            <div class="quick-entry">
+                <h3>Quick Progress Entry</h3>
+                <div class="quick-entry-form">
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="color: white; font-weight: 600; font-size: 0.9rem;">Select Goal:</label>
+                        <select id="quickGoalSelect" onchange="updateQuickEntryPreview()">
+                            <option value="">Choose a goal to track...</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="color: white; font-weight: 600; font-size: 0.9rem;">Progress Value:</label>
+                        <input type="number" id="quickProgressValue" placeholder="e.g., 5 miles, 2 hours" step="0.1">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: flex-end;">
+                        <button onclick="quickAddProgress()">✓ Add Progress</button>
+                    </div>
+                </div>
+                <div id="quickEntryPreview" style="margin-top: 1rem; padding: 0.75rem; background: rgba(255,255,255,0.2); border-radius: 8px; display: none;">
+                    <div style="color: white; font-size: 0.9rem;">
+                        <strong>Adding to:</strong> <span id="previewGoalName"></span><br>
+                        <strong>Unit:</strong> <span id="previewUnit"></span>
+                    </div>
+                </div>
+                <div id="noGoalsHelper" style="margin-top: 1rem; padding: 0.75rem; background: rgba(255,255,255,0.2); border-radius: 8px; display: none;">
+                    <div style="color: white; font-size: 0.9rem; text-align: center;">
+                        <p style="margin-bottom: 0.5rem;">No active goals yet!</p>
+                        <button onclick="loadSampleGoals()" style="background: white; color: var(--accent-body); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; border: none; cursor: pointer;">
+                            Load Sample Goals to Get Started
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 style="margin-bottom: 1rem; font-size: 1.75rem;">Active Goals</h2>
+            <div id="dashboardGoals" class="goals-container"></div>
+        </div>
+        
+        <!-- All Goals View -->
+        <div id="goals" class="view">
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Category:</label>
+                    <select id="categoryFilter" onchange="filterGoals()">
+                        <option value="">All</option>
+                        <option value="body">Body</option>
+                        <option value="mind">Mind</option>
+                        <option value="spirit">Spirit</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Status:</label>
+                    <select id="statusFilter" onchange="filterGoals()">
+                        <option value="">All</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="paused">Paused</option>
+                        <option value="abandoned">Abandoned</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Timeframe:</label>
+                    <select id="timeframeFilter" onchange="filterGoals()">
+                        <option value="">All</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+            </div>
+            <div id="allGoals" class="goals-container"></div>
+        </div>
+        
+        <!-- Analytics View -->
+        <div id="analytics" class="view">
+            <div class="chart-container">
+                <h3>Progress by Category</h3>
+                <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Goal Completion Trend</h3>
+                <canvas id="trendChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Time Investment</h3>
+                <canvas id="timeChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- History View -->
+        <div id="history" class="view">
+            <div class="search-bar">
+                <input type="text" id="historySearch" placeholder="Search history..." oninput="searchHistory()">
+            </div>
+            <div id="historyContent" class="goals-container"></div>
+        </div>
+    </main>
+    
+    <!-- Goal Modal -->
+    <div id="goalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create New Goal</h2>
+                <button class="close-modal" onclick="closeGoalModal()">×</button>
+            </div>
+            <form id="goalForm" onsubmit="saveGoal(event)">
+                <div class="form-group">
+                    <label for="goalName">Goal Name *</label>
+                    <input type="text" id="goalName" required maxlength="200">
+                </div>
+                
+                <div class="form-group">
+                    <label for="goalDescription">Description</label>
+                    <textarea id="goalDescription" rows="3"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="goalCategory">Category *</label>
+                        <select id="goalCategory" required>
+                            <option value="body">Body</option>
+                            <option value="mind">Mind</option>
+                            <option value="spirit">Spirit</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goalPriority">Priority</label>
+                        <select id="goalPriority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="measurementType">Measurement Type *</label>
+                        <select id="measurementType" required>
+                            <option value="number">Number</option>
+                            <option value="percentage">Percentage</option>
+                            <option value="boolean">Yes/No</option>
+                            <option value="count">Count</option>
+                            <option value="duration">Duration (hours)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goalUnit">Unit (optional)</label>
+                        <input type="text" id="goalUnit" placeholder="e.g., miles, pages, minutes">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startValue">Starting Value *</label>
+                        <input type="number" id="startValue" required step="0.1" value="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="targetValue">Target Value *</label>
+                        <input type="number" id="targetValue" required step="0.1">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="timeframe">Timeframe *</label>
+                        <select id="timeframe" required>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="yearly">Yearly</option>
+                            <option value="custom">Custom Date Range</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recurring">Recurring?</label>
+                        <select id="recurring">
+                            <option value="false">One-time</option>
+                            <option value="true">Recurring</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Start Date *</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="targetDate">Target Date *</label>
+                        <input type="date" id="targetDate" required>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeGoalModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Goal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Progress Modal -->
+    <div id="progressModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Progress</h2>
+                <button class="close-modal" onclick="closeProgressModal()">×</button>
+            </div>
+            <form id="progressForm" onsubmit="saveProgress(event)">
+                <input type="hidden" id="progressGoalId">
+                
+                <div class="form-group">
+                    <label for="progressValue">Progress Value *</label>
+                    <input type="number" id="progressValue" required step="0.1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="progressNotes">Notes (optional)</label>
+                    <textarea id="progressNotes" rows="3" placeholder="How did it go? Any observations?"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="progressDate">Date</label>
+                    <input type="date" id="progressDate" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeProgressModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Progress</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 id="helpModalTitle">Help</h2>
+                <button class="close-modal" onclick="closeHelpModal()">×</button>
+            </div>
+            <div id="helpModalContent" style="line-height: 1.8;">
+                <!-- Content will be dynamically loaded -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Data Storage
+        let goals = JSON.parse(localStorage.getItem('smartGoals')) || [];
+        let progressEntries = JSON.parse(localStorage.getItem('progressEntries')) || [];
+        let currentEditingGoalId = null;
+        
+        // Data Migration - Fix any old goals missing properties
+        function migrateGoalData() {
+            let migrated = false;
+            goals = goals.map(goal => {
+                const updated = { ...goal };
+                
+                // Ensure all required properties exist
+                if (!updated.category) {
+                    updated.category = 'custom';
+                    migrated = true;
+                }
+                if (!updated.priority) {
+                    updated.priority = 'medium';
+                    migrated = true;
+                }
+                if (!updated.timeframe) {
+                    updated.timeframe = 'custom';
+                    migrated = true;
+                }
+                if (!updated.status) {
+                    updated.status = 'active';
+                    migrated = true;
+                }
+                if (updated.currentValue === undefined) {
+                    updated.currentValue = updated.startValue || 0;
+                    migrated = true;
+                }
+                
+                return updated;
+            });
+            
+            if (migrated) {
+                console.log('Migrated goal data to fix missing properties');
+                saveData();
+            }
+        }
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Run migration first
+            migrateGoalData();
+            
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').value = today;
+            document.getElementById('progressDate').value = today;
+            renderDashboard();
+            renderAllGoals();
+            renderHistory();
+            updateQuickGoalSelect();
+        });
+        
+        // View Switching
+        function switchView(viewName) {
+            // Update nav buttons
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update views
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            document.getElementById(viewName).classList.add('active');
+            
+            // Load view-specific content
+            if (viewName === 'analytics') {
+                renderAnalytics();
+            }
+        }
+        
+        // Dropdown Toggle
+        function toggleDropdown(dropdownId) {
+            // Close all other dropdowns
+            document.querySelectorAll('.dropdown').forEach(dd => {
+                if (dd.id !== dropdownId) dd.classList.remove('active');
+            });
+            
+            // Toggle this dropdown
+            document.getElementById(dropdownId).classList.toggle('active');
+        }
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(dd => dd.classList.remove('active'));
+            }
+        });
+        
+        // Goal Modal
+        function openGoalModal(goalId = null) {
+            currentEditingGoalId = goalId;
+            const modal = document.getElementById('goalModal');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            if (goalId) {
+                modalTitle.textContent = 'Edit Goal';
+                const goal = goals.find(g => g.id === goalId);
+                if (goal) {
+                    document.getElementById('goalName').value = goal.name;
+                    document.getElementById('goalDescription').value = goal.description || '';
+                    document.getElementById('goalCategory').value = goal.category;
+                    document.getElementById('goalPriority').value = goal.priority;
+                    document.getElementById('measurementType').value = goal.measurementType;
+                    document.getElementById('goalUnit').value = goal.unit || '';
+                    document.getElementById('startValue').value = goal.startValue;
+                    document.getElementById('targetValue').value = goal.targetValue;
+                    document.getElementById('timeframe').value = goal.timeframe;
+                    document.getElementById('recurring').value = goal.recurring;
+                    document.getElementById('startDate').value = goal.startDate;
+                    document.getElementById('targetDate').value = goal.targetDate;
+                }
+            } else {
+                modalTitle.textContent = 'Create New Goal';
+                document.getElementById('goalForm').reset();
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('startDate').value = today;
+            }
+            
+            modal.classList.add('active');
+        }
+        
+        function closeGoalModal() {
+            document.getElementById('goalModal').classList.remove('active');
+            currentEditingGoalId = null;
+        }
+        
+        // Progress Modal
+        function openProgressModal(goalId) {
+            const modal = document.getElementById('progressModal');
+            document.getElementById('progressGoalId').value = goalId;
+            document.getElementById('progressForm').reset();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('progressDate').value = today;
+            modal.classList.add('active');
+        }
+        
+        function closeProgressModal() {
+            document.getElementById('progressModal').classList.remove('active');
+        }
+        
+        // Save Goal
+        function saveGoal(event) {
+            event.preventDefault();
+            
+            const goal = {
+                id: currentEditingGoalId || 'goal_' + Date.now(),
+                name: document.getElementById('goalName').value,
+                description: document.getElementById('goalDescription').value,
+                category: document.getElementById('goalCategory').value,
+                priority: document.getElementById('goalPriority').value,
+                measurementType: document.getElementById('measurementType').value,
+                unit: document.getElementById('goalUnit').value,
+                startValue: parseFloat(document.getElementById('startValue').value),
+                targetValue: parseFloat(document.getElementById('targetValue').value),
+                currentValue: parseFloat(document.getElementById('startValue').value),
+                timeframe: document.getElementById('timeframe').value,
+                recurring: document.getElementById('recurring').value === 'true',
+                startDate: document.getElementById('startDate').value,
+                targetDate: document.getElementById('targetDate').value,
+                status: 'active',
+                createdAt: currentEditingGoalId ? goals.find(g => g.id === currentEditingGoalId).createdAt : new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            if (currentEditingGoalId) {
+                const index = goals.findIndex(g => g.id === currentEditingGoalId);
+                goals[index] = goal;
+            } else {
+                goals.push(goal);
+            }
+            
+            saveData();
+            closeGoalModal();
+            renderDashboard();
+            renderAllGoals();
+            renderHistory();
+            updateQuickGoalSelect();
+        }
+        
+        // Save Progress
+        function saveProgress(event) {
+            event.preventDefault();
+            
+            const goalId = document.getElementById('progressGoalId').value;
+            const value = parseFloat(document.getElementById('progressValue').value);
+            const notes = document.getElementById('progressNotes').value;
+            const date = document.getElementById('progressDate').value;
+            
+            const entry = {
+                id: 'entry_' + Date.now(),
+                goalId: goalId,
+                value: value,
+                notes: notes,
+                date: date,
+                timestamp: new Date().toISOString()
+            };
+            
+            progressEntries.push(entry);
+            
+            // Update goal's current value
+            const goal = goals.find(g => g.id === goalId);
+            if (goal) {
+                goal.currentValue += value;
+                goal.updatedAt = new Date().toISOString();
+                
+                // Check if goal is completed
+                if (goal.currentValue >= goal.targetValue) {
+                    goal.status = 'completed';
+                }
+            }
+            
+            saveData();
+            closeProgressModal();
+            renderDashboard();
+            renderAllGoals();
+            renderHistory();
+        }
+        
+        // Quick Add Progress
+        function quickAddProgress() {
+            const goalId = document.getElementById('quickGoalSelect').value;
+            const value = parseFloat(document.getElementById('quickProgressValue').value);
+            
+            if (!goalId || !value) {
+                alert('Please select a goal and enter a value');
+                return;
+            }
+            
+            const entry = {
+                id: 'entry_' + Date.now(),
+                goalId: goalId,
+                value: value,
+                notes: '',
+                date: new Date().toISOString().split('T')[0],
+                timestamp: new Date().toISOString()
+            };
+            
+            progressEntries.push(entry);
+            
+            const goal = goals.find(g => g.id === goalId);
+            if (goal) {
+                goal.currentValue += value;
+                goal.updatedAt = new Date().toISOString();
+                
+                if (goal.currentValue >= goal.targetValue) {
+                    goal.status = 'completed';
+                }
+            }
+            
+            saveData();
+            document.getElementById('quickProgressValue').value = '';
+            renderDashboard();
+            renderAllGoals();
+        }
+        
+        // Delete Goal
+        function deleteGoal(goalId) {
+            if (confirm('Are you sure you want to delete this goal? This will also delete all progress entries.')) {
+                goals = goals.filter(g => g.id !== goalId);
+                progressEntries = progressEntries.filter(e => e.goalId !== goalId);
+                saveData();
+                renderDashboard();
+                renderAllGoals();
+                renderHistory();
+                updateQuickGoalSelect();
+            }
+        }
+        
+        // Archive Goal
+        function archiveGoal(goalId) {
+            const goal = goals.find(g => g.id === goalId);
+            if (goal) {
+                goal.status = 'archived';
+                saveData();
+                renderDashboard();
+                renderAllGoals();
+            }
+        }
+        
+        // Update Quick Goal Select
+        function updateQuickGoalSelect() {
+            const select = document.getElementById('quickGoalSelect');
+            const noGoalsHelper = document.getElementById('noGoalsHelper');
+            
+            if (!select) {
+                console.error('quickGoalSelect element not found');
+                return;
+            }
+            
+            const activeGoals = goals.filter(g => g.status === 'active');
+            console.log('Active goals:', activeGoals.length, activeGoals);
+            
+            // Clear existing options
+            select.innerHTML = '<option value="">Choose a goal to track...</option>';
+            
+            if (activeGoals.length === 0) {
+                // Show helper message when no goals
+                if (noGoalsHelper) {
+                    noGoalsHelper.style.display = 'block';
+                }
+                select.disabled = true;
+                select.style.opacity = '0.5';
+            } else {
+                // Hide helper and enable select
+                if (noGoalsHelper) {
+                    noGoalsHelper.style.display = 'none';
+                }
+                select.disabled = false;
+                select.style.opacity = '1';
+                
+                activeGoals.forEach(goal => {
+                    const option = document.createElement('option');
+                    option.value = goal.id;
+                    option.textContent = goal.name;
+                    select.appendChild(option);
+                    console.log('Added option:', goal.name);
+                });
+            }
+        }
+        
+        // Update Quick Entry Preview
+        function updateQuickEntryPreview() {
+            const goalId = document.getElementById('quickGoalSelect').value;
+            const preview = document.getElementById('quickEntryPreview');
+            
+            if (!goalId) {
+                preview.style.display = 'none';
+                return;
+            }
+            
+            const goal = goals.find(g => g.id === goalId);
+            if (goal) {
+                document.getElementById('previewGoalName').textContent = goal.name;
+                document.getElementById('previewUnit').textContent = goal.unit || 'units';
+                preview.style.display = 'block';
+            }
+        }
+        
+        // Load Sample Goals
+        function loadSampleGoals() {
+            const today = new Date();
+            const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            const endOfYear = new Date(today.getFullYear(), 11, 31);
+            
+            const sampleGoals = [
+                {
+                    id: 'sample_1_' + Date.now(),
+                    name: 'Exercise 3 times per week',
+                    description: 'Build a consistent workout habit with achievable frequency',
+                    category: 'body',
+                    priority: 'high',
+                    measurementType: 'count',
+                    unit: 'workouts',
+                    startValue: 0,
+                    targetValue: 12,
+                    currentValue: 0,
+                    timeframe: 'monthly',
+                    recurring: true,
+                    startDate: today.toISOString().split('T')[0],
+                    targetDate: endOfMonth.toISOString().split('T')[0],
+                    status: 'active',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                },
+                {
+                    id: 'sample_2_' + Date.now(),
+                    name: 'Read 24 books this year',
+                    description: 'Expand knowledge and enjoy fiction - 2 books per month',
+                    category: 'mind',
+                    priority: 'medium',
+                    measurementType: 'count',
+                    unit: 'books',
+                    startValue: 0,
+                    targetValue: 24,
+                    currentValue: 0,
+                    timeframe: 'yearly',
+                    recurring: false,
+                    startDate: today.toISOString().split('T')[0],
+                    targetDate: endOfYear.toISOString().split('T')[0],
+                    status: 'active',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                },
+                {
+                    id: 'sample_3_' + Date.now(),
+                    name: 'Daily gratitude practice',
+                    description: 'Write 3 things I\'m grateful for each morning',
+                    category: 'spirit',
+                    priority: 'high',
+                    measurementType: 'count',
+                    unit: 'days',
+                    startValue: 0,
+                    targetValue: 30,
+                    currentValue: 0,
+                    timeframe: 'monthly',
+                    recurring: true,
+                    startDate: today.toISOString().split('T')[0],
+                    targetDate: endOfMonth.toISOString().split('T')[0],
+                    status: 'active',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                }
+            ];
+            
+            goals.push(...sampleGoals);
+            saveData();
+            renderDashboard();
+            renderAllGoals();
+            renderHistory();
+            updateQuickGoalSelect();
+            
+            // Show success message
+            alert('✓ Sample goals loaded! You can now try the Quick Progress Entry or explore the app. Feel free to edit or delete these sample goals.');
+        }
+        
+        // Render Dashboard
+        function renderDashboard() {
+            const activeGoals = goals.filter(g => g.status === 'active');
+            const completedGoals = goals.filter(g => g.status === 'completed');
+            
+            document.getElementById('activeGoalsCount').textContent = activeGoals.length;
+            document.getElementById('completedGoalsCount').textContent = completedGoals.length;
+            
+            // Calculate average progress
+            if (activeGoals.length > 0) {
+                const totalProgress = activeGoals.reduce((sum, goal) => {
+                    const progress = ((goal.currentValue - goal.startValue) / (goal.targetValue - goal.startValue)) * 100;
+                    return sum + Math.min(progress, 100);
+                }, 0);
+                const avgProgress = Math.round(totalProgress / activeGoals.length);
+                document.getElementById('averageProgress').textContent = avgProgress + '%';
+            } else {
+                document.getElementById('averageProgress').textContent = '0%';
+            }
+            
+            // Calculate streak
+            const sortedEntries = [...progressEntries].sort((a, b) => new Date(b.date) - new Date(a.date));
+            let streak = 0;
+            let currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            
+            for (let i = 0; i < sortedEntries.length; i++) {
+                const entryDate = new Date(sortedEntries[i].date);
+                entryDate.setHours(0, 0, 0, 0);
+                const diffDays = Math.floor((currentDate - entryDate) / (1000 * 60 * 60 * 24));
+                
+                if (diffDays === streak) {
+                    streak++;
+                } else if (diffDays > streak) {
+                    break;
+                }
+            }
+            document.getElementById('currentStreak').textContent = streak;
+            
+            // Render active goals
+            const container = document.getElementById('dashboardGoals');
+            container.innerHTML = '';
+            
+            if (activeGoals.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No Active Goals</h3>
+                        <p>Start tracking your personal development by creating your first goal!</p>
+                        <button class="btn-primary" onclick="openGoalModal()">Create Your First Goal</button>
+                    </div>
+                `;
+            } else {
+                activeGoals.forEach(goal => {
+                    container.appendChild(createGoalCard(goal));
+                });
+            }
+            
+            // Update the quick goal select dropdown
+            updateQuickGoalSelect();
+        }
+        
+        // Render All Goals
+        function renderAllGoals() {
+            filterGoals();
+        }
+        
+        // Filter Goals
+        function filterGoals() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const timeframeFilter = document.getElementById('timeframeFilter').value;
+            
+            console.log('Filtering with:', { categoryFilter, statusFilter, timeframeFilter, totalGoals: goals.length });
+            
+            let filteredGoals = [...goals]; // Start with copy of all goals
+            
+            // Only filter if a specific value is selected (not empty string)
+            if (categoryFilter && categoryFilter !== '') {
+                filteredGoals = filteredGoals.filter(g => g.category === categoryFilter);
+                console.log('After category filter:', filteredGoals.length);
+            }
+            
+            if (statusFilter && statusFilter !== '') {
+                filteredGoals = filteredGoals.filter(g => g.status === statusFilter);
+                console.log('After status filter:', filteredGoals.length);
+            }
+            
+            if (timeframeFilter && timeframeFilter !== '') {
+                filteredGoals = filteredGoals.filter(g => g.timeframe === timeframeFilter);
+                console.log('After timeframe filter:', filteredGoals.length);
+            }
+            
+            console.log('Final filtered goals:', filteredGoals.length);
+            
+            const container = document.getElementById('allGoals');
+            container.innerHTML = '';
+            
+            if (filteredGoals.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No Goals Found</h3>
+                        <p>Try adjusting your filters or create a new goal.</p>
+                    </div>
+                `;
+            } else {
+                filteredGoals.forEach(goal => {
+                    container.appendChild(createGoalCard(goal));
+                });
+            }
+        }
+        
+        // Create Goal Card
+        function createGoalCard(goal) {
+            const card = document.createElement('div');
+            // Default values for potentially undefined properties
+            const category = goal.category || 'custom';
+            const timeframe = goal.timeframe || 'custom';
+            const priority = goal.priority || 'medium';
+            
+            card.className = `goal-card category-${category}`;
+            
+            const progress = ((goal.currentValue - goal.startValue) / (goal.targetValue - goal.startValue)) * 100;
+            const progressPercent = Math.min(Math.max(progress, 0), 100).toFixed(1);
+            
+            const daysRemaining = Math.ceil((new Date(goal.targetDate) - new Date()) / (1000 * 60 * 60 * 24));
+            
+            // Helper function to capitalize first letter safely
+            const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+            
+            card.innerHTML = `
+                <div class="goal-header">
+                    <div class="goal-title">${goal.name || 'Untitled Goal'}</div>
+                    <div class="goal-actions">
+                        <button onclick="openProgressModal('${goal.id}')" title="Add Progress">+</button>
+                        <button onclick="openGoalModal('${goal.id}')" title="Edit">✎</button>
+                        <button onclick="deleteGoal('${goal.id}')" title="Delete">×</button>
+                    </div>
+                </div>
+                
+                ${goal.description ? `<p style="color: var(--text-secondary); margin-bottom: 1rem;">${goal.description}</p>` : ''}
+                
+                <div class="goal-meta">
+                    <span class="goal-tag">
+                        ${category === 'body' ? '💪' : category === 'mind' ? '🧠' : category === 'spirit' ? '✨' : '🎯'} 
+                        ${capitalize(category)}
+                    </span>
+                    <span class="goal-tag">
+                        ${capitalize(timeframe)}
+                    </span>
+                    <span class="goal-tag">
+                        ${daysRemaining > 0 ? daysRemaining + ' days left' : 'Due today'}
+                    </span>
+                    <span class="goal-tag">
+                        ${capitalize(priority)} Priority
+                    </span>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>${(goal.currentValue || 0).toFixed(1)} / ${goal.targetValue || 0} ${goal.unit || ''}</span>
+                        <span>${progressPercent}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Render History
+        function renderHistory() {
+            searchHistory();
+        }
+        
+        // Search History
+        function searchHistory() {
+            const searchTerm = document.getElementById('historySearch').value.toLowerCase();
+            const container = document.getElementById('historyContent');
+            
+            const entries = [...progressEntries]
+                .filter(entry => {
+                    const goal = goals.find(g => g.id === entry.goalId);
+                    if (!goal) return false;
+                    
+                    return goal.name.toLowerCase().includes(searchTerm) ||
+                           (entry.notes && entry.notes.toLowerCase().includes(searchTerm));
+                })
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            container.innerHTML = '';
+            
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No History Found</h3>
+                        <p>Start tracking progress on your goals to build your history.</p>
+                    </div>
+                `;
+            } else {
+                entries.forEach(entry => {
+                    const goal = goals.find(g => g.id === entry.goalId);
+                    if (!goal) return;
+                    
+                    const card = document.createElement('div');
+                    card.className = `goal-card category-${goal.category}`;
+                    card.innerHTML = `
+                        <div class="goal-header">
+                            <div class="goal-title">${goal.name}</div>
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">
+                                ${new Date(entry.date).toLocaleDateString()}
+                            </div>
+                        </div>
+                        <div style="margin-top: 0.5rem;">
+                            <strong>Progress:</strong> +${entry.value} ${goal.unit || ''}
+                        </div>
+                        ${entry.notes ? `<div style="margin-top: 0.5rem; color: var(--text-secondary);">${entry.notes}</div>` : ''}
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        }
+        
+        // Render Analytics
+        let categoryChart, trendChart, timeChart;
+        
+        function renderAnalytics() {
+            renderCategoryChart();
+            renderTrendChart();
+            renderTimeChart();
+        }
+        
+        function renderCategoryChart() {
+            const ctx = document.getElementById('categoryChart');
+            
+            const categoryData = {
+                body: 0,
+                mind: 0,
+                spirit: 0,
+                custom: 0
+            };
+            
+            goals.forEach(goal => {
+                const progress = ((goal.currentValue - goal.startValue) / (goal.targetValue - goal.startValue)) * 100;
+                categoryData[goal.category] += Math.min(progress, 100);
+            });
+            
+            Object.keys(categoryData).forEach(key => {
+                const count = goals.filter(g => g.category === key).length;
+                if (count > 0) categoryData[key] /= count;
+            });
+            
+            if (categoryChart) categoryChart.destroy();
+            
+            categoryChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Body', 'Mind', 'Spirit', 'Custom'],
+                    datasets: [{
+                        data: [categoryData.body, categoryData.mind, categoryData.spirit, categoryData.custom],
+                        backgroundColor: [
+                            'rgba(212, 116, 95, 0.8)',
+                            'rgba(107, 143, 179, 0.8)',
+                            'rgba(143, 174, 125, 0.8)',
+                            'rgba(184, 143, 174, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderTrendChart() {
+            const ctx = document.getElementById('trendChart');
+            
+            // Get last 30 days of progress
+            const last30Days = [];
+            const today = new Date();
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                last30Days.push(date.toISOString().split('T')[0]);
+            }
+            
+            const progressByDate = last30Days.map(date => {
+                const entriesForDate = progressEntries.filter(e => e.date === date);
+                return entriesForDate.reduce((sum, e) => sum + e.value, 0);
+            });
+            
+            if (trendChart) trendChart.destroy();
+            
+            trendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: last30Days.map(d => new Date(d).toLocaleDateString('en', { month: 'short', day: 'numeric' })),
+                    datasets: [{
+                        label: 'Daily Progress',
+                        data: progressByDate,
+                        borderColor: 'rgba(212, 116, 95, 1)',
+                        backgroundColor: 'rgba(212, 116, 95, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderTimeChart() {
+            const ctx = document.getElementById('timeChart');
+            
+            const timeData = {
+                daily: 0,
+                weekly: 0,
+                monthly: 0,
+                quarterly: 0,
+                yearly: 0,
+                custom: 0
+            };
+            
+            goals.forEach(goal => {
+                timeData[goal.timeframe]++;
+            });
+            
+            if (timeChart) timeChart.destroy();
+            
+            timeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly', 'Custom'],
+                    datasets: [{
+                        label: 'Number of Goals',
+                        data: [timeData.daily, timeData.weekly, timeData.monthly, timeData.quarterly, timeData.yearly, timeData.custom],
+                        backgroundColor: 'rgba(107, 143, 179, 0.8)',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Export Functions
+        function exportData(format) {
+            const data = {
+                goals: goals,
+                progressEntries: progressEntries,
+                exportedAt: new Date().toISOString()
+            };
+            
+            let content, filename, mimeType;
+            
+            switch(format) {
+                case 'json':
+                    content = JSON.stringify(data, null, 2);
+                    filename = 'smart_goals_export.json';
+                    mimeType = 'application/json';
+                    break;
+                    
+                case 'csv':
+                    content = convertToCSV(goals);
+                    filename = 'smart_goals_export.csv';
+                    mimeType = 'text/csv';
+                    break;
+                    
+                case 'html':
+                    content = generateHTMLReport();
+                    filename = 'smart_goals_report.html';
+                    mimeType = 'text/html';
+                    break;
+                    
+                case 'text':
+                    content = generateTextReport();
+                    filename = 'smart_goals_report.txt';
+                    mimeType = 'text/plain';
+                    break;
+            }
+            
+            downloadFile(content, filename, mimeType);
+            toggleDropdown('exportDropdown');
+        }
+        
+        function convertToCSV(data) {
+            const headers = ['Name', 'Category', 'Status', 'Current', 'Target', 'Progress %', 'Start Date', 'Target Date', 'Timeframe'];
+            const rows = data.map(goal => {
+                const progress = ((goal.currentValue - goal.startValue) / (goal.targetValue - goal.startValue)) * 100;
+                return [
+                    goal.name,
+                    goal.category,
+                    goal.status,
+                    goal.currentValue,
+                    goal.targetValue,
+                    progress.toFixed(1),
+                    goal.startDate,
+                    goal.targetDate,
+                    goal.timeframe
+                ];
+            });
+            
+            return [headers, ...rows].map(row => row.join(',')).join('\n');
+        }
+        
+        function generateHTMLReport() {
+            const activeGoals = goals.filter(g => g.status === 'active');
+            const completedGoals = goals.filter(g => g.status === 'completed');
+            
+            return `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SMART Goals Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 2rem; max-width: 1000px; margin: 0 auto; }
+        h1 { color: #2c2416; }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0; }
+        .stat { background: #f5f1ea; padding: 1rem; border-radius: 8px; }
+        .goal { background: white; border: 1px solid #e0d8ca; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+        .progress-bar { height: 20px; background: #e0d8ca; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #d4745f; }
+    </style>
+</head>
+<body>
+    <h1>SMART Goals Report</h1>
+    <p>Generated on ${new Date().toLocaleDateString()}</p>
+    
+    <div class="stats">
+        <div class="stat"><strong>Active Goals:</strong> ${activeGoals.length}</div>
+        <div class="stat"><strong>Completed Goals:</strong> ${completedGoals.length}</div>
+        <div class="stat"><strong>Total Goals:</strong> ${goals.length}</div>
+        <div class="stat"><strong>Total Entries:</strong> ${progressEntries.length}</div>
+    </div>
+    
+    <h2>Active Goals</h2>
+    ${activeGoals.map(goal => {
+        const progress = ((goal.currentValue - goal.startValue) / (goal.targetValue - goal.startValue)) * 100;
+        return `
+            <div class="goal">
+                <h3>${goal.name}</h3>
+                <p>${goal.description || ''}</p>
+                <p><strong>Category:</strong> ${goal.category} | <strong>Timeframe:</strong> ${goal.timeframe}</p>
+                <p><strong>Progress:</strong> ${goal.currentValue} / ${goal.targetValue} ${goal.unit || ''}</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${Math.min(progress, 100)}%"></div>
+                </div>
+            </div>
+        `;
+    }).join('')}
+    
+    <h2>Completed Goals</h2>
+    ${completedGoals.map(goal => `
+        <div class="goal">
+            <h3>${goal.name} ✓</h3>
+            <p>${goal.description || ''}</p>
+            <p>Completed on ${goal.updatedAt ? new Date(goal.updatedAt).toLocaleDateString() : 'N/A'}</p>
+        </div>
+    `).join('')}
+</body>
+</html>
+            `;
+        }
+        
+        function generateTextReport() {
+            let report = 'SMART GOALS REPORT\n';
+            report += '==================\n\n';
+            report += `Generated: ${new Date().toLocaleString()}\n\n`;
+            
+            report += 'STATISTICS\n';
+            report += '----------\n';
+            report += `Active Goals: ${goals.filter(g => g.status === 'active').length}\n`;
+            report += `Completed Goals: ${goals.filter(g => g.status === 'completed').length}\n`;
+            report += `Total Goals: ${goals.length}\n`;
+            report += `Total Progress Entries: ${progressEntries.length}\n\n`;
+            
+            report += 'ACTIVE GOALS\n';
+            report += '============\n\n';
+            
+            goals.filter(g => g.status === 'active').forEach(goal => {
+                const progress = ((goal.currentValue - goal.startValue) / (goal.targetValue - goal.startValue)) * 100;
+                report += `${goal.name}\n`;
+                report += `Category: ${goal.category} | Timeframe: ${goal.timeframe}\n`;
+                report += `Progress: ${goal.currentValue} / ${goal.targetValue} ${goal.unit || ''} (${progress.toFixed(1)}%)\n`;
+                report += `Target Date: ${goal.targetDate}\n`;
+                if (goal.description) report += `Description: ${goal.description}\n`;
+                report += '\n';
+            });
+            
+            return report;
+        }
+        
+        // Calendar Export
+        function exportCalendar(type) {
+            const activeGoals = goals.filter(g => g.status === 'active');
+            
+            if (type === 'ics') {
+                const icsContent = generateICS(activeGoals);
+                downloadFile(icsContent, 'smart_goals_calendar.ics', 'text/calendar');
+            } else if (type === 'google') {
+                const goal = activeGoals[0]; // For demo, using first goal
+                if (!goal) {
+                    alert('No active goals to add to calendar');
+                    return;
+                }
+                const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(goal.name)}&dates=${goal.targetDate.replace(/-/g, '')}/${goal.targetDate.replace(/-/g, '')}&details=${encodeURIComponent(goal.description || '')}&location=`;
+                window.open(url, '_blank');
+            } else if (type === 'outlook') {
+                const goal = activeGoals[0];
+                if (!goal) {
+                    alert('No active goals to add to calendar');
+                    return;
+                }
+                const url = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(goal.name)}&startdt=${goal.targetDate}&enddt=${goal.targetDate}&body=${encodeURIComponent(goal.description || '')}`;
+                window.open(url, '_blank');
+            }
+            
+            toggleDropdown('calendarDropdown');
+        }
+        
+        function generateICS(goals) {
+            let ics = 'BEGIN:VCALENDAR\n';
+            ics += 'VERSION:2.0\n';
+            ics += 'PRODID:-//SMART Goal Tracker//EN\n';
+            
+            goals.forEach(goal => {
+                ics += 'BEGIN:VEVENT\n';
+                ics += `UID:${goal.id}@smartgoaltracker\n`;
+                ics += `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\n`;
+                ics += `DTSTART:${goal.targetDate.replace(/-/g, '')}\n`;
+                ics += `SUMMARY:${goal.name}\n`;
+                ics += `DESCRIPTION:${goal.description || ''}\n`;
+                ics += 'END:VEVENT\n';
+            });
+            
+            ics += 'END:VCALENDAR';
+            return ics;
+        }
+        
+        // Download File
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Save to LocalStorage
+        function saveData() {
+            localStorage.setItem('smartGoals', JSON.stringify(goals));
+            localStorage.setItem('progressEntries', JSON.stringify(progressEntries));
+        }
+        
+        // Help Modal Functions
+        function showHelp(topic) {
+            const modal = document.getElementById('helpModal');
+            const title = document.getElementById('helpModalTitle');
+            const content = document.getElementById('helpModalContent');
+            
+            const helpContent = {
+                about: {
+                    title: 'About This App',
+                    content: `
+                        <div class="help-content">
+                            <p>Welcome to the <strong>SMART Goal Tracker</strong> – your personal development companion for achieving meaningful growth across all areas of life.</p>
+                            
+                            <div class="help-box">
+                                <strong>Purpose:</strong> This app helps you set, track, and achieve goals using the proven SMART framework, combined with insights from Atomic Habits to build lasting change.
+                            </div>
+                            
+                            <h3>Key Features</h3>
+                            <ul>
+                                <li><strong>Flexible Goal Tracking:</strong> Track daily, weekly, monthly, quarterly, or yearly goals</li>
+                                <li><strong>Category Organization:</strong> Organize goals by Body, Mind, Spirit, or custom categories</li>
+                                <li><strong>Visual Progress:</strong> See your progress with charts, graphs, and percentage trackers</li>
+                                <li><strong>Export Options:</strong> Save your data in JSON, CSV, HTML, or text formats</li>
+                                <li><strong>Calendar Integration:</strong> Sync deadlines with Google Calendar, Outlook, or any calendar app</li>
+                                <li><strong>Offline-First:</strong> All data stored locally in your browser – no account required</li>
+                            </ul>
+                            
+                            <div class="help-tip">
+                                <strong>💡 Privacy First:</strong> Your data never leaves your device. Everything is stored locally in your browser.
+                            </div>
+                        </div>
+                    `
+                },
+                smart: {
+                    title: 'What are SMART Goals?',
+                    content: `
+                        <div class="help-content">
+                            <p>SMART is a framework that makes your goals clear, trackable, and achievable. Each letter represents a crucial element:</p>
+                            
+                            <h3>S – Specific</h3>
+                            <div class="help-box">
+                                Your goal should be clear and well-defined. Instead of "get healthier," try "run 3 times per week for 30 minutes."
+                            </div>
+                            
+                            <h3>M – Measurable</h3>
+                            <div class="help-box">
+                                You need concrete criteria to track progress. Use numbers, percentages, or yes/no checkpoints. This app tracks your measurements automatically.
+                            </div>
+                            
+                            <h3>A – Achievable</h3>
+                            <div class="help-box">
+                                Your goal should stretch you but remain realistic. Consider your current resources, time, and capabilities. Start small if needed.
+                            </div>
+                            
+                            <h3>R – Relevant</h3>
+                            <div class="help-box">
+                                The goal should matter to you and align with your broader life objectives. That's why we organize by Body, Mind, and Spirit – to keep balance.
+                            </div>
+                            
+                            <h3>T – Time-bound</h3>
+                            <div class="help-box">
+                                Set a deadline or timeframe. This creates urgency and helps you stay focused. Our app supports flexible timeframes from daily to yearly.
+                            </div>
+                            
+                            <h4>Example SMART Goal:</h4>
+                            <div class="help-quote">
+                                "I will read 24 books this year by reading for 30 minutes before bed each night, tracking my progress weekly."
+                            </div>
+                            
+                            <p><strong>Specific:</strong> Read books<br>
+                            <strong>Measurable:</strong> 24 books, 30 min/night<br>
+                            <strong>Achievable:</strong> 2 books per month is realistic<br>
+                            <strong>Relevant:</strong> Aligns with personal growth<br>
+                            <strong>Time-bound:</strong> This year, with weekly tracking</p>
+                        </div>
+                    `
+                },
+                atomic: {
+                    title: 'Atomic Habits Principles',
+                    content: `
+                        <div class="help-content">
+                            <p>James Clear's <em>Atomic Habits</em> teaches that small, consistent actions compound into remarkable results. Here's how to apply these principles:</p>
+                            
+                            <h3>🌱 Start Incredibly Small</h3>
+                            <div class="help-box">
+                                <strong>"Make it so easy you can't say no."</strong>
+                                <p>Want to start exercising? Don't commit to an hour at the gym. Start with one push-up. Want to meditate? Start with one minute. The goal is to establish the habit, not achieve perfection.</p>
+                            </div>
+                            
+                            <div class="help-tip">
+                                💡 <strong>App Tip:</strong> Set your initial target value low. You can always increase it once the habit sticks. Success builds momentum.
+                            </div>
+                            
+                            <h3>📊 Focus on Systems, Not Goals</h3>
+                            <div class="help-box">
+                                <strong>"You do not rise to the level of your goals. You fall to the level of your systems."</strong>
+                                <p>Goals are about the results you want. Systems are about the processes that lead to those results. This tracker helps you build systems through consistent daily/weekly check-ins.</p>
+                            </div>
+                            
+                            <h3>🔗 Stack Your Habits</h3>
+                            <div class="help-box">
+                                Link a new habit to an existing one: "After I pour my morning coffee, I will write one sentence in my journal."
+                                <p>Use the Notes field when adding progress to identify what triggers help you succeed.</p>
+                            </div>
+                            
+                            <h3>📈 Never Miss Twice</h3>
+                            <div class="help-box">
+                                <strong>"Missing once is an accident. Missing twice is the start of a new habit."</strong>
+                                <p>Life happens. You'll miss days. The key is getting back on track immediately. Our streak counter helps you visualize consistency without punishing occasional misses.</p>
+                            </div>
+                            
+                            <h3>🎯 The Plateau of Latent Potential</h3>
+                            <div class="help-box">
+                                Results often don't show immediately. You might work hard for weeks with little visible progress, then suddenly breakthrough. 
+                                <p><strong>Trust the process.</strong> Use the Analytics view to see your consistency over time, even when results feel slow.</p>
+                            </div>
+                            
+                            <h3>✨ Identity-Based Habits</h3>
+                            <div class="help-box">
+                                Don't just set a goal to "run a marathon." Decide to become "a runner." The shift in identity makes the behavior natural.
+                                <p>Ask yourself: "What type of person do I want to become?" Then: "What would that person do today?"</p>
+                            </div>
+                            
+                            <div class="help-quote">
+                                "Every action you take is a vote for the type of person you wish to become. No single instance will transform your beliefs, but as the votes build up, so does the evidence of your new identity."
+                                <br>— James Clear
+                            </div>
+                            
+                            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 2px solid var(--border-light); font-size: 0.9rem; color: var(--text-secondary);">
+                                <p><strong>Attribution:</strong> Based on concepts from <em>Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones</em> by James Clear. For more insights and resources, visit <a href="https://jamesclear.com" target="_blank" style="color: var(--accent-body); text-decoration: none; font-weight: 600;">jamesclear.com</a></p>
+                            </div>
+                        </div>
+                    `
+                },
+                features: {
+                    title: 'Features Guide',
+                    content: `
+                        <div class="help-content">
+                            <h3>📋 Dashboard</h3>
+                            <p>Your command center showing active goals, completion stats, average progress, and current streak. Use the Quick Progress Entry widget to log updates without navigating away.</p>
+                            
+                            <h3>🎯 Creating Goals</h3>
+                            <ul>
+                                <li><strong>Goal Name:</strong> Be specific and action-oriented</li>
+                                <li><strong>Category:</strong> Choose Body (fitness, health), Mind (learning, career), Spirit (relationships, purpose), or Custom</li>
+                                <li><strong>Measurement Type:</strong> Number, Percentage, Yes/No, Count, or Duration</li>
+                                <li><strong>Timeframe:</strong> Daily, Weekly, Monthly, Quarterly, Yearly, or Custom dates</li>
+                                <li><strong>Recurring vs One-time:</strong> Will this goal repeat or is it a single achievement?</li>
+                            </ul>
+                            
+                            <h3>📊 Tracking Progress</h3>
+                            <ul>
+                                <li><strong>Quick Entry:</strong> Select a goal and add progress value from the dashboard</li>
+                                <li><strong>Detailed Entry:</strong> Click the '+' button on any goal card to add notes and observations</li>
+                                <li><strong>Progress Notes:</strong> Record how you felt, what worked, or what to improve next time</li>
+                            </ul>
+                            
+                            <h3>📈 Analytics View</h3>
+                            <ul>
+                                <li><strong>Progress by Category:</strong> See which life areas you're focusing on</li>
+                                <li><strong>Completion Trend:</strong> Visual graph of your progress over the last 30 days</li>
+                                <li><strong>Time Investment:</strong> Distribution of goals across different timeframes</li>
+                            </ul>
+                            
+                            <h3>🔍 History & Search</h3>
+                            <p>View all your progress entries with timestamps and notes. Use the search bar to find specific entries or patterns. Review your history to identify what strategies work best for you.</p>
+                            
+                            <h3>🎨 Filtering Goals</h3>
+                            <p>In the "All Goals" view, filter by Category, Status (Active/Completed/Paused), or Timeframe to focus on specific goals.</p>
+                        </div>
+                    `
+                },
+                export: {
+                    title: 'Export & Backup',
+                    content: `
+                        <div class="help-content">
+                            <p>Regular backups ensure you never lose your progress. Here's what each export format offers:</p>
+                            
+                            <h3>📄 JSON Export</h3>
+                            <div class="help-box">
+                                <strong>Best for:</strong> Complete data backup
+                                <p>Includes all goals, progress entries, and metadata. This is the most comprehensive backup format. You can re-import this data if needed.</p>
+                            </div>
+                            
+                            <h3>📊 CSV Export</h3>
+                            <div class="help-box">
+                                <strong>Best for:</strong> Spreadsheet analysis
+                                <p>Opens in Excel, Google Sheets, or any spreadsheet software. Great for creating custom reports or doing deeper analysis.</p>
+                            </div>
+                            
+                            <h3>🌐 HTML Export</h3>
+                            <div class="help-box">
+                                <strong>Best for:</strong> Formatted reports
+                                <p>Creates a beautiful, formatted report with charts and progress bars. Perfect for printing or sharing your achievements.</p>
+                            </div>
+                            
+                            <h3>📝 Text Export</h3>
+                            <div class="help-box">
+                                <strong>Best for:</strong> Simple summaries
+                                <p>Plain text summary of your goals and progress. Easy to read and share via email or messaging.</p>
+                            </div>
+                            
+                            <div class="help-tip">
+                                💡 <strong>Backup Recommendation:</strong> Export to JSON monthly to ensure you have a complete backup of your data. Since data is stored in your browser, clearing browser data will erase your goals.
+                            </div>
+                        </div>
+                    `
+                },
+                calendar: {
+                    title: 'Calendar Integration',
+                    content: `
+                        <div class="help-content">
+                            <p>Keep your goal deadlines visible alongside your other commitments:</p>
+                            
+                            <h3>📅 Google Calendar</h3>
+                            <div class="help-box">
+                                Opens Google Calendar with a pre-filled event for your goal deadline. You can customize the event before saving.
+                            </div>
+                            
+                            <h3>📆 Outlook Calendar</h3>
+                            <div class="help-box">
+                                Opens Outlook Calendar (web or desktop) with your goal deadline ready to add. Works with Office 365 and Outlook.com.
+                            </div>
+                            
+                            <h3>📋 ICS File Download</h3>
+                            <div class="help-box">
+                                Downloads a universal calendar file (.ics) that works with any calendar application: Apple Calendar, Thunderbird, or any other calendar software.
+                            </div>
+                            
+                            <div class="help-tip">
+                                💡 <strong>Pro Tip:</strong> Add goal deadlines to your calendar, then set reminders for weekly reviews to check your progress. Consistency beats intensity.
+                            </div>
+                        </div>
+                    `
+                }
+            };
+            
+            const helpData = helpContent[topic];
+            if (helpData) {
+                title.textContent = helpData.title;
+                content.innerHTML = helpData.content;
+                modal.classList.add('active');
+                toggleDropdown('helpDropdown'); // Close the dropdown
+            }
+        }
+        
+        function closeHelpModal() {
+            document.getElementById('helpModal').classList.remove('active');
+        }
+        
+        function openChatGPTHelp() {
+            const url = 'https://chatgpt.com/?q=' + encodeURIComponent('Help me understand SMART goals and how to apply Atomic Habits principles to achieve them');
+            window.open(url, '_blank');
+            toggleDropdown('helpDropdown');
+        }
+    </script>
+</body>
+</html>

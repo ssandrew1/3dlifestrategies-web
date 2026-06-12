@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>3D Personal Playbook: Strive to Thrive</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "mn9U2zCoel2CNRQ1W", // Keep existing key
+      });
+   })();
+
+</script>
+<style>
+:root {
+    --mind: #bbdefb;
+    --body: #c8e6c9;
+    --spirit: #ffccbc;
+    --text: #222;
+    --accent: #0277bd;
+}
+* { box-sizing: border-box; margin:0; padding:0; }
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #5279b4;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.container { max-width: 900px; margin: 2rem auto; padding: 1rem; }
+.card { background: white; border-radius: 12px; padding: 2rem; shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.step { display: none; }
+.step.active { display: block; }
+h1, h2 { color: var(--accent); margin-bottom: 1rem; }
+b { color: var(--accent); margin-bottom: 1rem; }
+.quote { font-style: italic; color: #555; border-left: 4px solid var(--accent); padding-left: 1rem; margin: 1rem 0; }
+.question-block { margin-bottom: 1.5rem; }
+label_normal { display: block; font-weight: normal; margin-bottom: 0.5rem; }
+labelORIG { display: block; font-weight: bold; margin-bottom: 0.5rem; }
+label     { display: block; font-weight: 500; /* softer than bold */ 
+            font-size: 1.05rem; margin-bottom: 0.5rem; color: #222; }
+textarea { width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 6px; min-height: 80px; }
+.nav-btns { display: flex; justify-content: space-between; margin-top: 2rem; }
+button { padding: 0.8rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.btn-next { background: var(--accent); color: white; }
+.btn-prev { background: #e0e0e0; }
+.references { margin-top: 2rem; font-size: 0.9rem; background: #eee; padding: 1rem; border-radius: 6px; }
+
+
+#summary-table-body td {
+    padding: 1rem;
+    vertical-align: middle;
+    background-color: #e9f2ff;
+}
+
+th { color: var(--accent); margin-bottom: 1rem; text-transform: uppercase;  text-align: left; background-color: #b0c9eb;}
+
+/* Category Column */
+#summary-table-body td:first-child {
+    font-weight: bold;
+    color: #2c3e50;
+    text-transform: uppercase;
+}
+
+/* Example Challenges Column */
+#summary-table-body td:nth-child(2) {
+    color: #64748b; /* Slate-500 */
+}
+
+/* The Freedom Column */
+#summary-table-body td:last-child {
+    font-style: italic;
+    font-weight: bold;
+    color: #2d7d46; /* The specific green from your image */
+    text-transform: uppercase;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card" id="workbook-form">
+        
+        <div class="step active" id="step-0">
+            <h1>🛸 Introduction</h1>
+            <div class="quote">"Your beliefs become your thoughts… Your thoughts become your words… Your words become your actions… Your actions become your habits… Your habits become your values… Your values become your destiny." <br /> — Mahatma Gandhi</div>
+            <p>Welcome to your <b>3D Personal Playbook</b>. This assessment is a snapshot of your starting point.</p>
+                        
+            <div><br />📖 <b>Overview</b><br /><br />
+            This workbook is designed to help you strive to thrive by examining the three essential dimensions of a fulfilling life: <b>Body, Mind, and Spirit.</b>
+            <br /><br />Most development programs focus on only one area—like career or fitness. The 3D approach recognizes that these dimensions are interconnected. A healthy body supports a sharp mind, and a clear mind creates the space for a resilient spirit. By assessing where you are today, you can build a roadmap that aligns your daily actions with your God-given purpose.           
+           </div>
+           <br />
+           
+            <div class="question-block">
+                <label>Intro Q1: <b>General</b>- Please provide your Survey Id:</label>
+                <textarea id="intro-q1" placeholder="ie. aaaaaaa_bbb_ccc - provided code "></textarea>
+            </div>
+
+            <div class="question-block">
+                <label>Intro Q2: <b>Family</b>- Please provide your general personal state. ie. sex, married state. ie. I'm a (single|married|married and kids) female and any other helpful domestic/living conditions.</label>
+                <textarea id="intro-q2" placeholder="ie. married with kids, and taking care of 95 year old mother"></textarea>
+            </div>
+
+            <div class="question-block">
+                <label>Intro Q3: <b>Work</b>- Please summarize your career and/or current work life.</label>
+                <textarea id="intro-q3" placeholder="ie. I am a software engineer at Oracle and been there 10 years."></textarea>
+            </div>
+
+            <div class="question-block">
+                <label>Intro Q4: <b>The Backstory</b> - Where are you at in life today and what were the major turning points that got you here?</label>
+                <textarea id="intro-q4" placeholder="Describe your journey..."></textarea>
+            </div>
+            <div class="question-block">
+                <label>Intro Q5: <b>The Narrative</b> - On a scale of 1-5, how 'in sync' do you feel your Body, Mind, and Spirit are currently?</label>
+                <textarea id="intro-q5"></textarea>
+            </div>
+             <div class="question-block">
+                <label>Intro Q6: <b>Current Trajectory</b> Looking at your current habits and values, where do you feel your "destiny" is currently heading?</label>
+                <textarea id="intro-q6"></textarea>
+            </div>
+             <div class="question-block">
+                <label>Intro Q7: <b>Personal Attributes</b> If you haven't, please take the <a href="http://3dlifestrategies.org/beta/personality.html">Personality Assessment</a> test and fill in the numbers it provides at the end for the 5 characteristics. These can be copied and pasted below. 
+</label>
+                <textarea id="intro-q7"></textarea>
+            </div>
+            <div class="references">📚 Ref: 3D Life Playbook Philosophy</div>
+        </div>
+
+        <div class="step" id="step-1">
+            <h1>🏃 Chapter 1: Body (Physical)</h1>
+            <div class="quote">"The body is a temple of the Holy Spirit."<br /> — 1 Corinthians 6:19</div>            
+            <p>The foundation of your vitality. How are you stewarding your physical health?</p>
+                    
+            <div><br />📖 <B>Overview: The Foundation of Vitality</B><br /><br />
+            The Body is the physical vessel for your life’s mission. It encompasses your health, energy levels, and daily vitality. Without a foundation of physical well-being, it becomes difficult to maintain the mental focus and spiritual resilience needed to thrive. This section evaluates how you are stewarding your physical health through nutrition, exercise, and proactive medical care.
+           </div>
+           <br />
+
+            <div class="question-block">
+                <label>Body Q1: <b>Starting Point</b> - Looking at your physical health history, where did you start, and where do you realistically want to be in 12 months?<br /><i>Note: Please provide any physical history that may limit you from certain activities to get fit or reach your goal.</label>                
+                <textarea id="body-q1"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Body Q2: <b>Fitness Habits</b> - Describe your current level of regular fitness and exercise. What activities do you enjoy most?</label>
+                <textarea id="body-q2"></textarea>
+            </div>
+            <div class="question-block">
+                <label>
+                    Body Q3: <b>Nutritional Fuel</b> - How would you describe your current eating habits and nutrition? Are you fueling your body for high performance? Do you understand the importance of a balanced plate with a proper mix of protein, veggies, and carbs?</label>
+                <textarea id="body-q3"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Body Q4: <b>Body Care & Maintenance</b> - Do you have a proactive plan for medical care and healthcare coverage? Are there specific areas (e.g., weight, heart health/hearth) that need attention? 
+                </label>
+                <textarea id="body-q4"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Body Q5: <b>Recovery & Sleep</b> - How well are you managing rest, recovery, and sleep? What prevents you from getting the rest you need?  
+                </label>
+                <textarea id="body-q5"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Body Q6:  <b>Mental-Physical Link</b> - How does your current physical state affect your mood or energy for spiritual and mental tasks?   
+                </label>
+                <textarea id="body-q6"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Body Q7: <b>Body-Physical Understanding</b> - Are there any topics or problems related with your current health or fitness you would like to learn more about? 
+<br />Note: <i>This doesn’t have to be complex, just some quick learning to help you !</i>
+<br />Ie.
+<br />How do carbs affect my weight ? Provide a healthy example diet.
+<br />How can I know if my headaches are due to mental vs. physical stress and how to fix? 
+<br />What are the best types of cardio I can do other than walking 1 mile?
+                </label>
+                <textarea id="body-q7"></textarea>
+            </div>
+
+           <div class="question-block">
+                <label>Body Q8: <b>General Body Development</b> - Do "a self-assessment" and on a 1-5 scale, where do you feel you currently are at and where do you want to be ?
+                <br />ie. For currently "Need Lots of Work", but want to be "No Improvement Needed": Enter:</i> 1,5
+                <br />&nbsp;&nbsp;&nbsp;1-Need Lots of work ... 5-No Improvement needed
+                </label>
+                <textarea id="body-q8"></textarea>
+            </div>
+            <div class="references">📚 Ref: Final Mind-Body-Spirit Categories; The Purpose Roadmap</div>
+        </div>
+
+        <div class="step" id="step-2">
+            <h1>🧠 Chapter 2: Mind (Logical/Practical)</h1>
+            <div class="quote">"The mind is not a vessel to be filled, but a fire to be kindled." <br />— Plutarch</div>            
+            <p>The "Toolbox" of your life: Skills, resources, and growth.</p>
+
+            <div><br />📖 <B>Overview: The Life Toolbox</B><br /><br />
+                The Mind dimension focuses on your intellectual growth, career, and the practical logistics of living. It is the "Command Center" where you organize your time, manage your resources, and develop the skills needed to fulfill your purpose. A well-managed mind creates the platform for achieving your life's goals by removing the friction of chaos and unpreparedness. In this section, we look at your "KSA" (Knowledge, Skills, and Abilities), your career trajectory, and how you handle the fundamental logistics of adult life—from finances to time management.
+           </div>
+           <br />           
+	   <B>Priority Setting</B> 
+           <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwMCA3MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRleHQgeD0iMjUwIiB5PSI1MCIgZm9udC1zaXplPSIzNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzMzMiPlVyZ2VudDwvdGV4dD48dGV4dCB4PSI3NTAiIHk9IjUwIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iYm9sZCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyI+Tm90IHVyZ2VudDwvdGV4dD48dGV4dCB4PSIzMCIgeT0iMjgwIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iYm9sZCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDMwIDI4MCkiPkltcG9ydGFudDwvdGV4dD48dGV4dCB4PSIzMCIgeT0iNTgwIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iYm9sZCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDMwIDU4MCkiPk5vdCBpbXBvcnRhbnQ8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjgwIiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI0Q4NDMxNSIgcng9IjgiLz48dGV4dCB4PSIxMjAiIHk9IjE0MCIgZm9udC1zaXplPSI3MiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIj4xPC90ZXh0Pjx0ZXh0IHg9IjIwMCIgeT0iMTQwIiBmb250LXNpemU9IjMyIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiPk5lY2Vzc2l0eTwvdGV4dD48dGV4dCB4PSIyMDAiIHk9IjE3NSIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiPihtYW5hZ2UpPC90ZXh0Pjx0ZXh0IHg9IjEyMCIgeT0iMjIwIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSI+4oCiIFByZXNzaW5nIHByb2JsZW1zPC90ZXh0Pjx0ZXh0IHg9IjEyMCIgeT0iMjUwIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSI+4oCiIENyaXNpczwvdGV4dD48dGV4dCB4PSIxMjAiIHk9IjI4MCIgZm9udC1zaXplPSIxOCIgZmlsbD0id2hpdGUiPuKAoiBSdXNoIGRlYWRsaW5lczwvdGV4dD48dGV4dCB4PSIxMjAiIHk9IjMxMCIgZm9udC1zaXplPSIxOCIgZmlsbD0id2hpdGUiPuKAoiBSZS13b3JraW5nPC90ZXh0PjxyZWN0IHg9IjUyMCIgeT0iODAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjU3QzAwIiByeD0iOCIvPjx0ZXh0IHg9IjU2MCIgeT0iMTQwIiBmb250LXNpemU9IjcyIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiPjI8L3RleHQ+PHRleHQgeD0iNjQwIiB5PSIxNDAiIGZvbnQtc2l6ZT0iMzIiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSI+UHJvZHVjdGl2aXR5PC90ZXh0Pjx0ZXh0IHg9IjY0MCIgeT0iMTc1IiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSI+KGZvY3VzKTwvdGV4dD48dGV4dCB4PSI1NjAiIHk9IjIyMCIgZm9udC1zaXplPSIxOCIgZmlsbD0id2hpdGUiPuKAoiBQbGFubmluZzwvdGV4dD48dGV4dCB4PSI1NjAiIHk9IjI1MCIgZm9udC1zaXplPSIxOCIgZmlsbD0id2hpdGUiPuKAoiBQcmV2ZW50aW9uPC90ZXh0Pjx0ZXh0IHg9IjU2MCIgeT0iMjgwIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSI+4oCiIFByZXBhcmF0aW9uPC90ZXh0Pjx0ZXh0IHg9IjU2MCIgeT0iMzEwIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSI+4oCiIFBlcnNvbmFsIGRldmVsb3BtZW50PC90ZXh0PjxyZWN0IHg9IjgwIiB5PSI0MDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMjgwIiBmaWxsPSIjMDI4OEQxIiByeD0iOCIvPjx0ZXh0IHg9IjEyMCIgeT0iNDYwIiBmb250LXNpemU9IjcyIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiPjM8L3RleHQ+PHRleHQgeD0iMjAwIiB5PSI0NjAiIGZvbnQtc2l6ZT0iMzIiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSI+RGlzdHJhY3Rpb248L3RleHQ+PHRleHQgeD0iMjAwIiB5PSI0OTUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIj4oYXZvaWQpPC90ZXh0Pjx0ZXh0IHg9IjEyMCIgeT0iNTQwIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSI+4oCiIEludGVycnVwdGlvbnM8L3RleHQ+PHRleHQgeD0iMTIwIiB5PSI1NzAiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIj7igKIgRS1tYWlsczwvdGV4dD48dGV4dCB4PSIxMjAiIHk9IjYwMCIgZm9udC1zaXplPSIxOCIgZmlsbD0id2hpdGUiPuKAoiBQaG9uZSBjYWxsczwvdGV4dD48dGV4dCB4PSIxMjAiIHk9IjYzMCIgZm9udC1zaXplPSIxOCIgZmlsbD0id2hpdGUiPuKAoiBCb3NzZXMgbXVzaW5nczwvdGV4dD48cmVjdCB4PSI1MjAiIHk9IjQwMCIgd2lkdGg9IjQyMCIgaGVpZ2h0PSIyODAiIGZpbGw9IiM3Q0IzNDIiIHJ4PSI4Ii8+PHRleHQgeD0iNTYwIiB5PSI0NjAiIGZvbnQtc2l6ZT0iNzIiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSI+NDwvdGV4dD48dGV4dCB4PSI2NDAiIHk9IjQ2MCIgZm9udC1zaXplPSIzMiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIj5XYXN0ZTwvdGV4dD48dGV4dCB4PSI2NDAiIHk9IjQ5NSIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiPihhdm9pZCk8L3RleHQ+PHRleHQgeD0iNTYwIiB5PSI1NDAiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIj7igKIgVHJpdmlhPC90ZXh0Pjx0ZXh0IHg9IjU2MCIgeT0iNTcwIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSI+4oCiIFRWIC8gRW50ZXJ0YWlubWVudDwvdGV4dD48dGV4dCB4PSI1NjAiIHk9IjYwMCIgZm9udC1zaXplPSIxOCIgZmlsbD0id2hpdGUiPuKAoiBFc2NhcGUgYWN0aXZpdGllczwvdGV4dD48dGV4dCB4PSI1NjAiIHk9IjYzMCIgZm9udC1zaXplPSIxOCIgZmlsbD0id2hpdGUiPuKAoiBCdXN5d29yazwvdGV4dD48L3N2Zz4=" alt="Eisenhower Matrix" style="width: 800px; display: block; margin: 20px auto;">
+
+            <div class="question-block">
+                <label>Mind Q1: <b>Learning History</b> - Looking back at your school years or early training, did you feel you "started on top" (learning came easily), or were you consistently challenged in your learning? How has that shaped your confidence today?</label>
+                <textarea id="mind-q1"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Mind Q2: <b>Career & Education</b> - List your primary formal education (degrees/certifications) and your current career status. Does your current work align with your natural talents?</label>
+                <textarea id="mind-q2"></textarea>
+            </div>
+            <div class="question-block">
+		    <label>Mind Q3: <b>Knowledge, Skills, & Abilities (KSA)</b> - What are your top three professional or practical skills? (e.g., technical expertise, communication, leadership, etc.) ie. <a target=new href="https://3dlifestrategies.org/knowledge_skills_abilities.html">Learn more about KSAs</a>
+                </label>
+                <textarea id="mind-q3"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Mind Q4: <b>Life Logistics</b> - How would you describe your current "Foundational Logistics"? 
+                    <br />Briefly describe any gaps in:
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Living Arrangements: (Home/Housing stability)
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Transportation: (Reliability of auto/transit)
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Legal & Financial: (Budgeting, debt, legal readiness)</label>
+                <textarea id="mind-q4"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Mind Q5: <b>Time & Organization</b> - How effectively do you manage your time? Are there specific areas in your life that you feel most challenged?
+                </label>
+                <textarea id="mind-q5"></textarea>
+            </div>
+           <div class="question-block">
+                <label>Mind Q6: <b>Lifelong Learning Roadmap</b> - How do you prefer to "consume" new information? (e.g., "Snacks" like podcasts/AI chat vs. "3-Course Meals" like books/seminars). What is one area you want to learn more about this year?
+                </label>
+                <textarea id="mind-q6"></textarea>
+            </div>
+           <div class="question-block">
+                <label>Mind Q7: <b>Family & Support</b> - If applicable, how are you managing childcare or family responsibilities? Does this area feel like a source of stress or a well-oiled machine?
+                </label>
+                <textarea id="mind-q7"></textarea>
+            </div>
+           <div class="question-block">
+                <label>Mind Q8: <b>Mind-Learning</b> - Is there something you would like to learn that you have not had the time, knowledge or skill to pursue ? 
+<br />Ie. 
+<br />- How can I learn to better use software management tools to keep our projects on track?
+<br />- What is the best way to learn which “ChatBot” would be best for me as a CEO?
+<br />- I am currently in charge of HR and feel there is a lot going on in AI Employee education that I don’t understand and am not sure where to start.
+<br />- I’m studying for my XYZ Certification, how can I prepare for that? 
+Or more specific:
+<br /> - "I’m sitting for the PMP (Project Management Professional) exam in six weeks. How can you help me create a structured study plan that covers the PMBOK Guide?
+                </label>
+                <textarea id="mind-q8"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Mind Q9: <b>General Mind Growth</b> - Do "a self-assessment" and on a 1-5 scale, where do you feel you currently are at and where do you want to be ?
+                <br />ie. For currently "Need Lots of Work", but want to be "No Improvement Needed": Enter:</i> 1,5
+                <br />&nbsp;&nbsp;&nbsp;1-Need Lots of work ... 5-No Improvement needed
+                </label>
+                <textarea id="mind-q9"></textarea>
+            </div>
+
+            <div class="references">📚 Ref: The Purpose Roadmap (Eisenhower Matrix); c12_start</div>
+        </div>
+
+        <div class="step" id="step-3">
+            <h1>✨ Chapter 3: Spirit (Contentment)</h1>
+            <div class="quote">"Our greatest fear should not be of failure, but of succeeding at things in life that don’t really matter."<br /> — Francis Chan</div>
+            <p>The "Inner Compass": Purpose, relationships, and faith.
+                <br />“Gratitude turns what we have into enough.” - Aesop
+                <br />“Contentment is the only real wealth.” - Alfred Nobel
+                <br />“But godliness with contentment is great gain.”  1 Timothy 6:6
+            </p>
+
+            <div><br />📖 <B>Overview: The Inner Compass</B><br /><br />
+            The Spirit dimension is about your "Why." It encompasses your faith, your sense of purpose, and the quality of your relationships. While the Body is your vessel and the Mind is your toolbox, the Spirit is the driver. When you are spiritually aligned, you experience a sense of peace and contentment that is not dependent on external circumstances.
+            <br /><br />This section explores your spiritual history, your current support systems (fellowship), and your vision for the future. We will look at how you serve others and how you manage your emotional health.        
+           </div>
+           <br />
+            
+            <div class="question-block">
+                <label>Spirit Q1: <b>Spiritual History</b> - Describe the history of your spiritual journey. What were the significant milestones or shifts in your belief system over the years?</label>
+                <textarea id="spirit-q1"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q2: <b>Faith & Belief System</b> - Describe your current faith or belief system, if you have one? You can also include any religion and/or denomination. What are the core values that anchor your daily decisions? 
+<br />NOTE: It can be more than one for part 2 
+<br />For Example on part 2, here are some core values to help you:
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spirituality: Faith, Inner Peace, Mindfulness, Connection.
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Character: Integrity, Courage, Honesty, Humility.
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relational: Compassion, Service, Loyalty, Forgiveness.
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Growth: Curiosity, Discipline, Wisdom, Resilience.
+</label>
+                <textarea id="spirit-q2"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q3: <b>Fellowship & Friendships</b> - Do you have a "tribe" or community of peer support? Describe the quality of your current friendships and how often you engage in meaningful fellowship.</label>
+                <textarea id="spirit-q3"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q4: <b>Personal & Family Relationships</b> - How is the "inner circle" of your life? Describe the current state of your family relationships and any areas where you seek more harmony.</label>
+                <textarea id="spirit-q4"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q5: <b>Finding Your Place (Paul or Timothy)</b> - In your current season, do you feel more like a "Paul" (mentoring and leading others) or a "Timothy" (seeking guidance and being mentored)? Who are the specific people filling these roles in your life?</label>
+                <textarea id="spirit-q5"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q6:  <b>Service & Contribution</b> - Are you currently volunteering or helping others? How does serving others impact your own sense of contentment?</label>
+                <textarea id="spirit-q6"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q7:  <b>Recreation & Hobbies</b> - What activities bring you pure joy and "refill your tank"? Are you making regular time for these recreation or "re-creation" activities?</label>
+                <textarea id="spirit-q7"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q8:  <b>Mental & Emotional Health</b> - How would you rate your current emotional health (stress levels, anxiety, or feelings of loneliness)? What is your primary source of stress right now?</label>
+                <textarea id="spirit-q8"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q9:  <b>Vision & Future Goals</b> - Thinking about your past, present, and future: What is your vision for your spiritual life? If you could "Remember, Review, Rethink, and Plan," what is the one big dream you want to pursue?</label>
+                <textarea id="spirit-q9"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q10: <b>Spiritual-Development</b> - Is there some spiritual development topic you would like to understand better but it feels like hard to get started ? 
+                <br />Examples: 
+                <br />- It seems sometimes I am not fully present when my spouse starts talking about work problems. What can I do to be more attentive?
+                <br />- I’ve never really understood the book of Revelations and how that really applies to me today?
+                </label>
+                <textarea id="spirit-q10"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q11: <b>Spiritual Blockers & Road blocks</b> - We all have areas of improvement where we might need reminders and or a brother to chat with to help us to remove a splinter in our eye. Looking at the example "Challenges" list below:
+<!-- PAGE 2: Quick Reference Table -->
+<div class="page-break max-w-5xl mx-auto bg-[#f8faff] shadow-xl rounded-lg overflow-hidden border border-slate-200">
+    <header class="p-6 text-center">
+        <!-- Blue background box for title WAS: text-2x1 -->
+        <h1 class="text-xs inline-block bg-[#3a5a9b] text-white px-8 py-1 font-bold tracking-tight uppercase">Quick Reference Guide</h1>
+    </header>
+    <div class="p-6">
+        <table class="w-full text-center border-collapse"> <!-- Changed text-left to text-center -->
+            <thead>
+                <tr class="border-b-2 border-slate-100">
+                    <!-- Updated text color to matches the image's dark blue -->
+                    <th class="py-3 px-4 font-bold text-lg">Category</th>
+                    <th class="py-3 px-4 font-bold text-lg">Example Challeng</th>
+                    <th class="py-3 px-4 text-[#3a5a9b] font-bold text-lg">The Freedom</th>
+                </tr>
+            </thead>
+            <tbody id="summary-table-body">
+                <!-- Ensure your JS injects rows with: 
+                     Col 1: font-bold text-[#2c3e50]
+                     Col 2: text-slate-500 
+                     Col 3: italic font-bold text-[#2d7d46] (Green) 
+                -->
+            </tbody>
+        </table>
+    </div>
+</div></label> <I>Enter one or more of the topics from above in the box below:</I> 
+                <textarea id="spirit-q11"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Spirit Q12:  <b>Mental & Emotional Health</b> -General Spiritual Development - Do "a self-assessment" and on a 1-5 scale, where are you and where do you want to be ?
+                <br />ie. For currently "Need Lots of Work", but want to be "No Improvement Needed": Enter:</i> 1,5
+                <br />&nbsp;&nbsp;&nbsp;1-Need Lots of work ... 5-No Improvement needed</label>
+
+                <textarea id="spirit-q12"></textarea>
+            </div>
+            <div class="references">📚 Ref: Spirit_history.html; BBB Presentation</div>
+        </div>
+
+        <div class="step" id="step-4">
+            <h1>🏁 Chapter 4: Summary & Action</h1>
+            <div class="quote">"The vision must be followed by the venture. It is not enough to stare up the steps—we must step up the stairs." <br /> — Vance Havner</div>            
+            <p>Synthesizing your 3D journey into a vision.</p>
+
+            <div><br />📖 <B>Overview: Synthesizing Your 3D Life</B><br /><br />
+            You have now completed a deep dive into your Body, Mind, and Spirit. Each of these dimensions influences the others. A lack of sleep (Body) leads to poor focus (Mind), which can lead to irritability with loved ones (Spirit). Conversely, a strong sense of purpose (Spirit) provides the motivation to keep your body healthy and your mind sharp.
+            <br />In this final section, we look at the "Big Picture." We identify which areas require immediate attention and begin the process of dreaming big for your future.
+           </div>
+           <br />
+
+            <div class="question-block">
+                <label>Sum Q1: <b>Holistic Reflection</b> - Now that you have reviewed your current state, which of the three dimensions (Body, Mind, or Spirit) do you feel is your strongest area right now? Which is currently the most challenged?</label>
+                <textarea id="sum-q1"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Sum Q2: <b>Short-Term Priorities</b> - What are 1-2 immediate changes you want to make in the next 30 days to build momentum?</label>
+                <textarea id="sum-q2"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Sum Q3: <b>Long-Term Vision</b> It’s okay to dream big! If there were no obstacles, where would you like to see yourself in each of the three dimensions 12 months from today?                    
+                </label>
+                <textarea id="sum-q3"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Sum Q4: <b>The S.M.A.R.T. Target</b> - Choose one major goal. Ensure it is Specific, Measurable, Attainable, Relevant, and Time-bound. Write it out here.</label>
+                <textarea id="sum-q4"></textarea>
+            </div>
+            <div class="question-block">
+                <label>Sum Q5: <b>Support & Accountability</b> - Do you have an accountability partner or coach in your life you can work on development of these goals ? If not, do you think this could help you ?
+                </label>
+                <textarea id="sum-q5"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+                <i>NOTE: If your not sure on all your answers, you can just click the Previous Button and continue editing until ready to Submit</i>
+
+		<button type="button" onclick="clearLocalSurvey()" style="margin-left: 10px; background:#b33; color:white;">Clear All</button> 
+                <button class="btn-next" id="saveBtn" onclick="saveSurvey()">Save Workbook</button>
+                <button class="btn-next" id="sendBtn" onclick="sendEmail()" >Submit Workbook</button>                                      
+
+            </div>
+            
+        </div>
+
+        <div class="nav-btns">
+            <button class="btn-prev" id="prevBtn" onclick="changeStep(-1)">Previous</button>
+            <button class="btn-next" id="nextBtn" onclick="changeStep(1)">Next Section</button>
+        </div>
+    </div>
+</div>
+
+// Data and Code to populate the Challenges Table
+<script>
+        const data = [
+            {
+                name: "BITTERNESS",
+                icon: "fa-heart-crack",
+                examples: ["Resentment", "Hatred", "Unforgiveness", "Anger"],
+                lie: "I have power and protection when I don't forgive others",
+                freedom: "FORGIVENESS",
+                scripture: "Therefore, if anyone is in Christ, the new creation has come...",
+                reference: "2 Corinthians 5:17-19"
+            },
+            {
+                name: "FEAR",
+                icon: "fa-ghost",
+                examples: ["Anxiety", "Worry", "Panic", "Dread"],
+                lie: "I must control everything to stay safe; God cannot be trusted",
+                freedom: "PEACE & TRUST",
+                scripture: "For God has not given us a spirit of fear, but of power...",
+                reference: "2 Timothy 1:7"
+            },
+            {
+                name: "PRIDE",
+                icon: "fa-crown",
+                examples: ["Arrogance", "Self-righteousness", "Superiority"],
+                lie: "I am better than others; I don't need God or anyone else",
+                freedom: "HUMILITY",
+                scripture: "Humble yourselves before the Lord, and he will lift you up.",
+                reference: "James 4:10"
+            },
+            {
+                name: "SHAME",
+                icon: "fa-mask",
+                examples: ["Self-condemnation", "Unworthiness", "Guilt", "Hiding"],
+                lie: "I am too damaged or sinful to be loved by God or others",
+                freedom: "IDENTITY IN CHRIST",
+                scripture: "Therefore, there is now no condemnation for those in Christ.",
+                reference: "Romans 8:1"
+            },
+            {
+                name: "CONTROL",
+                icon: "fa-hand-fist",
+                examples: ["Manipulation", "Domination", "Perfectionism"],
+                lie: "If I don't control everything, things will fall apart",
+                freedom: "SURRENDER & TRUST",
+                scripture: "Trust in the LORD with all your heart; lean not on your own understanding.",
+                reference: "Proverbs 3:5-6"
+            },
+            {
+                name: "REJECTION",
+                icon: "fa-user-slash",
+                examples: ["People-pleasing", "Abandonment", "Approval-seeking"],
+                lie: "I am not wanted; I must earn love and acceptance",
+                freedom: "ACCEPTANCE",
+                scripture: "To all who did receive him, he gave the right to be children of God.",
+                reference: "John 1:12"
+            },
+            {
+                name: "LUST",
+                icon: "fa-fire",
+                examples: ["Sexual immorality", "Pornography", "Objectification"],
+                lie: "This sin satisfies me; I need this for fulfillment",
+                freedom: "PURITY & HOLINESS",
+                scripture: "Flee from sexual immorality. Your body is a temple.",
+                reference: "1 Corinthians 6:18"
+            },
+            {
+                name: "ENVY / JEALOUSY",
+                icon: "fa-eye",
+                examples: ["Covetousness", "Comparison", "Discontentment"],
+                lie: "What others have should be mine; God is withholding good",
+                freedom: "CONTENTMENT",
+                scripture: "Be content with what you have, because God will never leave you.",
+                reference: "Hebrews 13:5"
+            },
+            {
+                name: "UNBELIEF",
+                icon: "fa-question",
+                examples: ["Doubt", "Skepticism", "Cynicism"],
+                lie: "God's promises are not true for me; faith doesn't work",
+                freedom: "FAITH & TRUST",
+                scripture: "Now faith is confidence in what we hope for...",
+                reference: "Hebrews 11:1"
+            },
+            {
+                name: "REBELLION",
+                icon: "fa-hand-middle-finger",
+                examples: ["Defiance", "Stubbornness", "Independence"],
+                lie: "I know better than God; I can live life my own way",
+                freedom: "OBEDIENCE",
+                scripture: "If you love me, keep my commands.",
+                reference: "John 14:15"
+            },
+            {
+                name: "GREED",
+                icon: "fa-money-bill-wave",
+                examples: ["Hoarding", "Selfishness", "Idolatry of wealth"],
+                lie: "My security and worth come from what I possess",
+                freedom: "GENEROSITY",
+                scripture: "No one can serve two masters. You cannot serve God and money.",
+                reference: "Matthew 6:24"
+            },
+            {
+                name: "SELF-UNFORGIVENESS",
+                icon: "fa-circle-xmark",
+                examples: ["Self-hatred", "Past guilt", "Stagnation"],
+                lie: "I can never be forgiven; my past defines my future",
+                freedom: "GRACE",
+                scripture: "If we confess, he is faithful to forgive and purify us.",
+                reference: "1 John 1:9"
+            }
+        ];
+
+        const grid = document.getElementById('content-grid');
+        const tableBody = document.getElementById('summary-table-body');
+
+        data.forEach((item, index) => {
+            // Render Cards (Page 1)
+            const card = document.createElement('div');
+            card.className = "stronghold-card border border-slate-200 rounded-lg p-4 flex flex-col h-full bg-white hover:border-indigo-300 transition-colors";
+
+
+            // Render Table Rows (Page 2)
+            const row = document.createElement('tr');
+            // row.className = index % 2 === 0 ? "bg-slate-50 border-b border-slate-100" : "bg-white border-b border-slate-100";
+            //  MAKE all tr and td text-sm = 14   text-xs 12 point or text-[10px]
+	    row.className = `text-xs ${index % 2 === 0 ? "bg-slate-50" : "bg-white"} border-b border-slate-100`;
+            row.innerHTML = `
+                <td class="py-3 px-4 font-bold text-slate-800 text-xs">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid ${item.icon} text-indigo-600 w-4 text-center"></i>
+                        ${item.name}
+                    </div>
+                </td>
+                <td class="py-3 px-4 text-slate-600 text-xs">${item.examples.join(', ')}</td>
+                <td class="py-3 px-4 font-bold text-green-700 text-sm italic">${item.freedom}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+</script>
+
+
+<script>
+
+function downloadSurveyToFile(result, fileName) {
+    alert("About to download Survey to: "+fileName)
+    const blob = new Blob([result], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".step");
+
+    function showSection(n) {
+        steps.forEach((s, index) => s.classList.toggle("active", index === n));
+        document.getElementById("prevBtn").style.visibility = n === 0 ? "hidden" : "visible";
+        document.getElementById("nextBtn").style.display = n === steps.length - 1 ? "none" : "inline-block";
+    }
+
+    function changeStep(n) {
+        currentStep += n;
+        if (currentStep >= 0 && currentStep < steps.length) {
+            showSection(currentStep);
+            window.scrollTo(0, 0);
+        }
+    }
+
+    // Make changeStep available globally
+    window.changeStep = changeStep;
+
+function changeStep(n) {
+    currentStep += n;
+    showSection(currentStep);
+    window.scrollTo(0,0);
+}
+
+
+// ==================== Core Functionality ====================
+
+// Save single field on change/blur
+document.querySelectorAll('input, textarea, select').forEach(el => {
+  el.addEventListener('input', saveField);
+  el.addEventListener('change', saveField);
+  el.addEventListener('blur', saveField);
+});
+
+function saveField(e) {
+  const id = e.target.id;
+  const value = e.target.value.trim();
+  if (id) localStorage.setItem(id, value);
+}
+
+// Load all saved values when page loads
+function loadAllData() {
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    const saved = localStorage.getItem(el.id);
+    if (saved !== null) el.value = saved;
+  });
+}
+
+
+// Generate & send formatted text via EmailJS         
+function saveSurvey() {
+    surveyId = document.getElementById('intro-q1').value;
+    let result = "Mind • Body • Spirit Workbook Submission\n";
+    result += "=======================================\n\n";
+    console.log('in saveSurvey dump:'+ result);
+
+    // Building the Email Report - Get all step data (Intro, Body, Mind, Spirit, Summary)
+    // Pulling title from h1 in each step and all textareas within
+    document.querySelectorAll('.step').forEach((step, idx) => {
+        const title = step.querySelector('h1').textContent;
+        result += `${title}\n`;
+        result += "----------------------------------------\n";
+
+        // Get all textareas in this step
+        step.querySelectorAll('textarea').forEach((textarea, qIdx) => {
+           // const label = textarea.previousElementSibling.textContent || `Question ${qIdx + 1}`;
+           // Fix
+            const label = (textarea.previousElementSibling && textarea.previousElementSibling.textContent.trim()) 
+                  || `Question ${qIdx + 1}`;
+
+            const answer = textarea.value.trim() || '[no answer]';
+            // Label example: "Sum Q1: Where are you at in life today...?"
+            // result += `Q${qIdx + 1}.${label}\n`;
+            // GIVES: Q1.Intro Q1: Where are you at in ...
+            result += `${label}\n`;
+            // GIVES: Intro Q1: Where are you at in ...
+            result += `Answer: ${answer}\n\n`;
+        });
+
+        result += "\n";
+    });
+
+    console.log('Survey dump:'+ result);
+    // Send email using EmailJS
+    // Get the actual text typed into the box
+    // APPARENTLY THE TEMPLATE has: "3d Life Strategies id" in the SUBJECT
+    surveyId = document.getElementById('intro-q1').value;
+    const templateParams = {
+        from_name: 'Workbook User1',
+        to_email: 'ssandrew_us@yahoo.com',
+        from_email: 'steven.scott.andrew@gmail.com',
+        subject: 'Mind Body Spirit Workbook - Submission',
+        title: 'Workbook_ID: '+surveyId,
+        message: result
+    };    
+    downloadSurveyToFile(templateParams.title + "\n" + result, "3d_Survey.txt");    
+}
+
+// Generate & send formatted text via EmailJS
+function sendEmail() {
+    let result = "Mind • Body • Spirit Workbook Submission\n";
+    result += "=======================================\n\n";
+
+    // Building the Email Report - Get all step data (Intro, Body, Mind, Spirit, Summary)
+    // Pulling title from h1 in each step and all textareas within
+    document.querySelectorAll('.step').forEach((step, idx) => {
+        const title = step.querySelector('h1').textContent;
+        result += `${title}\n`;
+        result += "----------------------------------------\n";
+
+        // Get all textareas in this step
+        step.querySelectorAll('textarea').forEach((textarea, qIdx) => {
+            // const label = textarea.previousElementSibling.textContent || `Question ${qIdx + 1}`;
+            // FIX where prior node is not always the label
+            const label = (textarea.previousElementSibling && textarea.previousElementSibling.textContent) 
+              || `Question ${qIdx + 1}`;
+
+            const answer = textarea.value.trim() || '[no answer]';
+            // Label example: "Sum Q1: Where are you at in life today...?"
+            // result += `Q${qIdx + 1}.${label}\n`;
+            // GIVES: Q1.Intro Q1: Where are you at in ...
+            result += `${label}\n`;
+            // GIVES: Intro Q1: Where are you at in ...
+            result += `Answer: ${answer}\n\n`;
+        });
+
+        result += "\n";
+    });
+
+    // Show loading state
+    const sendBtn = document.getElementById('sendBtn');
+    const originalText = sendBtn.textContent;
+    sendBtn.textContent = 'Sending...';
+    sendBtn.disabled = true;
+
+    // Send email using EmailJS
+    // APPARENTLY THE "EmailJS" TEMPLATE (template_t5temon) has: "3d Life Strategies id" in the SUBJECT prefix because the
+    // "title below is being appended to that.
+    surveyId = document.getElementById('intro-q1').value;
+    const templateParams = {
+        from_name: 'Workbook User1',
+        to_email: 'ssandrew_us@yahoo.com',
+        from_email: 'steven.scott.andrew@gmail.com',
+        subject: 'Mind Body Spirit Workbook - Submission',
+        title: 'Workbook_ID: '+surveyId,
+        message: result
+    };
+
+    console.log('Sending email with params:', templateParams);
+
+    emailjs.send('service_6gb9xvu', 'template_t5temon', templateParams, {
+        publicKey: 'mn9U2zCoel2CNRQ1W',
+    })
+        .then(function(response) {
+            console.log('Email sent successfully!', response.status, response.text);
+            // alert('Workbook sent successfully! Status: ' + response.status + ', Text: ' + response.text);
+            // Show success message
+            const notification = document.createElement('div');
+            notification.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #10b981; color: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 9999; max-width: 400px;';
+            notification.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-check-circle" style="width: 20px; height: 20px;"></i><span><b>Thank you for submitting your workbook!</b><br /><i>We\'ll starting working on the next steps and get back to you soon.</i></span></div>';
+            document.body.appendChild(notification);
+
+            // Remove notification after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+	        // Redirect to the steps page
+                window.location.href = "https://3dlifestrategies.org/beta/steps.html";
+            }, 5000);            
+        })
+        .catch(function(error) {
+            console.error('Failed to send email:', error);
+            alert('Failed to send email. Error: ' + JSON.stringify(error));
+
+            // Show error message
+            const errorMessage = error.text || error.message || 'Unknown error occurred';
+            const notification = document.createElement('div');
+            notification.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #ef4444; color: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 9999; max-width: 400px;';
+            notification.innerHTML = `<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-exclamation-circle" style="width: 20px; height: 20px;"></i><span>Failed to send: ${errorMessage}</span></div>`;
+            document.body.appendChild(notification);
+
+            // Remove notification after 7 seconds for errors
+            setTimeout(() => {
+                notification.remove();
+            }, 7000);
+        })
+        .finally(function() {
+            // Reset button state
+            sendBtn.textContent = originalText;
+            sendBtn.disabled = false;
+        });
+}
+
+// Make sendEmail available globally
+window.sendEmail = sendEmail;
+// Make saveSurvey available globally
+window.saveSurvey = saveSurvey;
+
+// ==================== Initialization ====================
+    loadAllData();
+    showSection(0); // start on step 0
+});
+
+  const middleCode = "BETA"; // Easily changeable
+
+  document.getElementById('intro-q1').addEventListener('blur', function(e) {
+    const val = e.target.value;
+    const parts = val.split('_');
+    const isValid = parts.length === 3 &&
+		    ( val.length > 15 && val.length < 25 ) &&
+                    ( parts[1] === middleCode | parts[1] === "SA" |  parts[1] === "JM" | parts[1] === "NH" ) &&
+                    !isNaN(parts[0]) && !isNaN(parts[2]) &&
+                    parts[0] !== "" && parts[2] !== "";
+
+    if (isValid) {
+        console.log("Success");
+        e.target.style.borderColor = "#ccc";
+    } else {
+        alert("Invalid ID format");
+        e.target.style.borderColor = "red";
+    }
+  });
+
+</script>
+
+<script>
+// CLEAR all the local survey cached fields 
+function clearLocalSurvey() {
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    // alert(" - matched id clearLocalSurvey "+el.id);
+    if (el.id) {
+      localStorage.removeItem(el.id);
+      el.value = ""; // optional: visually clear fields immediately
+    }
+  });
+  alert("All saved survey data has been cleared.");
+}
+</script>
+
+</body>
+</html>

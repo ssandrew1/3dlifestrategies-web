@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Care Tracker</title>
+    <style>
+        :root {
+            --primary: #6b8e23;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --border: #e0e0e0;
+            --accent-pill: #ffebee;
+            --accent-breath: #e3f2fd;
+            --accent-lotion: #f3e5f5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .date-selector {
+            font-size: 1.1rem;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .grid-header {
+            display: grid;
+            grid-template-columns: 100px 1fr 200px;
+            font-weight: bold;
+            padding: 10px;
+            background: #eee;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .hour-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 200px;
+            align-items: center;
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .hour-row:hover { background-color: #fcfcfc; }
+
+        .time-label { font-weight: 600; color: #666; }
+
+        .task-list { display: flex; flex-wrap: wrap; gap: 10px; }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Task specific colors */
+        .task-pill { background: var(--accent-pill); }
+        .task-inhaler { background: #e8f5e9; }
+        .task-breath { background: var(--accent-breath); }
+        .task-lotion { background: var(--accent-lotion); }
+
+        .notes-input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-print { background: #555; color: white; }
+        .btn-save { background: var(--primary); color: white; }
+
+        @media print {
+            .btn-print, .date-selector, .btn-save, .controls { display: none; }
+            body { padding: 0; }
+            .container { box-shadow: none; max-width: 100%; }
+        }
+
+        input[type="checkbox"] { transform: scale(1.2); cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1 style="margin:0; color: var(--primary);">Daily Care Tracker</h1>
+            <p style="margin:5px 0 0 0; font-style: italic; color: #777;">Mother-in-Law's Care Log</p>
+        </div>
+        <input type="date" id="currentDate" class="date-selector">
+    </header>
+
+    <div class="grid-header">
+        <div>Time</div>
+        <div>Care Tasks</div>
+        <div>Notes</div>
+    </div>
+
+    <div id="trackerGrid">
+        </div>
+
+    <div class="controls">
+        <button class="btn-print" onclick="window.print()">Print Daily Report</button>
+    </div>
+</div>
+
+<script>
+    const trackerGrid = document.getElementById('trackerGrid');
+    const dateInput = document.getElementById('currentDate');
+
+    // Set default date to today
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.value = today;
+
+    const hours = [
+        {h: 6, label: "6 AM", tasks: ["pill-am"]},
+        {h: 7, label: "7 AM", tasks: ["breath"]},
+        {h: 8, label: "8 AM", tasks: ["inhaler", "lotion"]},
+        {h: 9, label: "9 AM", tasks: ["breath"]},
+        {h: 10, label: "10 AM", tasks: []},
+        {h: 11, label: "11 AM", tasks: ["breath"]},
+        {h: 12, label: "12 PM", tasks: ["inhaler"]},
+        {h: 13, label: "1 PM", tasks: ["breath"]},
+        {h: 14, label: "2 PM", tasks: []},
+        {h: 15, label: "3 PM", tasks: ["breath"]},
+        {h: 16, label: "4 PM", tasks: ["inhaler"]},
+        {h: 17, label: "5 PM", tasks: ["breath"]},
+        {h: 18, label: "6 PM", tasks: ["pill-pm"]},
+        {h: 19, label: "7 PM", tasks: ["breath"]},
+        {h: 20, label: "8 PM", tasks: ["inhaler", "lotion"]},
+        {h: 21, label: "9 PM", tasks: ["breath"]},
+        {h: 22, label: "10 PM", tasks: []}
+    ];
+
+    const taskMeta = {
+        "pill-am": { icon: "??", label: "Morning Pills (Yogurt/Water)", class: "task-pill" },
+        "pill-pm": { icon: "??", label: "Dinner Pills (Water)", class: "task-pill" },
+        "inhaler": { icon: "??", label: "Inhaler", class: "task-inhaler" },
+        "breath":  { icon: "??", label: "Breathing Exercise", class: "task-breath" },
+        "lotion":  { icon: "??", label: "Lotion on Legs", class: "task-lotion" }
+    };
+
+    function renderGrid() {
+        trackerGrid.innerHTML = '';
+        const selectedDate = dateInput.value;
+        const savedData = JSON.parse(localStorage.getItem('careData_' + selectedDate) || '{}');
+
+        hours.forEach(hour => {
+            const row = document.createElement('div');
+            row.className = 'hour-row';
+            
+            let taskHtml = '<div class="task-list">';
+            hour.tasks.forEach(tKey => {
+                const task = taskMeta[tKey];
+                const checked = savedData[hour.h + '_' + tKey] ? 'checked' : '';
+                taskHtml += `
+                    <label class="task-item ${task.class}">
+                        <input type="checkbox" data-hour="${hour.h}" data-task="${tKey}" ${checked} onchange="saveData()">
+                        ${task.icon} ${task.label}
+                    </label>
+                `;
+            });
+            taskHtml += '</div>';
+
+            const noteValue = savedData[hour.h + '_note'] || '';
+
+            row.innerHTML = `
+                <div class="time-label">${hour.label}</div>
+                ${taskHtml}
+                <div>
+                    <input type="text" class="notes-input" placeholder="Notes..." 
+                           data-hour="${hour.h}" data-type="note" value="${noteValue}" oninput="saveData()">
+                </div>
+            `;
+            trackerGrid.appendChild(row);
+        });
+    }
+
+    function saveData() {
+        const selectedDate = dateInput.value;
+        const data = {};
+        
+        // Save Checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            const key = cb.dataset.hour + '_' + cb.dataset.task;
+            data[key] = cb.checked;
+        });
+
+        // Save Notes
+        document.querySelectorAll('.notes-input').forEach(ni => {
+            const key = ni.dataset.hour + '_note';
+            data[key] = ni.value;
+        });
+
+        localStorage.setItem('careData_' + selectedDate, JSON.stringify(data));
+    }
+
+    dateInput.addEventListener('change', renderGrid);
+    window.onload = renderGrid;
+</script>
+
+</body>
+</html>

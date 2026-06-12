@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Life Strategies | Comprehensive Study Guide</title>
+    
+    <!-- Google Material Icons & Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #1e293b; 
+            --accent: #c5a47e; 
+            --bg: #f8fafc;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        .serif { font-family: 'Playfair Display', serif; }
+
+        /* TTS Controller Styles */
+        .tts-container { 
+            position: sticky;
+            top: 20px;
+            z-index: 50;
+            padding: 20px; 
+            border: 1px solid rgba(226, 232, 240, 1); 
+            border-radius: 16px; 
+            background: #ffffff; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--accent);
+            max-width: 300px;
+            margin-bottom: 2rem;
+        }
+
+        .tts-header {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.7rem;
+        }
+
+        .tts-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tts-controls button { 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f1f5f9;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+        }
+
+        .tts-controls button:hover:not(:disabled) { 
+            background: var(--accent);
+            color: white;
+        }
+
+        .tts-controls .play-btn { background: var(--primary); color: white; }
+
+        /* Document Styling */
+        .content-card {
+            background: white;
+            padding: 60px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e2e8f0, transparent);
+            margin: 3rem 0;
+        }
+
+        h2 { border-left: 4px solid var(--accent); padding-left: 1rem; margin-top: 3rem; margin-bottom: 1.5rem; font-weight: 700; font-size: 1.75rem; }
+        h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #475569; margin-top: 2rem; }
+
+        /* Table Design */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .custom-table th {
+            background-color: #f8fafc;
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 2px solid var(--accent);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .custom-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* Quiz Styling */
+        .quiz-item { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px dashed #e2e8f0; }
+        .quiz-q { font-weight: 600; color: #334155; }
+        
+        .answer-box { background: #fdfbf9; border: 1px solid #f3e8d7; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; }
+        .answer-item { margin-bottom: 1.25rem; font-size: 0.95rem; }
+        .answer-label { font-weight: 700; color: var(--accent); margin-right: 5px; }
+
+        .tag {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-12">
+
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row gap-8">
+        
+        <!-- Sidebar Controls -->
+        <aside class="md:w-1/4">
+            <div class="tts-container">
+                <span class="tts-header">Study Audio Guide</span>
+                <div class="tts-controls">
+                    <button id="playBtn" class="play-btn" title="Start Reading">
+                        <span class="material-icons">play_arrow</span>
+                    </button>
+                    <button id="pauseBtn" title="Pause" disabled>
+                        <span class="material-icons">pause</span>
+                    </button>
+                    <button id="stopBtn" title="Reset" disabled>
+                        <span class="material-icons">stop</span>
+                    </button>
+                </div>
+                <div class="mt-4 text-[10px] text-slate-400 uppercase tracking-tighter">
+                    Status: <span id="tts-status-text">Ready</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Document Content -->
+        <main id="text-to-read" class="md:w-3/4 content-card">
+            
+            <header class="mb-10">
+                <span class="tag">CURRICULUM OVERVIEW</span>
+                <h1 class="serif text-4xl mb-4">3D Life Strategies: Integrating Gifts, Talents, and Action</h1>
+                <p class="text-slate-500 text-lg leading-relaxed italic">
+                    This study guide provides a comprehensive overview of the "3D Life Strategies" framework, focusing on the holistic development of an individual's Body, Mind, and Spirit.
+                </p>
+            </header>
+
+            <section>
+                <h2 class="serif">I. The 3D Life Strategies Framework</h2>
+                <p>The 3D Life Strategies approach is built upon the premise that every individual possesses God-given gifts and talents. The framework operates through a specific process of personal evolution:</p>
+                
+                <h3>The 3D Process</h3>
+                <ul class="list-disc pl-6 space-y-2 mt-4">
+                    <li><strong>Discovery:</strong> Identifying one's personality, character, and KSAs (Knowledge, Skills, and Abilities).</li>
+                    <li><strong>Decision:</strong> Making the choice to move forward with these identified traits.</li>
+                    <li><strong>Development:</strong> Working with a coach to establish SMART Goals that turn latent abilities into active development.</li>
+                </ul>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">II. Biblical Foundations of Action and Stewardship</h2>
+                <p>Knowledge without action is "vanity." The following biblical principles form the foundation for using one's talents:</p>
+                <ul class="space-y-4 mt-4">
+                    <li><strong>James 1:22:</strong> Instruction to be "doers of the word" rather than just hearers.</li>
+                    <li><strong>James 4:17:</strong> States that failing to do the right thing when one knows it is considered sin.</li>
+                    <li><strong>John 13:17:</strong> Notes that a blessing comes from doing what is known, not just knowing it.</li>
+                </ul>
+                <h3 class="mt-6">Stewardship and Accountability</h3>
+                <p><strong>Stewardship vs. Ownership:</strong> Individuals are stewards, not owners, of their skills. Careers and hobbies are property entrusted by God to be managed for His kingdom.</p>
+                <p><strong>The Risk of Inaction:</strong> Fear is the primary enemy of action. As seen in the Parable of the Talents, burying a talent due to insecurity is a waste of divine opportunity.</p>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">III. KSAs vs. Spiritual Gifts</h2>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Natural Talents / KSAs</th>
+                            <th>Spiritual Gifts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Source</td>
+                            <td>Genetic inheritance and environment</td>
+                            <td>The Holy Spirit (at spiritual birth)</td>
+                        </tr>
+                        <tr>
+                            <td>Purpose</td>
+                            <td>Personal success or societal benefit</td>
+                            <td>To edify the Church and glorify God</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="mt-8">The Intersection Matrix</h3>
+                <div class="space-y-3 mt-4">
+                    <div class="p-3 border rounded-lg bg-slate-50"><strong>Strategic Planning + Administration:</strong> Resulting in leading church projects or non-profits.</div>
+                    <div class="p-3 border rounded-lg bg-slate-50"><strong>Empathy + Exhortation:</strong> Resulting in counseling or mentoring.</div>
+                    <div class="p-3 border rounded-lg bg-slate-50"><strong>Writing + Teaching:</strong> Resulting in explaining theology or devotionals.</div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">IV. Identification and Discovery</h2>
+                <p>The "expert's curse" involves believing that because a task is easy for you, it is not a skill.</p>
+                <h3 class="mt-6">The Three-Circle Alignment</h3>
+                <p>To find the "sweet spot" for action, one should look for the overlap of three areas:</p>
+                <ul class="list-disc pl-6 mt-2">
+                    <li><strong>Ability (The "Can"):</strong> What you are naturally good at.</li>
+                    <li><strong>Affinity (The "Want"):</strong> What you care about.</li>
+                    <li><strong>Affirmation (The "Call"):</strong> What others and spiritual fruit indicate.</li>
+                </ul>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section>
+                <h2 class="serif">VI. Short-Answer Quiz</h2>
+                <div class="space-y-4">
+                    <div class="quiz-item"><p class="quiz-q">1. What are the three specific "D's" in the 3D process?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">2. Why are KSAs considered only a "starting point"?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">5. What is the "expert's curse"?</p></div>
+                    <div class="quiz-item"><p class="quiz-q">10. What role does "Flow State" play in identifying talents?</p></div>
+                </div>
+            </section>
+
+            <section class="answer-box">
+                <h2 class="serif mt-0 border-none pl-0">VII. Answer Key (Selected)</h2>
+                <div class="space-y-4 text-slate-700">
+                    <div class="answer-item"><span class="answer-label">1.</span> Discovery, Decision, and Development.</div>
+                    <div class="answer-item"><span class="answer-label">2.</span> Because without "Action" or "Works," they are considered vanity.</div>
+                    <div class="answer-item"><span class="answer-label">10.</span> Flow state refers to activities where you lose track of time; identifying these moments identifies God-given design.</div>
+                </div>
+            </section>
+
+            <footer class="mt-20 pt-10 border-t text-center text-xs text-slate-400">
+                &copy; 2024 3D Life Strategies | Comprehensive Study Guide
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const statusText = document.getElementById('tts-status-text');
+        
+        const synth = window.speechSynthesis;
+        let utterance = null;
+
+        /**
+         * Safely fetches available voices. 
+         * Note: Chromium/Safari load these asynchronously.
+         */
+        function getVoices() {
+            return new Promise((resolve) => {
+                let voices = synth.getVoices();
+                if (voices.length > 0) {
+                    resolve(voices);
+                    return;
+                }
+                synth.onvoiceschanged = () => {
+                    voices = synth.getVoices();
+                    resolve(voices);
+                };
+            });
+        }
+
+        async function findBestVoice() {
+            const voices = await getVoices();
+            const preferred = ['Google US English', 'Microsoft Zira', 'Samantha', 'en-US'];
+            for (let name of preferred) {
+                const voice = voices.find(v => v.name.includes(name));
+                if (voice) return voice;
+            }
+            return voices.find(v => v.lang.startsWith('en')) || voices[0];
+        }
+
+        // Handle Play/Resume
+        playBtn.addEventListener('click', async () => {
+            // Error handling for empty synth
+            if (!synth) {
+                statusText.innerText = "TTS Not Supported";
+                return;
+            }
+
+            if (synth.speaking && synth.paused) {
+                synth.resume();
+                statusText.innerText = "Resumed...";
+                toggleButtons(true);
+                return;
+            }
+
+            // Always clear existing state to prevent "isTrusted" / stuck issues
+            synth.cancel();
+
+            const text = document.getElementById('text-to-read').innerText;
+            if (!text.trim()) return;
+
+            utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            
+            // Assign voice
+            const voice = await findBestVoice();
+            if (voice) utterance.voice = voice;
+
+            // Events
+            utterance.onstart = () => {
+                statusText.innerText = "Speaking...";
+                toggleButtons(true);
+            };
+
+            utterance.onend = () => {
+                statusText.innerText = "Finished";
+                toggleButtons(false);
+            };
+
+            utterance.onerror = (event) => {
+                console.error("Speech Error:", event);
+                statusText.innerText = "Audio Error";
+                toggleButtons(false);
+            };
+
+            // Start speaking
+            synth.speak(utterance);
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            if (synth.speaking && !synth.paused) {
+                synth.pause();
+                statusText.innerText = "Paused";
+                playBtn.disabled = false;
+                pauseBtn.disabled = true;
+            }
+        });
+
+        stopBtn.addEventListener('click', () => {
+            synth.cancel();
+            statusText.innerText = "Stopped";
+            toggleButtons(false);
+        });
+
+        function toggleButtons(isPlaying) {
+            playBtn.disabled = isPlaying;
+            pauseBtn.disabled = !isPlaying;
+            stopBtn.disabled = !isPlaying;
+        }
+
+        // Pre-fetch voices to ensure "Ready" state
+        window.onload = () => {
+            getVoices().then(() => {
+                statusText.innerText = "Ready";
+            });
+        };
+    </script>
+</body>
+</html>

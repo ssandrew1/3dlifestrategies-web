@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working with Participants | 3D Life Strategies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c5a47e;
+            --bg: #f9f8f6;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .tile {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .tile:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+        .step-pill {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .btn-go {
+            transition: all 0.25s ease;
+        }
+        .btn-go:hover {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .tile {
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards;
+        }
+        .tile:nth-child(1) { animation-delay: 0.05s; }
+        .tile:nth-child(2) { animation-delay: 0.12s; }
+        .tile:nth-child(3) { animation-delay: 0.19s; }
+        .tile:nth-child(4) { animation-delay: 0.26s; }
+        .tile:nth-child(5) { animation-delay: 0.33s; }
+        .tile:nth-child(6) { animation-delay: 0.40s; }
+        .tile:nth-child(7) { animation-delay: 0.47s; }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+    <nav class="p-6 border-b border-black/5 bg-white/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="steps.html" class="text-xs font-bold uppercase tracking-widest hover:text-[#c5a47e] transition-colors">← Steps</a>
+            <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Discovery Phase: Intro</span>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 pb-24">
+            <section>
+                <h2 class="serif text-[#c5a47e] text-2xl">The 3D Life Strategies Framework: </h2>
+                <br />
+                <p>The 3D Life Strategies approach is built upon the premise that every individual possesses God-given gifts and talents. The framework operates through a specific process of personal discovery that also nurtures processes for life-long learning and ways to implement utilizing generative ai.</p>
+                <section>                 
+                <b class="font-bold tracking-widest text-[#c5a47e]">Note:</b><i class="text-xs">To continue the 3-D Steps, please acknowledge and accept our <a href="3DLS_AI_Disclosure_Statement.pdf" 
+                    class="text-xs font-bold tracking-widest text-[#c5a47e]">AI Disclosure Statement</a> and <a href="3DLS_Data_Handling_Policy.pdf"   class="text-xs font-bold tracking-widest text-[#c5a47e]">Data Handling Policy</a> </i> 
+                </section>
+                <br />
+                <h3 class="text-[#c5a47e] text-2xl">The 3D Process</h3>
+                <ul class="list-disc pl-6 space-y-2 mt-4">
+                    <li><strong>Discovery:</strong> Identifying one's personality, character, and KSAs (Knowledge, Skills, and Abilities).</li>
+                    <li><strong>Decision:</strong> Making the choice to move forward with these identified traits.</li>
+                    <li><strong>Development:</strong> Ideally working with a coach or mentor to establish SMART Goals that turn latent abilities into active development.</li>
+                </ul>
+                <br />
+                <h3 class="text-[#c5a47e] text-2xl">The Steps</h3>
+                <ol class="list-disc pl-6 space-y-2 mt-4 text-1xl">
+                    <li><h4 class="text-[#c5a47e] text-1xl"><b>Step 1</b></h4>
+                        <strong>Understanding 3D:</strong> This first step takes your through some slides on 3D. This gives you a clear understanding of how it all works. 
+                        So, for this first Discovery part, you will only have to fill out 2 surveys. One personality, and one body/mind/spirit.</li>                    
+                        <li><h4 class="text-[#c5a47e] text-1xl"><b>Step 2</b></h4>
+                        <strong>Personality Matters:</strong> So we provide a test that reveals key factors of your personality, character, and KSAs (Knowledge, Skills, and Abilities). Understanding your natural tendencies is the first step in Stewardship. This assessment measures the "Big Five" traits to help us align your KSAs with your God-given purpose.</li>
+                        <li><h4 class="text-[#c5a47e] text-1xl"><b>Step 3</b></h4>
+                        <strong>Survey Questions:</strong> The 4th step is where the main 3D survey questions are filled out.  This along with your personality assessment is used with AI to create the "Discovery" Report. Once the survey is submitted, it will be emailed to the related party or coach. <br />
+<B>NOTE: </B> Garbage-in → Garbage-out.  So, your journey / discovery is only as good or honest as you make it.</li>
+                    <li><h4 class="text-[#c5a47e] text-1xl"><b>We Email Your Discovery Report</b></h4>
+                    <strong>Report Review:</strong> Ideally, if working with a coach or mentor, you sit with them and have an honest discussion about your findings, goals, and areas to grow. The Report is based solely on your inputs and personality values provided. It will provide summaries, suggested books, and AI prompts to help you "Decide" what to "Develop" next on your 3D journey. </li>
+                    <li><h4 class="text-[#c5a47e] text-1xl"><b>Final Follow-up for you to Decide and Develop</b></h4>
+                        We will send you a couple follow-up emails to help you put what you "Discovered" into action. </li>
+
+                </ol>
+            </section>
+
+<!-- IMAGE PLACEHOLDER -->
+<div class="max-w-7xl mx-auto px-6 mt-2 ">
+    <div class="rounded-2xl scale-[.8] overflow-hidden border border-[#c5a47e]/80">
+        <img src="Goals_Talents_Journey_Map.avif" 
+             alt="Goals Talents Journey Map"
+             class="w-full block scale-[.95]">
+    </div>
+</div>
+
+    <!-- TILES GRID -->
+    <main class="max-w-7xl mx-auto px-6 pb-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-black/5 py-10 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <span class="font-bold text-sm tracking-widest uppercase text-[#c5a47e]">3D Life Strategies</span>
+                <span class="text-gray-300 text-sm">|</span>
+                <span class="text-gray-400 text-sm font-light">Transform Passive Knowledge into Vocational Action</span>
+            </div>
+            <a href="https://3dlifestrategies.org" class="text-xs font-bold tracking-widest text-gray-400 uppercase hover:text-[#c5a47e] transition-colors">3dlifestrategies.org</a>
+        </div>
+    </footer>
+
+</body>
+</html>

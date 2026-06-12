@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Wizard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --accent: #c5a47e; --ink: #0f172a; --bg: #f9f8f6; }
+    body { background: var(--bg); color: var(--ink); }
+    .serif { font-family: 'Playfair Display', ui-serif, Georgia, serif; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2">
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <div class="flex items-baseline gap-3 flex-wrap">
+          <div class="text-xs font-bold uppercase tracking-[0.25em] text-gray-400">3D Guided Wizard</div>
+          <div class="font-extrabold text-slate-900">
+            <span id="stepPrefix">Welcome</span>
+            <span class="hidden" id="stepCounter">
+              Step <span id="stepNum">1</span> of <span id="stepTotal">3</span>:
+            </span>
+            <span id="stepTitle">Welcome to 3D</span>
+          </div>
+        </div>
+        <a href="steps.html" class="text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors">← Back to Steps</a>
+      </div>
+
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <div class="text-xs text-slate-600">
+          <span class="font-bold">Tip:</span> Complete each step, then click Next. Your personality scores will auto-carry into the survey.
+          <span id="personalityStatus" class="hidden">• Personality complete</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="prevBtn" class="px-3 py-1.5 text-xs font-bold uppercase tracking-widest border border-black/10 rounded-full bg-white hover:bg-gray-50 transition" type="button">Previous</button>
+          <button id="nextBtn" class="px-3 py-1.5 text-xs font-bold uppercase tracking-widest border border-black rounded-full bg-black text-white hover:bg-[color:var(--accent)] hover:border-[color:var(--accent)] transition" type="button">Next</button>
+        </div>
+      </div>
+
+      <div class="w-full h-1 bg-gray-200 overflow-hidden rounded">
+        <div id="bar" class="h-full bg-[color:var(--accent)]" style="width: 25%"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-4">
+    <div class="bg-white border border-black/5 rounded-xl overflow-hidden shadow-sm">
+      <iframe id="frame" title="3D Wizard Step" class="w-full" style="height: calc(100vh - 170px);" referrerpolicy="no-referrer"></iframe>
+    </div>
+  </main>
+
+  <div id="finishBlockedPopup" style="display:none; position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#dc2626; color:#fff; padding:1.25rem 1.5rem; border-radius:0.5rem; box-shadow:0 10px 25px rgba(0,0,0,0.2); z-index:9999; max-width:520px; font-size:0.95rem; font-weight:600; text-align:center;">
+    You must complete all 5 pages and then Submit on end of Summary and Action Page 5
+  </div>
+
+  <script>
+    const WIZ_KEY = '3d_wizard_step';
+    const SURVEY_VISITED_KEY = '3d_survey_visited';
+    const SURVEY_SUBMITTED_KEY = '3d_survey_submitted';
+
+    // Wizard flow: show welcome first, then Steps 1..3.
+    // Index mapping:
+    // 0 = Welcome (pre-step)
+    // 1 = Step 1 (PDF)
+    // 2 = Step 2 (Personality)
+    // 3 = Step 3 (Survey)
+    const steps = [
+      { title: 'Welcome to 3D', url: 'welcome_3d.html', kind: 'welcome' },
+      { title: 'Resource PDF', url: 'The_CNN_Ability_Framework.pdf', kind: 'step' },
+      { title: 'Personality Assessment', url: 'personality.html', kind: 'step' },
+      { title: 'Workbook Survey (5 pages)', url: 'survey.html', kind: 'step' },
+    ];
+
+    let idx = 0;
+    let personalityCompleted = false;
+
+    function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+    function loadIdx() {
+      const raw = localStorage.getItem(WIZ_KEY);
+      const n = Number(raw);
+      if (!Number.isFinite(n)) return;
+      // Migrate saved progress from old 4-step layout (with Passion & Purpose at idx 2).
+      let migrated = n;
+      if (n === 2) migrated = 2;       // was Passion → Personality
+      else if (n === 3) migrated = 2;  // was Personality
+      else if (n >= 4) migrated = 3;   // was Survey
+      idx = clamp(migrated, 0, steps.length - 1);
+    }
+
+    function saveIdx() {
+      localStorage.setItem(WIZ_KEY, String(idx));
+    }
+
+    function isSurveyComplete() {
+      try {
+        const visited = JSON.parse(localStorage.getItem(SURVEY_VISITED_KEY) || '[]');
+        const required = [0, 1, 2, 3, 4];
+        const allVisited = required.every(function(i) { return visited.indexOf(i) !== -1; });
+        const submitted = localStorage.getItem(SURVEY_SUBMITTED_KEY) === 'true';
+        return allVisited && submitted;
+      } catch (err) {
+        return false;
+      }
+    }
+
+    function showFinishBlockedPopup() {
+      const popup = document.getElementById('finishBlockedPopup');
+      if (!popup) return;
+      popup.style.display = 'block';
+      clearTimeout(window._finishPopupTimer);
+      window._finishPopupTimer = setTimeout(function() {
+        popup.style.display = 'none';
+      }, 7000);
+    }
+
+    function updateUI() {
+      const step = steps[idx];
+      const stepPrefixEl = document.getElementById('stepPrefix');
+      const stepCounterEl = document.getElementById('stepCounter');
+      const stepTitleEl = document.getElementById('stepTitle');
+
+      // Display "Welcome" as a pre-step, then Steps 1..3.
+      if (idx === 0) {
+        if (stepPrefixEl) stepPrefixEl.textContent = 'Welcome:';
+        if (stepCounterEl) stepCounterEl.classList.add('hidden');
+      } else {
+        if (stepPrefixEl) stepPrefixEl.textContent = '';
+        if (stepCounterEl) stepCounterEl.classList.remove('hidden');
+      }
+
+      // Steps 1..3 (exclude welcome from counter)
+      const totalMainSteps = steps.length - 1;
+      const currentMainStep = Math.max(0, idx); // 0 for welcome, else 1..3
+      if (idx > 0) {
+        document.getElementById('stepNum').textContent = String(currentMainStep);
+        document.getElementById('stepTotal').textContent = String(totalMainSteps);
+      } else {
+        document.getElementById('stepNum').textContent = '0';
+        document.getElementById('stepTotal').textContent = String(totalMainSteps);
+      }
+
+      if (stepTitleEl) stepTitleEl.textContent = step.title;
+      document.title = idx === 0 ? '3D Wizard (Welcome)' : `3D Wizard (Step ${currentMainStep} of ${totalMainSteps})`;
+
+      const pct = Math.round(((idx + 1) / steps.length) * 100);
+      document.getElementById('bar').style.width = pct + '%';
+
+      document.getElementById('prevBtn').disabled = idx === 0;
+      document.getElementById('prevBtn').classList.toggle('opacity-40', idx === 0);
+
+      // Soft-gate: remind on final step if personality scores not cached.
+      const nextBtn = document.getElementById('nextBtn');
+      if (idx === steps.length - 1) nextBtn.textContent = 'Finish';
+      else nextBtn.textContent = 'Next';
+
+      const status = document.getElementById('personalityStatus');
+      status.classList.toggle('hidden', !personalityCompleted);
+    }
+
+    function navigateToStep() {
+      const step = steps[idx];
+      document.getElementById('frame').src = step.url;
+      saveIdx();
+      updateUI();
+    }
+
+    function go(delta) {
+      idx = clamp(idx + delta, 0, steps.length - 1);
+      navigateToStep();
+    }
+
+    // Listen for personality / survey completion when running inside the iframe.
+    window.addEventListener('message', (e) => {
+      const data = e && e.data;
+      if (!data || typeof data !== 'object') return;
+      if (data.type !== '3d:wizard') return;
+      if (data.event === 'personality:completed') {
+        personalityCompleted = true;
+        updateUI();
+        // Optional: auto-advance to survey after a short beat (only if currently on personality step).
+        if (idx === 2) setTimeout(() => go(1), 700);
+      }
+      if (data.event === 'survey:submitted') {
+        updateUI();
+      }
+    });
+
+    // Bootstrap
+    // If user clicks "Start 3‑Step Wizard" (wizard.html?start=1), always start at Welcome.
+    // If they return later without ?start=1, honor stored progress.
+    const fromStartButton = new URLSearchParams(location.search).get('start') === '1';
+    loadIdx();
+    if (fromStartButton) {
+      idx = 0;
+      saveIdx();
+    }
+    // Also infer personality completion if cache already exists.
+    try {
+      personalityCompleted = !!localStorage.getItem('intro-q7');
+    } catch (err) {}
+
+    document.getElementById('prevBtn').addEventListener('click', () => go(-1));
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (idx === steps.length - 1) {
+        if (!isSurveyComplete()) {
+          showFinishBlockedPopup();
+          return;
+        }
+        // reset so next run starts at step 1
+        localStorage.removeItem(WIZ_KEY);
+        window.location.href = 'steps.html';
+        return;
+      }
+      go(1);
+    });
+
+    navigateToStep();
+  </script>
+</body>
+</html>
+

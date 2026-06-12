@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | 3D Life Strategies</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Embedded Site Styles -->
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c5a47e;
+            --accent-light: #eaddcd;
+            --bg: #fdfcfb;
+            --card-bg: #ffffff;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #1a1a1a 0%, #c5a47e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* Added padding and adjusted display to prevent descenders from cutting off */
+            display: inline-block;
+            padding-bottom: 0.15em;
+            line-height: 1.2;
+        }
+        .step-card {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .step-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .bio-role {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .story-bullet {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .story-bullet::before {
+            content: '•';
+            position: absolute;
+            left: 0.5rem;
+            color: var(--accent);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Navigation Placeholder (Matches your branding) -->
+    <nav class="py-6 px-6 max-w-7xl mx-auto flex justify-between items-center">
+             <div>
+                <a href="index.html" class="text-sm font-bold tracking-widest text-[#c5a47e] uppercase mb-4 block hover:opacity-70 transition-opacity">← Back to Main Site</a>                
+            </div>
+        <div class="text-xl font-bold serif">3D Life Strategies</div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="text-center pt-16 pb-12 px-6">
+        <span class="bio-role">The Heart of Our Mission</span>
+        <h1 class="text-5xl md:text-6xl font-bold serif mb-4">
+            <span class="gradient-text">About 3D Life Strategies</span>
+        </h1>
+        <p class="max-w-2xl mx-auto text-gray-600 text-lg">Combining faith, experience, and innovation to help you align Body, Mind, and Spirit.</p>
+    </header>
+
+    <!-- GROUP PHOTO PLACEHOLDER 
+         To use: Uncomment the section below and replace the 'src' with your photo URL.
+    -->
+    <!-- 
+    <section class="max-w-6xl mx-auto px-6 mb-20">
+        <div class="w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+            <img src="YOUR_IMAGE_URL_HERE" alt="Neal, Jay, and Steve" class="w-full h-full object-cover" />
+        </div>
+    </section>
+    -->
+
+    <!-- Vision Section -->
+    <section class="max-w-4xl mx-auto px-6 mb-24 text-center">
+        <div class="bg-stone-100 p-12 rounded-3xl border border-stone-200">
+            <i data-lucide="quote" class="mx-auto mb-6 text-stone-300 w-12 h-12"></i>
+            <h2 class="text-3xl md:text-4xl serif font-bold mb-6 italic">"Helping people discover where they are, decide where they want to go, and develop a clear path to becoming their best self."</h2>
+            <div class="w-20 h-1 bg-accent mx-auto mb-6"></div>
+            <p class="text-stone-500 uppercase tracking-widest text-sm font-semibold">Our Shared Vision</p>
+        </div>
+    </section>
+
+    <!-- The Team Founders -->
+    <section class="max-w-7xl mx-auto px-6 mb-32">
+        <div class="flex items-center justify-between mb-12">
+            <h2 class="text-4xl serif font-bold">The Founders</h2>
+            <div class="hidden md:block h-px flex-grow ml-8 bg-gray-200"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            
+            <!-- Neal -->
+            <div class="step-card bg-white border border-gray-100 rounded-2xl p-8 flex flex-col shadow-sm">
+                <div class="mb-6 w-16 h-16 bg-stone-50 rounded-full flex items-center justify-center text-accent">
+                    <i data-lucide="heart-pulse"></i>
+                </div>
+                <div class="mb-6 h-80 w-full overflow-hidden rounded-xl bg-stone-50">
+                    <img src="neal_hayes.jpeg" class="w-full h-full object-cover object-top">
+                </div>                
+                <span class="bio-role">Visionary & Founder</span>
+                <h3 class="text-2xl serif font-bold mb-4">Neal Hayes</h3>
+                <div class="text-gray-600 leading-relaxed space-y-4 text-sm flex-grow">
+                    <p>He is an ordained chaplain and certified life coach who helps individuals and teams grow with purpose and clarity. With a background in medical sales, family business leadership, and staff development, he brings a practical approach to growth.</p>
+                    <p>As the founder of 3D Life Strategies, Neal created The 3D Playbook—a holistic framework for Body, Mind, and Spirit as the foundation for meaningful life change.</p>
+                    <p>Neal has served as a workplace chaplain and character coach, walking alongside people through pivotal life moments with a deep commitment to faith and family.</p>
+                </div>
+            </div>
+
+            <!-- Jay -->
+            <div class="step-card bg-white border border-gray-100 rounded-2xl p-8 flex flex-col shadow-sm">
+                <div class="mb-6 w-16 h-16 bg-stone-50 rounded-full flex items-center justify-center text-accent">
+                    <i data-lucide="compass"></i> 
+                </div>
+                <div class="mb-6 h-80 w-full overflow-hidden rounded-xl bg-stone-50">
+                    <img src="jay.jpeg" class="w-full h-full object-cover">                    
+                </div>     
+                <span class="bio-role">Strategic Operations - <a href="https://www.linkedin.com/in/jay-monson-29a21526/" class="text-gray-400 hover:text-black transition-colors">LinkedIn</a></span> 
+                <h3 class="text-2xl serif font-bold mb-4">Jay Monson</h3>            
+                <div class="text-gray-600 leading-relaxed space-y-4 text-sm flex-grow">
+                    <p>Following a 40-year career in private optometry and multiple business ventures, Jay entered his "second act" with a calling to use his experience and faith to give back.</p>
+                    <p>Jay developed a passion for encouraging professionals to thoughtfully pursue what God may have next for them—especially those with the desire to make a lasting difference.</p>
+                    <p>After seeing Neal present the 3D Playbook, Jay saw its potential for navigating transitions with clarity. He now guides the vision into a sustainable platform that serves people across all stages of life.</p>
+                </div>
+            </div>
+
+            
+            <!-- Steve -->
+            <div class="step-card bg-white border border-gray-100 rounded-2xl p-8 flex flex-col shadow-sm">
+                <div class="mb-6 w-16 h-16 bg-stone-50 rounded-full flex items-center justify-center text-accent">
+                    <i data-lucide="cpu"></i>            
+                </div>                
+                <div class="mb-6 h-80 w-full overflow-hidden rounded-xl bg-stone-50">
+                    <img src="steve_photo.png" class="w-full h-full object-cover">>                    
+                </div>                
+                <span class="bio-role">Systems & Innovation - <a href="https://www.linkedin.com/in/steve-andrew-82909b3/" class="text-gray-400 hover:text-black transition-colors">LinkedIn</a></span> 
+                <h3 class="text-2xl serif font-bold mb-4" justify-center>Steve Andrew</h3>                        
+                                
+                <div class="text-gray-600 leading-relaxed space-y-4 text-sm flex-grow">
+                    <p>Steve brings a blend of science and technology to the team. With a background in chemistry and forensics, he spent 30 years as a software architect at Oracle designing complex systems.</p>
+                    <p>Today, Steve focuses on Artificial Intelligence, transforming the original concept into a structured, actionable system: <strong>Discover, Decide, Develop</strong>.</p>
+                    <p>He designed the platform itself, integrating personality insights into AI-driven reports to deliver personalized guidance and practical prompts for every user.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="bg-stone-900 text-white py-24">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+                <div>
+                    <h2 class="text-4xl serif font-bold mb-8">Our Story</h2>
+                    <p class="text-stone-400 mb-6 leading-relaxed">3D Life Strategies began over a decade ago as a teaching framework. It was a vision to help people align their physical, mental, and spiritual health to find their true path.</p>
+                    <p class="text-stone-400 mb-6 leading-relaxed">When Jay encountered this teaching, he recognized its potential for those searching for renewed purpose. Then Steve joined, bringing systems thinking that turned the concept into a digital reality.</p>
+                </div>
+                
+                <div class="bg-stone-800 p-8 rounded-2xl border border-stone-700">
+                    <h3 class="text-xl serif font-bold mb-6 text-accent">Evolution of the Vision</h3>
+                    <ul class="space-y-6">
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent">1</div>
+                            <p class="text-sm text-stone-300"><strong class="text-white block">The Process:</strong> Clearly defined steps of Discover, Decide, and Develop.</p>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent">2</div>
+                            <p class="text-sm text-stone-300"><strong class="text-white block">The Assessment:</strong> A structured experience to gauge current life alignment.</p>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent">3</div>
+                            <p class="text-sm text-stone-300"><strong class="text-white block">The Intelligence:</strong> AI-generated reports providing personalized insights.</p>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent">4</div>
+                            <p class="text-sm text-stone-300"><strong class="text-white block">The Result:</strong> Practical tools to guide ongoing growth and intentional action.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-gray-100 text-center">
+        <p class="text-gray-400 text-sm">© 2026 3D Life Strategies. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>

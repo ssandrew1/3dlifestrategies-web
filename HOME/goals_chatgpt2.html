@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Goal Tracker MVP</title>
+<style>
+body { font-family: system-ui; background:#0f172a; color:#e5e7eb; margin:0 }
+header { background:#020617; padding:12px 16px; display:flex; justify-content:space-between; align-items:center }
+button { background:#334155; color:white; border:none; padding:6px 10px; border-radius:6px; cursor:pointer }
+button:hover{background:#475569}
+input, textarea, select {
+  width:100%; background:#020617; color:white;
+  border:1px solid #334155; border-radius:4px; padding:6px
+}
+section{padding:16px}
+.card{background:#020617;border:1px solid #334155;border-radius:8px;padding:12px;margin-bottom:12px}
+.hidden{display:none}
+.relative{position:relative}
+.dropdown{position:absolute;right:0;top:36px;background:#020617;border:1px solid #334155;border-radius:6px;width:180px;z-index:10}
+.dropdown button{width:100%;text-align:left;background:none}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);padding:24px;overflow:auto}
+.small{font-size:.85em;color:#94a3b8}
+.center{max-width:600px;margin:40px auto;text-align:center}
+</style>
+</head>
+
+<body>
+
+<header>
+  <strong>Goal Tracker</strong>
+  <div style="display:flex;gap:8px">
+    <div class="relative">
+      <button onclick="toggleNew()">New ▼</button>
+      <div id="newMenu" class="dropdown hidden">
+        <button onclick="showCreate()">Create Goal</button>
+        <button onclick="showImport()">Import SMART Goal</button>
+      </div>
+    </div>
+    <button onclick="openHelp()">Help</button>
+    <div class="relative">
+      <button onclick="toggleExport()">Export ▼</button>
+      <div id="exportMenu" class="dropdown hidden">
+        <button onclick="saveAs('html')">Save HTML</button>
+        <button onclick="saveAs('text')">Save Text</button>
+        <button onclick="saveAs('csv')">Save CSV</button>
+        <button onclick="saveAs('json')">Save JSON</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+
+<!-- START / EMPTY -->
+<div id="startScreen" class="card center hidden">
+  <h2>Welcome</h2>
+  <p>
+    If this is your first time here, you’re seeing this because
+    you don’t have any goals yet.
+  </p>
+  <p>
+    Start simple. You can always add structure later.
+  </p>
+  <button onclick="showCreate()">Create Your First Goal</button>
+</div>
+
+<!-- CREATE GOAL -->
+<div id="createGoal" class="hidden">
+  <div class="card">
+    <h3>Create Goal</h3>
+    <label>Title</label>
+    <input id="title">
+
+    <label>Description (optional)</label>
+    <textarea id="description" rows="2"></textarea>
+
+    <label>Category</label>
+    <select id="category">
+      <option value="">—</option>
+      <option>BODY</option>
+      <option>MIND</option>
+      <option>SPIRIT</option>
+    </select>
+
+    <button onclick="saveGoal()">Save Goal</button>
+  </div>
+</div>
+
+<!-- IMPORT SMART -->
+<div id="importSmart" class="hidden">
+  <div class="card">
+    <h3>Import SMART Goal</h3>
+    <textarea id="smartInput" rows="3"
+      placeholder="Paste a SMART-style goal here"></textarea>
+    <button onclick="importSMART()">Import</button>
+    <div class="small">
+      This will attempt to create a normal goal you can edit later.
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div id="searchBlock" class="card hidden">
+  <h3>Search Goals</h3>
+  <input id="search" oninput="renderHistory()" placeholder="Search…">
+</div>
+
+<div id="history"></div>
+</section>
+
+<!-- HELP -->
+<div id="helpModal" class="modal hidden">
+  <div class="card center">
+    <h2>How This App Works</h2>
+    <p>
+      If this is your first time here, you may be seeing this help
+      because you don’t have any goals yet.
+    </p>
+    <p>
+      Click <b>New → Create Goal</b> to start.
+      SMART goals are optional and can be imported later.
+    </p>
+    <button onclick="closeHelp()">Close</button>
+  </div>
+</div>
+
+<script>
+const KEY="goals";
+let goals=JSON.parse(localStorage.getItem(KEY)||"[]");
+
+function init(){
+  if(goals.length===0){
+    startScreen.classList.remove("hidden");
+    openHelp();
+  } else {
+    searchBlock.classList.remove("hidden");
+    renderHistory();
+  }
+}
+
+function hideAll(){
+  startScreen.classList.add("hidden");
+  createGoal.classList.add("hidden");
+  importSmart.classList.add("hidden");
+}
+
+function showCreate(){
+  hideAll();
+  createGoal.classList.remove("hidden");
+}
+
+function showImport(){
+  hideAll();
+  importSmart.classList.remove("hidden");
+}
+
+function saveGoal(){
+  const goal={
+    id:Date.now(),
+    title:title.value,
+    description:description.value,
+    category:category.value,
+    created:new Date().toISOString()
+  };
+  goals.unshift(goal);
+  localStorage.setItem(KEY,JSON.stringify(goals));
+  clearForm();
+  hideAll();
+  searchBlock.classList.remove("hidden");
+  renderHistory();
+}
+
+function importSMART(){
+  const t=smartInput.value;
+  if(!t)return;
+  title.value=t.slice(0,60);
+  description.value=t;
+  category.value="";
+  showCreate();
+}
+
+function clearForm(){
+  ["title","description","category","smartInput"].forEach(id=>document.getElementById(id).value="");
+}
+
+function renderHistory(){
+  history.innerHTML="";
+  const q=search.value?.toLowerCase()||"";
+  goals.filter(g=>JSON.stringify(g).toLowerCase().includes(q))
+    .forEach(g=>{
+      const d=document.createElement("div");
+      d.className="card";
+      d.innerHTML=`
+        <b>${g.title}</b><br>
+        ${g.description||""}<br>
+        <small>${new Date(g.created).toLocaleString()}</small>
+      `;
+      history.appendChild(d);
+    });
+}
+
+function toggleNew(){newMenu.classList.toggle("hidden")}
+function toggleExport(){exportMenu.classList.toggle("hidden")}
+function openHelp(){helpModal.classList.remove("hidden")}
+function closeHelp(){helpModal.classList.add("hidden")}
+
+function saveAs(type){
+  let data="";
+  if(type==="json")data=JSON.stringify(goals,null,2);
+  if(type==="csv"){
+    data="title,description,category,created\n"+
+      goals.map(g=>`"${g.title}","${g.description}","${g.category}","${g.created}"`).join("\n");
+  }
+  if(type==="text"){
+    data=goals.map(g=>`${g.title}\n${g.description}\n---`).join("\n");
+  }
+  if(type==="html"){
+    data=`<pre>${JSON.stringify(goals,null,2)}</pre>`;
+  }
+  const blob=new Blob([data],{type:"text/plain"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=`goals.${type==="text"?"txt":type}`;
+  a.click();
+}
+
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".relative")){
+    newMenu.classList.add("hidden");
+    exportMenu.classList.add("hidden");
+  }
+});
+
+init();
+</script>
+</body>
+</html>

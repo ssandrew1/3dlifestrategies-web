@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery Intake | 3D Life Strategies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f9f8f6; }
+        .serif { font-family: 'Playfair Display', serif; }
+        .form-input { 
+            width: 100%; 
+            padding: 0.75rem; 
+            border: 1px solid #e5e7eb; 
+            border-radius: 0.125rem;
+            background: #ffffff;
+            transition: border-color 0.3s ease;
+        }
+        .form-input:focus { outline: none; border-color: #c5a47e; }
+        .section-card { background: white; padding: 2rem; border-radius: 0.25rem; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 2rem; }
+    </style>
+</head>
+<body class="py-12 px-6">
+    <div class="max-w-3xl mx-auto">
+        <header class="mb-12 text-center">
+            <span class="text-[#c5a47e] font-bold text-xs uppercase tracking-[0.3em] mb-2 block">Phase 01: Discovery</span>
+            <h1 class="text-4xl serif mb-4">Personal Discovery Intake</h1>
+            <p class="text-gray-500">This data will be used by our AI engine to build your custom 3D Playbook.</p>
+        </header>
+
+        <form id="discoveryForm" class="space-y-8">
+            <!-- Section 1: Identity -->
+            <div class="section-card">
+                <h2 class="text-xl serif mb-6 border-b pb-2">01. Identity & Journey</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase mb-2">Full Name</label>
+                        <input type="text" name="fullName" class="form-input" placeholder="e.g. Steve Andrew" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase mb-2">Email Address</label>
+                        <input type="email" name="email" class="form-input" placeholder="steve@example.com" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-2">The Narrative</label>
+                    <textarea name="narrative" rows="4" class="form-input" placeholder="Briefly describe your journey and major turning points..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 2: KSAs -->
+            <div class="section-card">
+                <h2 class="text-xl serif mb-6 border-b pb-2">02. Knowledge, Skills & Abilities</h2>
+                <p class="text-sm text-gray-500 mb-6">List 3-5 core competencies you've developed over your career or life.</p>
+                <div class="space-y-4">
+                    <input type="text" name="ksa1" class="form-input" placeholder="Skill #1 (e.g. Software Engineering)">
+                    <input type="text" name="ksa2" class="form-input" placeholder="Skill #2 (e.g. Strategic Planning)">
+                    <input type="text" name="ksa3" class="form-input" placeholder="Skill #3 (e.g. Mentorship)">
+                </div>
+            </div>
+
+            <!-- Section 3: Spiritual Alignment -->
+            <div class="section-card">
+                <h2 class="text-xl serif mb-6 border-b pb-2">03. Spiritual & Moral Alignment</h2>
+                <label class="block text-xs font-bold uppercase mb-2">Self-Assessment (1-10)</label>
+                <input type="range" name="alignment" min="1" max="10" value="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#c5a47e] mb-2">
+                <div class="flex justify-between text-[10px] font-bold text-gray-400 uppercase mb-6">
+                    <span>Disconnected</span>
+                    <span>Fully Aligned</span>
+                </div>
+                <label class="block text-xs font-bold uppercase mb-2">Primary Passion/Affinity</label>
+                <input type="text" name="affinity" class="form-input" placeholder="What area or cause do you inherently care about?">
+            </div>
+
+            <button type="submit" class="w-full bg-black text-white py-4 font-bold uppercase tracking-widest hover:bg-[#c5a47e] transition-all">
+                Submit & Generate AI Playbook
+            </button>
+        </form>
+
+        <div id="successMessage" class="hidden mt-8 p-6 bg-green-50 border border-green-200 text-green-800 rounded-sm text-center">
+            <h3 class="font-bold mb-2">Assessment Received!</h3>
+            <p class="text-sm">Your data has been sent to the 3D Engine. Your coach will receive your AI-Enhanced Playbook within 24 hours.</p>
+            <a href="way_page.html" class="mt-4 inline-block text-xs font-bold underline">Return to Hub</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('discoveryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real scenario, you would fetch() to your backend here
+            console.log("Posting form data...");
+            this.classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

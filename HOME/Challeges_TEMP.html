@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiritual Freedom Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @media print {
+            body { background: white; padding: 0; }
+            .no-print { display: none; }
+            .page-break { page-break-before: always; }
+            .max-w-5xl { max-width: 100%; border: none; shadow: none; }
+        }
+        .stronghold-card {
+            break-inside: avoid;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans p-4 md:p-8">
+
+    <!-- PAGE 2: Quick Reference Table -->
+    <div class="page-break max-w-5xl mx-auto bg-white shadow-xl rounded-lg overflow-hidden border border-slate-200">
+        <header class="bg-slate-800 text-white p-6 text-center">
+            <h1 class="text-2xl font-bold tracking-tight uppercase text-slate-100">Quick Reference Guide</h1>
+            <p class="text-slate-400 mt-1 text-sm italic">Summary of Categories and Promised Freedom</p>
+        </header>
+
+        <div class="p-6">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b-2 border-slate-200">
+                        <th class="py-3 px-4 text-indigo-700 font-bold uppercase text-xs tracking-wider">Category</th>
+                        <th class="py-3 px-4 text-indigo-700 font-bold uppercase text-xs tracking-wider">Examples</th>
+                        <th class="py-3 px-4 text-indigo-700 font-bold uppercase text-xs tracking-wider">The Freedom</th>
+                    </tr>
+                </thead>
+                <tbody id="summary-table-body">
+                    <!-- Table rows will be injected here -->
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="p-4 bg-slate-100 text-center text-xs text-slate-500 border-t border-slate-200">
+            Created for personal study and ministry use.
+        </footer>
+    </div>
+
+    <!-- Print Button -->
+    <div class="max-w-5xl mx-auto mt-6 no-print flex justify-end gap-4">
+        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md flex items-center gap-2">
+            <i class="fa-solid fa-print"></i> Print Full Handout
+        </button>
+    </div>
+
+    <script>
+        const data = [
+            {
+                name: "BITTERNESS",
+                icon: "fa-heart-crack",
+                examples: ["Resentment", "Hatred", "Unforgiveness", "Anger"],
+                lie: "I have power and protection when I don't forgive others",
+                freedom: "FORGIVENESS",
+                scripture: "Therefore, if anyone is in Christ, the new creation has come...",
+                reference: "2 Corinthians 5:17-19"
+            },
+            {
+                name: "FEAR",
+                icon: "fa-ghost",
+                examples: ["Anxiety", "Worry", "Panic", "Dread"],
+                lie: "I must control everything to stay safe; God cannot be trusted",
+                freedom: "PEACE & TRUST",
+                scripture: "For God has not given us a spirit of fear, but of power...",
+                reference: "2 Timothy 1:7"
+            },
+            {
+                name: "PRIDE",
+                icon: "fa-crown",
+                examples: ["Arrogance", "Self-righteousness", "Superiority"],
+                lie: "I am better than others; I don't need God or anyone else",
+                freedom: "HUMILITY",
+                scripture: "Humble yourselves before the Lord, and he will lift you up.",
+                reference: "James 4:10"
+            },
+            {
+                name: "SHAME",
+                icon: "fa-mask",
+                examples: ["Self-condemnation", "Unworthiness", "Guilt", "Hiding"],
+                lie: "I am too damaged or sinful to be loved by God or others",
+                freedom: "IDENTITY IN CHRIST",
+                scripture: "Therefore, there is now no condemnation for those in Christ.",
+                reference: "Romans 8:1"
+            },
+            {
+                name: "CONTROL",
+                icon: "fa-hand-fist",
+                examples: ["Manipulation", "Domination", "Perfectionism"],
+                lie: "If I don't control everything, things will fall apart",
+                freedom: "SURRENDER & TRUST",
+                scripture: "Trust in the LORD with all your heart; lean not on your own understanding.",
+                reference: "Proverbs 3:5-6"
+            },
+            {
+                name: "REJECTION",
+                icon: "fa-user-slash",
+                examples: ["People-pleasing", "Abandonment", "Approval-seeking"],
+                lie: "I am not wanted; I must earn love and acceptance",
+                freedom: "ACCEPTANCE",
+                scripture: "To all who did receive him, he gave the right to be children of God.",
+                reference: "John 1:12"
+            },
+            {
+                name: "LUST",
+                icon: "fa-fire",
+                examples: ["Sexual immorality", "Pornography", "Objectification"],
+                lie: "This sin satisfies me; I need this for fulfillment",
+                freedom: "PURITY & HOLINESS",
+                scripture: "Flee from sexual immorality. Your body is a temple.",
+                reference: "1 Corinthians 6:18"
+            },
+            {
+                name: "ENVY / JEALOUSY",
+                icon: "fa-eye",
+                examples: ["Covetousness", "Comparison", "Discontentment"],
+                lie: "What others have should be mine; God is withholding good",
+                freedom: "CONTENTMENT",
+                scripture: "Be content with what you have, because God will never leave you.",
+                reference: "Hebrews 13:5"
+            },
+            {
+                name: "UNBELIEF",
+                icon: "fa-question",
+                examples: ["Doubt", "Skepticism", "Cynicism"],
+                lie: "God's promises are not true for me; faith doesn't work",
+                freedom: "FAITH & TRUST",
+                scripture: "Now faith is confidence in what we hope for...",
+                reference: "Hebrews 11:1"
+            },
+            {
+                name: "REBELLION",
+                icon: "fa-hand-middle-finger",
+                examples: ["Defiance", "Stubbornness", "Independence"],
+                lie: "I know better than God; I can live life my own way",
+                freedom: "OBEDIENCE",
+                scripture: "If you love me, keep my commands.",
+                reference: "John 14:15"
+            },
+            {
+                name: "GREED",
+                icon: "fa-money-bill-wave",
+                examples: ["Hoarding", "Selfishness", "Idolatry of wealth"],
+                lie: "My security and worth come from what I possess",
+                freedom: "GENEROSITY",
+                scripture: "No one can serve two masters. You cannot serve God and money.",
+                reference: "Matthew 6:24"
+            },
+            {
+                name: "SELF-UNFORGIVENESS",
+                icon: "fa-circle-xmark",
+                examples: ["Self-hatred", "Past guilt", "Stagnation"],
+                lie: "I can never be forgiven; my past defines my future",
+                freedom: "GRACE",
+                scripture: "If we confess, he is faithful to forgive and purify us.",
+                reference: "1 John 1:9"
+            }
+        ];
+
+        const grid = document.getElementById('content-grid');
+        const tableBody = document.getElementById('summary-table-body');
+
+        data.forEach((item, index) => {
+            // Render Cards (Page 1)
+            const card = document.createElement('div');
+            card.className = "stronghold-card border border-slate-200 rounded-lg p-4 flex flex-col h-full bg-white hover:border-indigo-300 transition-colors";
+
+
+            // Render Table Rows (Page 2)
+            const row = document.createElement('tr');
+            row.className = index % 2 === 0 ? "bg-slate-50 border-b border-slate-100" : "bg-white border-b border-slate-100";
+            row.innerHTML = `
+                <td class="py-3 px-4 font-bold text-slate-800 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid ${item.icon} text-indigo-600 w-4 text-center"></i>
+                        ${item.name}
+                    </div>
+                </td>
+                <td class="py-3 px-4 text-slate-600 text-xs">${item.examples.join(', ')}</td>
+                <td class="py-3 px-4 font-bold text-green-700 text-sm italic">${item.freedom}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>

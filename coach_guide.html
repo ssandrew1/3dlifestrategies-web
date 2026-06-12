@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>48-Hour Sprint | 3D Life Strategies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
+        .serif { font-family: 'Playfair Display', serif; }
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #1a1a1a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .checkbox-custom.checked { background: #c5a47e; border-color: #c5a47e; }
+        .checkbox-custom.checked::after { content: '✓'; color: white; font-weight: bold; }
+    </style>
+</head>
+<body class="antialiased">
+    <nav class="p-6 border-b">
+        <a href="way_page.html" class="text-xs font-bold uppercase tracking-widest hover:text-[#c5a47e]">← Dashboard</a>
+    </nav>
+
+    <main class="max-w-2xl mx-auto py-16 px-6">
+        <div class="text-center mb-16">
+            <h1 class="text-5xl serif mb-4">Coaching Material</h1>
+            <p class="text-gray-500 italic">"Movement creates clarity. Perfection creates paralysis."</p>
+        </div>
+
+        <div class="space-y-12">
+            <!-- Body -->
+            <section class="flex gap-8 items-start p-6 bg-[#f9f8f6]">
+                <div class="checkbox-custom mt-1" onclick="this.classList.toggle('checked')"></div>
+                <div>
+                    <span class="text-[10px] font-bold text-[#c5a47e] uppercase tracking-widest mb-1 block">Training: Coach</span>
+                    <h3 class="text-xl font-bold mb-2">Contact 3d to get access</h3>
+                    <p class="text-sm text-gray-600">The Coach material is provided once enrolled in the program.</p>
+                </div>
+            </section>
+        </div>
+        
+    </main>
+</body>
+</html>

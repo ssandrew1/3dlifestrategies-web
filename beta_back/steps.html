@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working with Participants | 3D Life Strategies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c5a47e;
+            --bg: #f9f8f6;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .tile {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .tile:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+        .step-pill {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .btn-go {
+            transition: all 0.25s ease;
+        }
+        .btn-go:hover {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .tile {
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards;
+        }
+        .tile:nth-child(1) { animation-delay: 0.05s; }
+        .tile:nth-child(2) { animation-delay: 0.12s; }
+        .tile:nth-child(3) { animation-delay: 0.19s; }
+        .tile:nth-child(4) { animation-delay: 0.26s; }
+        .tile:nth-child(5) { animation-delay: 0.33s; }
+        .tile:nth-child(6) { animation-delay: 0.40s; }
+        .tile:nth-child(7) { animation-delay: 0.47s; }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+    <!-- HEADER -->
+    <header class="py-16 px-6 bg-white border-b border-black/5">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-6">
+            <div>
+                <a href="https://3dlifestrategies.org" class="text-sm font-bold tracking-widest text-[#c5a47e] uppercase mb-4 block hover:opacity-70 transition-opacity">← Back to Main Site</a>
+                <h1 class="text-5xl md:text-6xl mb-4">Guided Steps for <span class="italic text-[#c5a47e]">3D </span></h1>
+                <p class="text-gray-500 max-w-xl text-lg font-light">The coach's step-by-step resource guide: 
+                    <BR /> - to learning the <B class="text-[#c5a47e]">3D's Body, Mind, Spirit</B>
+                    <BR />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Process: <B class="text-[#c5a47e]">D</B>iscovery --> <B  class="text-[#c5a47e]">D</B>ecision --> <B class="text-[#c5a47e]">D</B>evelopment</p>
+            </div>
+            <div class="text-right shrink-0">
+                <span class="block text-xs font-bold uppercase tracking-widest text-gray-400">Framework</span>
+                <span class="text-sm font-medium">3D Coaching Process</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION INTRO -->
+    <div class="max-w-7xl mx-auto px-6 mt-14 mb-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-black/5 pb-6">
+            <div>
+                <span class="text-xs font-bold tracking-widest uppercase text-[#c5a47e]">The Journey</span>
+                <h2 class="text-3xl md:text-4xl mt-2">Six Steps of the Coaching Process</h2>
+            </div>
+            <p class="text-gray-400 text-sm max-w-sm font-light leading-relaxed">Use each resource in sequence. Begin with the Welcome, then walk participants through purpose, passion, assessment, practice, personality, and perseverance.</p>
+        </div>
+    </div>
+
+    <!-- TILES GRID -->
+    <main class="max-w-7xl mx-auto px-6 pb-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- WELCOME -->
+            <div class="tile bg-white rounded-2xl p-8 flex flex-col gap-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-[#c5a47e] rounded-l-2xl"></div>
+                <div class="flex items-center justify-between">
+                    <span class="step-pill bg-[#c5a47e]/10 text-[#c5a47e]">Welcome</span>
+                    <span class="text-xs text-gray-300 font-medium uppercase tracking-widest">Start Here</span>
+                </div>
+                <div>
+                    <h3 class="text-xl leading-snug mb-2">Welcome to 3D</h3>
+                    <p class="text-sm text-gray-500 font-light leading-relaxed">Introduce participants to the 3D Life Strategies framework — its vision, values, and what to expect throughout this transformative coaching journey.</p>
+                </div>
+                <div class="mt-auto pt-4 border-t border-black/5">
+                    <a href="https://3dlifestrategies.org/beta/welcome_3d.html" class="btn-go inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1a1a1a] border border-black/10 rounded-full px-5 py-2.5 bg-white">
+                        Open Welcome
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- STEP 1 -->
+            <div class="tile bg-white rounded-2xl p-8 flex flex-col gap-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-stone-300 rounded-l-2xl"></div>
+                <div class="flex items-center justify-between">
+                    <span class="step-pill bg-stone-100 text-stone-500">Step 1</span>
+                    <span class="text-xs text-gray-300 font-medium uppercase tracking-widest">Foundation</span>
+                </div>
+                <div>
+                    <h3 class="text-xl leading-snug mb-2">The Journey of Purpose: From Divine Spark to Daily Practice</h3>
+                    <p class="text-sm text-gray-500 font-light leading-relaxed">Trace the path from an innate divine spark within each person to the habits and intentional actions that shape their daily life and calling.</p>
+                </div>
+                <div class="mt-auto pt-4 border-t border-black/5">
+                    <a href="https://3dlifestrategies.org/beta/The_CNN_Ability_Framework.pdf" class="btn-go inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1a1a1a] border border-black/10 rounded-full px-5 py-2.5 bg-white">
+                        Access Resource
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="tile bg-white rounded-2xl p-8 flex flex-col gap-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-amber-300 rounded-l-2xl"></div>
+                <div class="flex items-center justify-between">
+                    <span class="step-pill bg-amber-50 text-amber-600">Step 2</span>
+                    <span class="text-xs text-gray-300 font-medium uppercase tracking-widest">Discovery</span>
+                </div>
+                <div>
+                    <h3 class="text-xl leading-snug mb-2">Passion &amp; Purpose Resource</h3>
+		    <p class="text-sm text-gray-500 font-light leading-relaxed">Help participants explore and articulate what genuinely excites them, bridging heartfelt passion with a clear and livable sense of purpose. <br />The goal here is to just explore areas that interest you and then click the "Generate coach prompt.." and then Open in ChatGPT.</p>
+                </div>
+                <div class="mt-auto pt-4 border-t border-black/5">
+                    <a href="https://3dlifestrategies.org/beta/Passion_And_Purpose.html" class="btn-go inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1a1a1a] border border-black/10 rounded-full px-5 py-2.5 bg-white">
+                        Access Resource
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="tile bg-white rounded-2xl p-8 flex flex-col gap-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-sky-300 rounded-l-2xl"></div>
+                <div class="flex items-center justify-between">
+                    <span class="step-pill bg-sky-50 text-sky-600">Step 3</span>
+                    <span class="text-xs text-gray-300 font-medium uppercase tracking-widest">Assessment</span>
+                </div>
+                <div>
+                    <h3 class="text-xl leading-snug mb-2">Personality Assessment</h3>
+                    <p class="text-sm text-gray-500 font-light leading-relaxed">Guide participants through a structured assessment revealing core traits, communication styles, and natural strengths that inform their unique calling.</p>
+                </div>
+                <div class="mt-auto pt-4 border-t border-black/5">
+                    <a href="https://3dlifestrategies.org/beta/personality.html" class="btn-go inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1a1a1a] border border-black/10 rounded-full px-5 py-2.5 bg-white">
+                        Take Assessment
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="tile bg-white rounded-2xl p-8 flex flex-col gap-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-violet-300 rounded-l-2xl"></div>
+                <div class="flex items-center justify-between">
+                    <span class="step-pill bg-violet-50 text-violet-600">Step 4</span>
+                    <span class="text-xs text-gray-300 font-medium uppercase tracking-widest">Assessment</span>
+                </div>
+                <div>
+                    <h3 class="text-xl leading-snug mb-2">3D Web Page Assessment</h3>
+                    <p class="text-sm text-gray-500 font-light leading-relaxed">A dynamic, web-based tool that synthesizes prior insights — offering a holistic picture of each participant's design across all three dimensions.</p>
+                </div>
+                <div class="mt-auto pt-4 border-t border-black/5">
+                    <a href="https://3dlifestrategies.org/beta/survey.html" class="btn-go inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1a1a1a] border border-black/10 rounded-full px-5 py-2.5 bg-white">
+                        Open Assessment
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- STEP 5 -->
+            <div class="tile bg-white rounded-2xl p-8 flex flex-col gap-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-emerald-300 rounded-l-2xl"></div>
+                <div class="flex items-center justify-between">
+                    <span class="step-pill bg-emerald-50 text-emerald-600">Step 5</span>
+                    <span class="text-xs text-gray-300 font-medium uppercase tracking-widest">Practice</span>
+                </div>
+                <div>
+                    <h3 class="text-xl leading-snug mb-2">Divine Gifts Daily Practice Handout</h3>
+                    <p class="text-sm text-gray-500 font-light leading-relaxed">Equip participants with a practical handout that translates their divine gifts into simple, sustainable daily practices they can carry forward independently.</p>
+                </div>
+                <div class="mt-auto pt-4 border-t border-black/5">
+                    <a href="https://3dlifestrategies.org/beta/God_s_Gifts__Talent_vs.mp4" class="btn-go inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1a1a1a] border border-black/10 rounded-full px-5 py-2.5 bg-white">
+                        Download Handout
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v6M3 6l3 3 3-3M2 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- STEP 6 -->
+            <div class="tile bg-white rounded-2xl p-8 flex flex-col gap-4 relative overflow-hidden md:col-span-2 lg:col-span-1">
+                <div class="absolute top-0 left-0 w-1 h-full bg-rose-300 rounded-l-2xl"></div>
+                <div class="flex items-center justify-between">
+                    <span class="step-pill bg-rose-50 text-rose-600">Step 6</span>
+                    <span class="text-xs text-gray-300 font-medium uppercase tracking-widest">Resilience</span>
+                </div>
+                <div>
+                    <h3 class="text-xl leading-snug mb-2">Decide to Confront the Challenges</h3>
+		    <p class="text-sm text-gray-500 font-light leading-relaxed">Prepare participants to face inevitable obstacles. Frameworks and encouragement for moving through resistance with renewed faith.<i>Try our Goal setting app and learn more with the provided AI prompts and suggested resources below.</i> <BR /><h2 class="text-[#c5a47e]">RESOURCES:</h2>
+ <a href="https://3dlifestrategies.org/beta/smart_goal_tracker3.html" class="hover:text-[#c5a47e] transition-colors duration-300">SMART Goals App</a> | <a href="https://3dlifestrategies.org/helpful_3d_links.html" class="hover:text-[#c5a47e] transition-colors duration-300">3D Links</a> | <a href="https://3dlifestrategies.org/learning_library.html" class="hover:text-[#c5a47e] transition-colors duration-300">3D Videos</a> 
+</p>
+                </div>
+                <div class="mt-auto pt-4 border-t border-black/5">
+                    <a href="https://3dlifestrategies.org/way_page.html" class="btn-go inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1a1a1a] border border-black/10 rounded-full px-5 py-2.5 bg-white">
+                        Access Resource
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-black/5 py-10 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <span class="font-bold text-sm tracking-widest uppercase text-[#c5a47e]">3D Life Strategies</span>
+                <span class="text-gray-300 text-sm">|</span>
+                <span class="text-gray-400 text-sm font-light">Transform Passive Knowledge into Vocational Action</span>
+            </div>
+            <a href="https://3dlifestrategies.org" class="text-xs font-bold tracking-widest text-gray-400 uppercase hover:text-[#c5a47e] transition-colors">3dlifestrategies.org</a>
+        </div>
+    </footer>
+
+</body>
+</html>

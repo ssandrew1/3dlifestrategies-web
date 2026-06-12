@@ -1,0 +1,59 @@
+  166  sudo mkdir -p /var/www/3dlifestrategies.org/html
+  167  sudo chown -R $USER:$USER /var/www/3dlifestrategies.org/html
+  168  sudo vi /etc/nginx/sites-available/3dlifestrategies.org
+  169  ls -l /etc/nginx/sites-available/3dlifestrategies.org
+  170  sudo apt install certbot python3-certbot-nginx
+  171  sudo apt update
+  172  apt list --upgradable
+  173  sudo ln -s /etc/nginx/sites-available/3dlifestrategies.org /etc/nginx/sites-enabled/
+  174  ls
+  175  pwd
+  176  more RE*
+  177  cd /var/www/html
+  178  ls
+  179  vi index.html
+  180  ls
+  181  more RE*
+  182  sudo systemctl status nginx
+  183  cd  /etc/nginx/sites-enabled/
+  184  ls
+  185  vi default
+  186  sudo vi default
+  187  sudo nginx -t
+  188  sudo systemctl restart nginx
+  189  sudo cat  /etc/nginx/nginx.conf
+  190  ls
+  191  ls /etc/nginx/sites-enabled
+  192  more 3d*
+  193  ls /etc/nginx/sites-enabled:q
+  194  ls
+  195  cd / /var/www/3dlifestrategies.org/html
+  196  cd  /var/www/3dlifestrategies.org/html
+  197  ls
+  206  cat ../../html/READ.txt
+  207  cp  ../../html/READ.txt .
+  208  sudo cat  /etc/nginx/nginx.conf
+  211  sudo cat  /etc/nginx/nginx.conf
+  214  vi RE*
+  215  ls /etc/nginx/sites-enabled/*
+  216  vi RE*
+  217  pwd
+  218  ls
+  219  more RE*
+  220  sudo certbot --nginx -d 3dlifestrategies.org
+  221  cat /var/log/letsencrypt/letsencrypt.log
+  222  sudo cat /var/log/letsencrypt/letsencrypt.log
+  223  curl -4 icanhazip.com
+  224  sudo certbot certonly --webroot -w /var/www/3dlifestrategies.org/html -d 3dlifestrategies.org -d www.3dlifestrategies.org
+  225  sudo ufw status
+  226  curl -I http://34.148.125.179
+  227  curl -I http://3dlifestrategies.org
+  228  nslookup 3dlifestrategies.org 8.8.8.8
+  229  nslookup www.3dlifestrategies.org 8.8.8.8
+  230  sudo certbot certonly --webroot -w /var/www/3dlifestrategies.org/html -d 3dlifestrategies.org -d www.3dlifestrategies.org
+  231  sudo vi /etc/nginx/sites-available/3dlifestrategies.org
+  232  sudo systemctl reload nginx
+
+
+
+

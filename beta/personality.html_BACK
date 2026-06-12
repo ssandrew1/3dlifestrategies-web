@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Discovery | 3D Life Strategies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c5a47e;
+            --bg: #f9f8f6;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .ans-button {
+            transition: all 0.2s ease;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .ans-button:hover {
+            border-color: var(--accent);
+            background-color: white;
+            transform: translateX(4px);
+        }
+        .progress-bar {
+            transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-20">
+
+    <nav class="p-6 border-b border-black/5 bg-white/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="steps.html" class="text-xs font-bold uppercase tracking-widest hover:text-[#c5a47e] transition-colors">← Steps</a>
+            <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Discovery Phase: Personality</span>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto mt-12 px-6">
+        
+        <!-- Tab 1: Intro / Title Page -->
+        <div id="intro_page" class="bg-white p-12 md:p-20 rounded-sm shadow-sm text-center">
+            <span class="text-[#c5a47e] font-bold text-xs uppercase tracking-[0.4em] mb-4 block">Dimension: Mind & Spirit</span>
+            <h1 class="text-5xl md:text-6xl mb-6">Discovery <span class="italic text-[#c5a47e]">Assessment</span></h1>
+            <p class="text-gray-500 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+                Understanding your natural tendencies is the first step in Stewardship. This assessment measures the "Big Five" traits to help us align your KSAs with your God-given purpose.
+            </p>
+            <div class="flex flex-col items-center gap-4">
+                <button onclick="startTest()" class="bg-black text-white px-12 py-4 font-bold uppercase tracking-widest hover:bg-[#c5a47e] transition-all">
+                    Begin Discovery
+                </button>
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest">Takes approximately 5-7 minutes</p>
+            </div>
+        </div>
+
+        <!-- Tab 2: Test Interface -->
+        <div id="test_page" class="hidden">
+            <div class="mb-8">
+                <div class="flex justify-between items-end mb-2">
+                    <span class="text-xs font-bold uppercase tracking-widest text-[#c5a47e]" id="progress_text">Question 1 of 50</span>
+                    <span class="text-xs text-gray-400" id="percent_text">0% Complete</span>
+                </div>
+                <div class="w-full bg-gray-200 h-1 overflow-hidden">
+                    <div id="progress_bar" class="progress-bar bg-[#c5a47e] h-full w-0"></div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 md:p-12 rounded-sm shadow-sm min-h-[400px] flex flex-col justify-center">
+                <h2 id="itext" class="text-2xl md:text-3xl serif mb-12 text-center leading-tight">...</h2>
+                
+                <div class="grid grid-cols-1 gap-3 max-w-md mx-auto w-full">
+                    <button class="ans-button bg-gray-50 p-4 text-left text-sm font-medium rounded-sm flex items-center gap-4" onclick="handleAnswer(1)">
+                        <span class="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-[10px] font-bold">1</span>
+                        Very Inaccurate
+                    </button>
+                    <button class="ans-button bg-gray-50 p-4 text-left text-sm font-medium rounded-sm flex items-center gap-4" onclick="handleAnswer(2)">
+                        <span class="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-[10px] font-bold">2</span>
+                        Moderately Inaccurate
+                    </button>
+                    <button class="ans-button bg-gray-50 p-4 text-left text-sm font-medium rounded-sm flex items-center gap-4" onclick="handleAnswer(3)">
+                        <span class="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-[10px] font-bold">3</span>
+                        Neither Accurate nor Inaccurate
+                    </button>
+                    <button class="ans-button bg-gray-50 p-4 text-left text-sm font-medium rounded-sm flex items-center gap-4" onclick="handleAnswer(4)">
+                        <span class="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-[10px] font-bold">4</span>
+                        Moderately Accurate
+                    </button>
+                    <button class="ans-button bg-gray-50 p-4 text-left text-sm font-medium rounded-sm flex items-center gap-4" onclick="handleAnswer(5)">
+                        <span class="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-[10px] font-bold">5</span>
+                        Very Accurate
+                    </button>
+                </div>
+
+                <div class="mt-12 flex justify-center gap-8">
+                    <button onclick="undo()" class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors">Undo Last</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Results Page -->
+        <div id="results_page" class="hidden animate-in fade-in duration-700">
+            <header class="text-center mb-12">
+                <span class="text-[#c5a47e] font-bold text-xs uppercase tracking-[0.4em] mb-4 block">Discovery Results</span>
+                <h2 class="text-4xl serif">Your Personal <span class="italic text-[#c5a47e]">Blueprint</span></h2>
+            </header>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12" id="note">
+		    <b>Copy these numbers for the survey to past them in when asked</b> 
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12" id="score_display">
+                <!-- Scores injected here -->
+            </div>
+
+            <!-- New: Analysis Table -->
+            <div class="bg-white p-8 md:p-12 rounded-sm shadow-sm overflow-x-auto">
+                <h3 class="text-2xl serif mb-6">Strategic Intersection: KSAs & Gifts</h3>
+                <p class="text-sm text-gray-500 mb-8 italic">Based on your personality scores, here is how your natural design likely intersects with Spiritual Gifts and Professional KSAs.</p>
+                
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b-2 border-black text-[10px] font-bold uppercase tracking-widest">
+                            <th class="py-4 pr-4">Trait Focus</th>
+                            <th class="py-4 px-4">Tendencies (KSA)</th>
+                            <th class="py-4 px-4">Spiritual Intersection (Gift)</th>
+                            <th class="py-4 pl-4">3D Action Goal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="analysis_table_body" class="text-sm">
+                        <!-- Rows injected by JS based on scores -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-12 text-center">
+                <button onclick="window.print()" class="border border-black px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">Download Report</button>
+                <a href="steps.html" class="ml-4 text-xs font-bold uppercase tracking-widest underline decoration-[#c5a47e]">Back to Steps</a>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const itemtext = [
+            ["Am the life of the party.", "EXT", 1], ["Feel little concern for others.", "AGR", -1], ["Am always prepared.", "CSN", 1], ["Get stressed out easily.", "EST", -1], ["Have a rich vocabulary.", "OPN", 1],
+            ["Don't talk a lot.", "EXT", -1], ["Am interested in people.", "AGR", 1], ["Leave my belongings around.", "CSN", -1], ["Am relaxed most of the time.", "EST", 1], ["Have difficulty understanding abstract ideas.", "OPN", -1],
+            ["Feel comfortable around people.", "EXT", 1], ["Insult people.", "AGR", -1], ["Pay attention to details.", "CSN", 1], ["Worry about things.", "EST", -1], ["Have a vivid imagination.", "OPN", 1],
+            ["Keep in the background.", "EXT", -1], ["Sympathize with others' feelings.", "AGR", 1], ["Make a mess of things.", "CSN", -1], ["Seldom feel blue.", "EST", 1], ["Am not interested in abstract ideas.", "OPN", -1],
+            ["Start conversations.", "EXT", 1], ["Am not interested in other people's problems.", "AGR", -1], ["Get chores done right away.", "CSN", 1], ["Am easily disturbed.", "EST", -1], ["Have excellent ideas.", "OPN", 1],
+            ["Have little to say.", "EXT", -1], ["Have a soft heart.", "AGR", 1], ["Often forget to put things back in their proper place.", "CSN", -1], ["Get upset easily.", "EST", -1], ["Do not have a good imagination.", "OPN", -1],
+            ["Talk to a lot of different people at parties.", "EXT", 1], ["Am not really interested in others.", "AGR", -1], ["Like order.", "CSN", 1], ["Change my mood a lot.", "EST", -1], ["Am quick to understand things.", "OPN", 1],
+            ["Don't like to draw attention to myself.", "EXT", -1], ["Take time out for others.", "AGR", 1], ["Shirk my duties.", "CSN", -1], ["Have frequent mood swings.", "EST", -1], ["Use difficult words.", "OPN", 1],
+            ["Don't mind being the center of attention.", "EXT", 1], ["Feel others' emotions.", "AGR", 1], ["Follow a schedule.", "CSN", 1], ["Get irritated easily.", "EST", -1], ["Spend time reflecting on things.", "OPN", 1],
+            ["Am quiet around strangers.", "EXT", -1], ["Make people feel at ease.", "AGR", 1], ["Am exacting in my work.", "CSN", 1], ["Often feel blue.", "EST", -1], ["Am full of ideas.", "OPN", 1]
+        ];
+
+        let scores = { "EXT": [], "AGR": [], "CSN": [], "EST": [], "OPN": [] };
+        let itemindex = 0;
+        let waiting = false;
+
+        function startTest() {
+            document.getElementById("intro_page").style.display = "none";
+            document.getElementById("test_page").style.display = "block";
+            setNextItem();
+        }
+
+        function setNextItem() {
+            if (itemindex >= itemtext.length) {
+                showResults();
+                return;
+            }
+            document.getElementById("itext").innerText = itemtext[itemindex][0];
+            document.getElementById("progress_text").innerText = `Question ${itemindex + 1} of ${itemtext.length}`;
+            let percent = Math.round((itemindex / itemtext.length) * 100);
+            document.getElementById("percent_text").innerText = `${percent}% Complete`;
+            document.getElementById("progress_bar").style.width = `${percent}%`;
+        }
+
+        function handleAnswer(ans) {
+            if (waiting) return;
+            waiting = true;
+            
+            let cat = itemtext[itemindex][1];
+            let dir = itemtext[itemindex][2];
+            let val = (dir === 1) ? ans : (6 - ans);
+            
+            scores[cat][itemindex] = val;
+            
+            setTimeout(() => {
+                itemindex++;
+                setNextItem();
+                waiting = false;
+            }, 200);
+        }
+
+        function undo() {
+            if (itemindex > 0) {
+                itemindex--;
+                setNextItem();
+            }
+        }
+
+        function showResults() {
+            document.getElementById("test_page").style.display = "none";
+            document.getElementById("results_page").style.display = "block";
+            
+            const labels = {
+                "EXT": { title: "Extraversion", desc: "Energy from social interaction." },
+                "AGR": { title: "Agreeableness", desc: "Compassion and cooperation." },
+                "CSN": { title: "Conscientiousness", desc: "Order and goal-discipline." },
+                "EST": { title: "Emotional Stability", desc: "Resilience under pressure." },
+                "OPN": { title: "Openness", desc: "Creative and abstract thinking." }
+            };
+
+            const finalAverages = {};
+            let scoreHtml = "";
+            for (let cat in scores) {
+                let filtered = scores[cat].filter(n => n !== undefined);
+                let avg = filtered.length ? (filtered.reduce((a, b) => a + b, 0) / filtered.length) : 0;
+                finalAverages[cat] = avg;
+                
+                scoreHtml += `
+                    <div class="bg-white p-6 border border-black/5 rounded-sm">
+                        <div class="flex justify-between items-baseline mb-2">
+                            <h4 class="font-bold uppercase tracking-widest text-xs">${labels[cat].title}</h4>
+                            <span class="text-2xl serif">${avg.toFixed(1)}</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-1.5 mb-3">
+                            <div class="bg-black h-full" style="width: ${(avg/5)*100}%"></div>
+                        </div>
+                        <p class="text-[11px] text-gray-400 leading-relaxed">${labels[cat].desc}</p>
+                    </div>
+                `;
+            }
+            document.getElementById("score_display").innerHTML = scoreHtml;
+            generateAnalysisTable(finalAverages);
+        }
+
+        function generateAnalysisTable(avgs) {
+            const tableBody = document.getElementById("analysis_table_body");
+            let tableHtml = "";
+
+            // Custom Logic: Mapping Scores to KSA and Gifts based on the 3D Framework
+            const data = [
+                {
+                    trait: "Openness",
+                    val: avgs.OPN,
+                    ksa: avgs.OPN > 3.5 ? "Innovation, R&D, Complex Modeling" : "Practical Implementation, Standards",
+                    gift: avgs.OPN > 3.5 ? "Prophecy/Discernment" : "Administration/Faith",
+                    action: "Develop a new workflow or project blueprint."
+                },
+                {
+                    trait: "Conscientiousness",
+                    val: avgs.CSN,
+                    ksa: avgs.CSN > 3.5 ? "Project Mgmt, Logistics, QA" : "Rapid Prototyping, Adaptability",
+                    gift: avgs.CSN > 3.5 ? "Administration/Stewardship" : "Service/Helps",
+                    action: "Establish a 12-week tracking system."
+                },
+                {
+                    trait: "Extraversion",
+                    val: avgs.EXT,
+                    ksa: avgs.EXT > 3.5 ? "Public Speaking, Sales, Networking" : "Deep Analysis, Technical Writing",
+                    gift: avgs.EXT > 3.5 ? "Exhortation/Teaching" : "Knowledge/Wisdom",
+                    action: "Find a mentor or mentee to share insights."
+                },
+                {
+                    trait: "Agreeableness",
+                    val: avgs.AGR,
+                    ksa: avgs.AGR > 3.5 ? "Conflict Res, Mentorship, HR" : "Critical Review, Negotiation",
+                    gift: avgs.AGR > 3.5 ? "Mercy/Pastor" : "Leadership/Exhortation",
+                    action: "Audit how your skills serve your community."
+                }
+            ];
+
+            data.forEach(row => {
+                tableHtml += `
+                    <tr class="border-b border-gray-100 group">
+                        <td class="py-6 pr-4 font-bold text-xs uppercase tracking-widest text-[#c5a47e]">${row.trait}</td>
+                        <td class="py-6 px-4 text-gray-700">${row.ksa}</td>
+                        <td class="py-6 px-4 font-medium italic">${row.gift}</td>
+                        <td class="py-6 pl-4 text-gray-500 text-xs">${row.action}</td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = tableHtml;
+        }
+    </script>
+</body>
+</html>

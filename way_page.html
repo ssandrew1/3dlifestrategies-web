@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Way | 3D Life Strategies Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c5a47e;
+            --bg: #f9f8f6;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .tile {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .tile:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+        .category-pill {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+    <!-- Header -->
+    <header class="py-16 px-6 bg-white border-b border-black/5">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-6">
+            <div>
+                <a href="index.html" class="text-sm font-bold tracking-widest text-[#c5a47e] uppercase mb-4 block hover:opacity-70 transition-opacity">← Back to Main Site</a>
+                <h1 class="text-5xl md:text-6xl mb-4">The Way <span class="italic text-[#c5a47e]">Dashboard</span></h1>
+                <p class="text-gray-500 max-w-xl text-lg">Central hub for 3D Life Strategies resources, standalone modules, and educational playbooks.</p>
+            </div>
+            <div class="flex gap-4">
+                <div class="text-right">
+                    <span class="block text-xs font-bold uppercase tracking-widest text-gray-400">Environment</span>
+                    <span class="text-sm font-medium">Production Strategy V1.2</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filters/Search -->
+    <nav class="sticky top-0 z-50 bg-[#f9f8f6]/90 backdrop-blur-md border-b border-black/5 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap gap-4 items-center">
+            <span class="text-xs font-bold uppercase tracking-tighter text-gray-500">Filter By:</span>
+            <button class="filter-btn px-4 py-2 bg-black text-white text-xs font-bold uppercase rounded-full" data-filter="all">All Resources</button>
+            <button class="filter-btn px-4 py-2 bg-white border text-xs font-bold uppercase rounded-full" data-filter="Discovery">Discovery</button>
+            <button class="filter-btn px-4 py-2 bg-white border text-xs font-bold uppercase rounded-full" data-filter="Worksheets">Worksheets</button>
+            <button class="filter-btn px-4 py-2 bg-white border text-xs font-bold uppercase rounded-full" data-filter="Assessments">Assessments</button>
+            <button class="filter-btn px-4 py-2 bg-white border text-xs font-bold uppercase rounded-full" data-filter="Coach Guides">Coach Guides</button>
+        </div>
+    </nav>
+
+    <!-- Tiles Grid -->
+    <main class="max-w-7xl mx-auto px-6 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- 3D Discovery -->
+            <a href="3d_discovery.html" class="tile group bg-white p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Discovery">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-green-100 text-green-700">Discovery</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-[#c5a47e] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 group-hover:text-[#c5a47e] transition-colors">3D Basics</h3>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
+                    Think on where you are and where you want to be?
+                </p>
+                <div class="pt-6 border-t border-gray-50 flex items-center justify-between">
+                   <span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">Library Module</span>
+                      <span class="text-xs font-semibold text-green-600">Active</span>
+                </div>
+            </a>
+
+            <a href="knowledge_skills_abilities.html" class="tile group bg-white p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Assessments">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-blue-100 text-blue-700">Assessment</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-[#c5a47e] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 group-hover:text-[#c5a47e] transition-colors">Digital Discovery Intake</h3>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
+                    Review your current Knowledge, Skills, and Abilities ie. <i>Take inventory and make a growth plan</i> !
+                </p>
+                <div class="pt-6 border-t border-gray-50 flex items-center justify-between">
+                    <span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">Library Module</span>
+                    <span class="text-xs font-semibold text-green-600">Active</span>
+                </div>
+            </a>
+
+
+            <!-- Future Discovery Assessment  -->
+
+            <a href="https://3dlifestrategies.org/index.html#contact" class="tile group bg-[#1a1a1a] p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Assessments">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-blue-100 text-blue-700">Assessment</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 text-white group-hover:text-[#c5a47e] transition-colors">3D Discovery Survey</h3>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
+                    This is our first product that is currently in Beta. Request early access if interested in the Contact link. <i>The survey guides you to take the body, mind, spirit inventory to discovery the next steps in your growth plan. </i> !
+                </p>
+                <div class="pt-6 border-t border-gray-50 flex items-center justify-between">
+                    <span class="text-[10px] font-bold tracking-widest uppercase text-gray-600">Restricted Access</span>
+                    <span class="text-xs font-semibold text-green-600">BETA</span>
+                </div>
+            </a>
+
+
+            <!-- Learning Library-->
+            <a href="helpful_3d_links.html" class="tile group bg-white p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Discovery">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-green-100 text-green-700">Learning</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-[#c5a47e] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 group-hover:text-[#c5a47e] transition-colors">3D Related Links</h3>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
+                    3D suggested links to help continue your Body, Mind, Spirit, Habits and Life Long Learning !
+                </p>
+                <div class="pt-6 border-t border-gray-50 flex items-center justify-between">
+                   <span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">Library Module</span>
+                      <span class="text-xs font-semibold text-green-600">Active</span>
+                </div>
+            </a>
+
+            <a href="learning_library.html" class="tile group bg-white p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Discovery">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-green-100 text-green-700">Learning</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-[#c5a47e] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 group-hover:text-[#c5a47e] transition-colors">3D Recommended Videos</h3>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
+                    3D suggested learning related to Body, Mind, Spirit, Habits etc.?
+                </p>
+                <div class="pt-6 border-t border-gray-50 flex items-center justify-between">
+                   <span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">Library Module</span>
+                      <span class="text-xs font-semibold text-green-600">Active</span>
+                </div>
+            </a>
+
+            <!-- SMART vs SMET Tile -->
+            <a href="smart_smet_handout.html" class="tile group bg-white p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Worksheets">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-purple-100 text-purple-700">Worksheet</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-[#c5a47e] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 group-hover:text-[#c5a47e] transition-colors">SMART vs. SMET Guide</h3>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
+                    Educational content explaining the difference between standard goals and Evangelically-Timed goals.
+                </p>
+                <div class="pt-6 border-t border-gray-50 flex items-center justify-between">
+                    <span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">PDF-Ready HTML</span>
+                    <span class="text-xs font-semibold text-green-600">Active</span>
+                </div>
+            </a>
+
+            <!-- The 48-Hour Sprint Tile -->
+            <a href="sprint_guide.html" class="tile group bg-white p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Worksheets">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-orange-100 text-orange-700">Sprint</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-[#c5a47e] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 group-hover:text-[#c5a47e] transition-colors">The 48-Hour Sprint</h3>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
+                    Interactive checklist for clients to kickstart their 3D momentum immediately after the Decision phase.
+                </p>
+                <div class="pt-6 border-t border-gray-50 flex items-center justify-between">
+                    <span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">Interactive Page</span>
+                    <span class="text-xs font-semibold text-green-600">Active</span>
+                </div>
+            </a>
+
+            <!-- Coach's Portal Tile -->
+            <a href="coach_guide.html" class="tile group bg-[#1a1a1a] p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Coach Guides">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-[#c5a47e] text-black">Coach Only</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 text-white group-hover:text-[#c5a47e] transition-colors">Talent Stewardship Guide</h3>
+                <p class="text-gray-400 text-sm mb-8 leading-relaxed flex-grow">
+                    Foundational framework and ROI principles for 3D Coaches working with the AI reports.
+                </p>
+                <div class="pt-6 border-t border-white/10 flex items-center justify-between">
+                    <span class="text-[10px] font-bold tracking-widest uppercase text-gray-600">Restricted Access</span>
+                    <span class="text-xs font-semibold text-white">Active</span>
+                </div>
+            </a>
+
+            <!-- AI Prompt Library Tile -->
+            <a href="ai_prompts_library.html" class="tile group bg-white p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Discovery">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-green-100 text-green-700">AI Resources</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-[#c5a47e] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 group-hover:text-[#c5a47e] transition-colors">Lifelong Learning Prompts</h3>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
+                    Some sample AI prompts used to discover body, mind, spirit insights.
+                </p>
+                <div class="pt-6 border-t border-gray-50 flex items-center justify-between">
+                   <span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">Library Module</span>
+                      <span class="text-xs font-semibold text-green-600">Active</span>
+                </div>
+            </a>
+
+            <!-- Discipleship -->
+            <a href="discipleship.html" class="tile group bg-white p-8 rounded-sm relative overflow-hidden flex flex-col h-full" data-category="Discovery">
+                <div class="mb-6 flex justify-between items-start">
+                    <span class="category-pill bg-green-100 text-green-700">Spirit Learning</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-[#c5a47e] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl mb-3 group-hover:text-[#c5a47e] transition-colors">Discipleship Basics</h3>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
+                    What does it mean to be a disciple?
+                </p>
+                <div class="pt-6 border-t border-gray-50 flex items-center justify-between">
+                   <span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">Library Module</span>
+                      <span class="text-xs font-semibold text-green-600">Active</span>
+                </div>
+            </a>
+
+
+
+            <!-- Empty Slot for New Topics -->
+            <div class="border-2 border-dashed border-gray-200 p-8 rounded-sm flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </div>
+                <h4 class="font-bold text-sm uppercase tracking-widest">Add New Topic</h4>
+                <p class="text-xs text-gray-400 mt-2">Create a new standalone HTML page and link it here.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="py-12 bg-white border-t border-black/5 text-center">
+        <p class="text-xs text-gray-400 uppercase tracking-[0.2em]">&copy; 3D Life Strategies | Administration Dashboard</p>
+    </footer>
+
+</body>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".filter-btn");
+    const tiles = document.querySelectorAll(".tile");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const filter = btn.dataset.filter;
+
+            // Update active button styles
+            buttons.forEach(b => {
+                b.classList.remove("bg-black", "text-white");
+                b.classList.add("bg-white", "text-black");
+            });
+            btn.classList.add("bg-black", "text-white");
+            btn.classList.remove("bg-white", "text-black");
+
+            // Filter tiles
+            tiles.forEach(tile => {
+                const category = tile.dataset.category;
+
+                if (filter === "all" || category === filter) {
+                    tile.style.display = "flex";
+                } else {
+                    tile.style.display = "none";
+                }
+            });
+        });
+    });
+});
+</script>
+
+</html>

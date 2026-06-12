@@ -1,0 +1,1478 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Life Strategies - SMART Goals Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .brand-header {
+            max-width: 1400px;
+            margin: 0 auto 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            position: relative;
+        }
+
+        .brand-logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .brand-info h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-info p {
+            font-size: 14px;
+            color: #666;
+            margin: 4px 0 0 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            height: calc(100vh - 200px);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .week-buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .search-results-section {
+            display: none;
+        }
+
+        .search-results-section.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #f5f7ff;
+            border-left: 3px solid #667eea;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        .search-result-item:hover {
+            background: #e8ecff;
+            transform: translateX(4px);
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .search-result-week {
+            font-size: 11px;
+            color: #667eea;
+            text-transform: uppercase;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .week-buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .week-btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 8px;
+            margin-right: 8px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #333;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .week-btn:hover {
+            border-color: #667eea;
+            background: #f5f7ff;
+        }
+
+        .search-results-section {
+            display: none;
+        }
+
+        .search-results-section.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #f5f7ff;
+            border-left: 3px solid #667eea;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        .search-result-item:hover {
+            background: #e8ecff;
+            transform: translateX(4px);
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .search-result-week {
+            font-size: 11px;
+            color: #667eea;
+            text-transform: uppercase;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+
+        .week-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #333;
+            text-transform: capitalize;
+        }
+
+        .week-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* GOALS GRID */
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .goal-tile {
+            background: linear-gradient(135deg, #f5f7fa 0%, #fff 100%);
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .goal-tile:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .goal-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #667eea;
+        }
+
+        .goal-id {
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .goal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .goal-fields {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .goal-field {
+            margin-bottom: 8px;
+        }
+
+        .goal-field strong {
+            color: #333;
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #667eea;
+            margin-bottom: 2px;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+        }
+
+        .modal-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .modal-section-content {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .prompt-section {
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .prompt-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .prompt-text {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* ACTION BUTTONS */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .action-btn {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-chatgpt {
+            background: #10a37f;
+            color: white;
+        }
+
+        .btn-chatgpt:hover {
+            background: #0d8c6f;
+            transform: translateY(-2px);
+        }
+
+        .btn-gemini {
+            background: #4285f4;
+            color: white;
+        }
+
+        .btn-gemini:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+        }
+
+        .btn-copy {
+            background: #667eea;
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        .btn-copy:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .btn-copy.copied {
+            background: #28a745;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5a6fd8;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                height: auto;
+                padding: 15px;
+            }
+
+            .week-btn {
+                margin-bottom: 0;
+            }
+
+            .goals-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .help-btn {
+                display: none;
+            }
+        }
+
+        .help-btn {
+            position: relative;
+            right: auto;
+            top: auto;
+            transform: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .help-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .help-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-modal.active {
+            display: flex;
+        }
+
+        .help-modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .help-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .help-modal-header h2 {
+            color: #667eea;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .help-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.2s;
+        }
+
+        .help-close:hover {
+            color: #333;
+        }
+
+        .help-section {
+            margin-bottom: 25px;
+        }
+
+        .help-section h3 {
+            color: #764ba2;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .help-section p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .acronym-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-family: monospace;
+        }
+
+        .acronym-item {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .acronym-item strong {
+            color: #667eea;
+        }
+
+        .example-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+            font-size: 13px;
+            color: #555;
+            font-style: italic;
+        }
+
+        .example-box:before {
+            content: '💡 ';
+            color: #667eea;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- BRAND HEADER -->
+    <div class="brand-header">
+        <div class="brand-logo">3D</div>
+        <div class="brand-info">
+            <h1>3D Life Strategies</h1>
+            <p>SMART Goals Dashboard • Build Your Best Self</p>
+        </div>
+        <button class="help-btn" onclick="openHelpModal()">ℹ️ Help</button>
+    </div>
+
+    <div class="container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h2>� Search</h2>
+            <input type="text" id="searchInput" class="search-box" placeholder="Search all goals...">
+            
+            <h2 style="margin-top: 20px;">📅 Weeks</h2>
+            <div class="week-buttons-container" id="weekButtons"></div>
+            
+            <div class="search-results-section" id="searchResults">
+                <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 10px; color: #333;">Search Results</h3>
+                <div id="searchResultsList"></div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <h1 class="week-title" id="weekTitle">Welcome</h1>
+            <p class="week-subtitle" id="weekSubtitle">Select a week to view your SMART goals</p>
+            <div class="goals-grid" id="goalsGrid"></div>
+        </div>
+    </div>
+
+    <!-- HELP MODAL -->
+    <div class="help-modal" id="helpModal">
+        <div class="help-modal-content">
+            <div class="help-modal-header">
+                <h2>📚 Goal Setting Guide</h2>
+                <button class="help-close" onclick="closeHelpModal()">&times;</button>
+            </div>
+
+            <div class="help-section">
+                <h3>What is SMART?</h3>
+                <p>SMART is a proven framework for setting goals that are clear, achievable, and motivating. Each letter represents a key element:</p>
+                <div class="acronym-box">
+                    <div class="acronym-item"><strong>S</strong>pecific - Clearly define what you want to achieve</div>
+                    <div class="acronym-item"><strong>M</strong>easurable - Establish concrete criteria for measuring progress</div>
+                    <div class="acronym-item"><strong>A</strong>chievable - Set goals that are realistic and attainable</div>
+                    <div class="acronym-item"><strong>R</strong>elevant - Ensure the goal matters to you and aligns with your values</div>
+                    <div class="acronym-item"><strong>T</strong>ime-bound - Set a deadline or timeframe for completion</div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>What is SMET?</h3>
+                <p>SMET is an enhanced version of SMART that emphasizes the "why" behind your goals. It includes all elements of SMART plus:</p>
+                <div class="acronym-box">
+                    <div class="acronym-item"><strong>E</strong>mpowering - Your goal should energize and inspire you. It's about recognizing why achieving this goal matters and how it will improve your life.</div>
+                </div>
+                <p>When you understand not just what you want to achieve, but why it empowers you, you're more likely to stay committed and overcome obstacles.</p>
+            </div>
+
+            <div class="help-section">
+                <h3>Why Goal Setting Matters</h3>
+                <p><strong>Direction:</strong> Clear goals give you a roadmap for your efforts, helping you focus on what truly matters rather than drifting aimlessly.</p>
+                <p><strong>Motivation:</strong> When you see progress toward a meaningful goal, you feel more energized and committed. Small wins build momentum and confidence.</p>
+                <p><strong>Accountability:</strong> Written goals create a contract with yourself. They help you track progress and celebrate milestones, reinforcing positive habits.</p>
+                <p><strong>Growth:</strong> Pursuing well-defined goals stretches you beyond your comfort zone, building resilience, skills, and self-belief. Over time, you become someone who achieves what they set out to do.</p>
+                <p><strong>Integration:</strong> The 3D approach—Body, Mind, Spirit—ensures holistic growth. You're not just achieving tasks; you're building a whole, balanced life.</p>
+            </div>
+
+            <div class="help-section">
+                <h3>Using AI Prompts for Goal Tracking</h3>
+                <p>Each expert prompt in your goal details can be used to generate powerful documents and tools. Try asking your AI assistant to:</p>
+                
+                <div class="example-box">Create a weekly checkbox tracker so I can mark off each day I complete this goal.</div>
+                <div class="example-box">Make a fill-in-the-blank form where I can record how many minutes/hours/units I achieved each day.</div>
+                <div class="example-box">Design an Excel spreadsheet to track my progress over 7 days with automatic calculations.</div>
+                <div class="example-box">Generate a habit-tracking calendar I can print out and mark with checkmarks or stickers.</div>
+                <div class="example-box">Create a progress report template that summarizes my weekly achievements and insights.</div>
+                <div class="example-box">Make a motivational checklist with mini-goals and rewards for completing this SMART goal.</div>
+                <div class="example-box">Design a reflection worksheet to capture what I learned and how to improve next week.</div>
+                <div class="example-box">Generate a comparison chart to track this goal across multiple weeks and see my improvement.</div>
+                <div class="example-box">Create a printable dashboard that shows my progress, streaks, and overall completion rate.</div>
+            </div>
+
+            <div class="help-section">
+                <h3>How to Use This Dashboard</h3>
+                <p><strong>1. Browse Goals:</strong> Click on any week in the sidebar to see your goals for that week.</p>
+                <p><strong>2. View Details:</strong> Click a goal tile to see the full SMART breakdown and expert guidance.</p>
+                <p><strong>3. Generate Documents:</strong> Copy the expert prompt and paste it into ChatGPT, Google Gemini, or another AI. Ask it to create tracking sheets, checkboxes, or Excel files.</p>
+                <p><strong>4. Track Progress:</strong> Use the generated documents to monitor your daily progress and stay accountable.</p>
+                <p><strong>5. Reflect:</strong> At the week's end, review what worked and adjust for next week.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FOR DETAILS -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <div class="goal-id" id="modalId"></div>
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                </div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div class="modal-section">
+                <div class="modal-section-title">Specific</div>
+                <div class="modal-section-content" id="modalSpecific"></div>
+            </div>
+
+            <div class="modal-section">
+                <div class="modal-section-title">Measurable</div>
+                <div class="modal-section-content" id="modalMeasurable"></div>
+            </div>
+
+            <div class="modal-section">
+                <div class="modal-section-title">Achievable</div>
+                <div class="modal-section-content" id="modalAchievable"></div>
+            </div>
+
+            <div class="modal-section">
+                <div class="modal-section-title">Relevant</div>
+                <div class="modal-section-content" id="modalRelevant"></div>
+            </div>
+
+            <div class="modal-section">
+                <div class="modal-section-title">Time-Bound</div>
+                <div class="modal-section-content" id="modalTimeBound"></div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">💡 Expert Guidance</div>
+                <div class="prompt-text" id="modalPrompt"></div>
+            </div>
+
+            <div class="action-buttons">
+                <a class="action-btn btn-chatgpt" id="chatgptBtn" target="_blank">
+                    🤖 ChatGPT
+                </a>
+                <a class="action-btn btn-gemini" id="geminiBtn" target="_blank">
+                    ✨ Gemini
+                </a>
+                <button class="action-btn btn-copy" onclick="copyPrompt()">
+                    📋 Copy Prompt
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load SMART goals JSON
+    const goalsData = {    
+  "week1_body": {
+    "wk1-body-1": {
+      "specific": "Walk for intentional movement each day.",
+      "measurable": "Track 10 minutes of walking daily.",
+      "achievable": "Builds momentum and energizes your body.",
+      "relevant": "For example, increasing daily movement supports cardiovascular health and long-term physical vitality.",
+      "time_bound": "Complete daily for 7 days.",
+      "expert_prompt": "Walking activates your cardiovascular system, boosts mood, and builds foundational momentum for physical health. It's accessible, low-impact, and easy to sustain.\n\nStarter Steps:\n1. Pick a consistent time of day.\n2. Walk at a comfortable pace for 10 minutes.\n3. Track your walk in a simple note or app.\n4. Notice how your body feels before and after.\n\nInteractive Guidance:\nWhich time of day feels easiest for you to commit to a 10-minute walk?\n\nExample SMET Variations:\n- Beginner: Walk 5 minutes after lunch for 5 days.\n- Intermediate: Walk 10 minutes at a brisk pace daily.\n- Low-energy days: Walk around your home or building for 3 minutes.\n\nContext Logic:\nIf the user has mobility limitations, suggest shorter or indoor walking. If the user is young or active, suggest increasing pace or adding hills.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk1-body-2": {
+      "specific": "Hydrate consistently.",
+      "measurable": "Drink 6–8 cups of water per day.",
+      "achievable": "Improves clarity and physical well-being.",
+      "relevant": "For example, consistent hydration supports energy levels, digestion, and cognitive performance.",
+      "time_bound": "Maintain this for the full week.",
+      "expert_prompt": "Hydration supports energy, digestion, cognitive clarity, and physical performance. Even mild dehydration can affect mood and focus.\n\nStarter Steps:\n1. Fill a water bottle in the morning.\n2. Drink one cup upon waking.\n3. Sip regularly throughout the day.\n4. Refill once in the afternoon.\n\nInteractive Guidance:\nDo you prefer tracking hydration by cups, bottles, or reminders?\n\nExample SMET Variations:\n- Simple: Drink one full bottle before noon.\n- Structured: Drink 1 cup every 2 hours.\n- Habit-based: Drink water before each meal.\n\nContext Logic:\nIf the user is highly active or lives in a hot climate, increase intake. If older or less active, keep goals gentle and avoid overhydration.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk1-body-3": {
+      "specific": "Improve sleep hygiene.",
+      "measurable": "Set a consistent bedtime and stick to it 5 nights.",
+      "achievable": "Supports recovery and energy.",
+      "relevant": "For example, consistent sleep routines support circadian rhythm stability and daily performance.",
+      "time_bound": "Follow for 7 days.",
+      "expert_prompt": "Consistent sleep strengthens your immune system, mood, metabolism, and cognitive performance. A stable bedtime anchors your circadian rhythm.\n\nStarter Steps:\n1. Choose a realistic bedtime.\n2. Dim lights 30 minutes before.\n3. Avoid screens during that window.\n4. Do one calming activity (reading, stretching).\n\nInteractive Guidance:\nWhat bedtime feels realistic for your current lifestyle?\n\nExample SMET Variations:\n- Gentle: Go to bed within a 30-minute window.\n- Structured: Lights out at the same time 5 nights.\n- Minimalist: Reduce screen time 20 minutes before bed.\n\nContext Logic:\nIf the user is a student or shift worker, adapt bedtime flexibility. If older, emphasize calming routines over strict timing.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk1-body-4": {
+      "specific": "Stretch your body.",
+      "measurable": "Do a 5-minute stretch routine daily.",
+      "achievable": "Reduces tension and increases mobility.",
+      "relevant": "For example, regular stretching supports joint mobility and reduces accumulated tension from daily activities.",
+      "time_bound": "Complete daily for 7 days.",
+      "expert_prompt": "Stretching improves mobility, reduces stiffness, and increases blood flow. It’s especially helpful if you sit often or feel tightness.\n\nStarter Steps:\n1. Choose 3 simple stretches (neck, shoulders, legs).\n2. Hold each for 20–30 seconds.\n3. Breathe slowly during each stretch.\n4. Notice areas of tension.\n\nInteractive Guidance:\nWhich part of your body feels the tightest right now?\n\nExample SMET Variations:\n- Desk worker: Neck + shoulders + chest.\n- Active person: Hamstrings + hips + calves.\n- Beginner: Gentle full-body stretch for 3 minutes.\n\nContext Logic:\nIf the user has injuries, recommend gentle or seated stretches. If athletic, suggest deeper holds or mobility flows.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk1-body-5": {
+      "specific": "Eat one nutrient-dense meal.",
+      "measurable": "Include a vegetable or lean protein once daily.",
+      "achievable": "Strengthens healthy eating habits.",
+      "relevant": "For example, adding nutrient-dense foods supports stable energy and long-term health.",
+      "time_bound": "Do this each day this week.",
+      "expert_prompt": "A nutrient-dense meal stabilizes energy, supports immunity, and improves long-term health. Small upgrades compound quickly.\n\nStarter Steps:\n1. Pick one meal to upgrade (breakfast, lunch, or dinner).\n2. Add one nutrient-dense item (vegetable, fruit, lean protein).\n3. Keep the rest of the meal simple.\n4. Track how you feel afterward.\n\nInteractive Guidance:\nWhich meal is easiest for you to upgrade this week?\n\nExample SMET Variations:\n- Simple: Add one vegetable to dinner.\n- Protein-focused: Add eggs, beans, or chicken to a meal.\n- Quick: Add a piece of fruit to breakfast.\n\nContext Logic:\nIf the user is busy, suggest pre-cut or frozen options. If they enjoy cooking, suggest experimenting with new ingredients.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk1-body-6": {
+      "specific": "Reduce one unhealthy habit.",
+      "measurable": "Limit sugar, caffeine, or processed snacks once per day.",
+      "achievable": "Creates space for healthier choices.",
+      "relevant": "For example, reducing unhealthy habits supports energy stability and better long-term nutrition.",
+      "time_bound": "Practice for 7 days.",
+      "expert_prompt": "Reducing one unhealthy habit helps stabilize energy, mood, and cravings. Small reductions are more sustainable than strict elimination.\n\nStarter Steps:\n1. Choose one habit to reduce.\n2. Set a realistic limit (e.g., one soda instead of two).\n3. Replace it with a healthier option.\n4. Track how you feel.\n\nInteractive Guidance:\nWhich habit feels easiest to reduce without feeling deprived?\n\nExample SMET Variations:\n- Sugar: Replace one sugary snack with fruit.\n- Caffeine: Stop caffeine after 2 PM.\n- Processed snacks: Swap one bag of chips for nuts.\n\nContext Logic:\nIf the user is stressed or busy, keep reductions small. If they’re motivated, suggest a slightly bigger cutback.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk1-body-7": {
+      "specific": "Practice mindful breathing.",
+      "measurable": "Do 3 deep-breath cycles before meals.",
+      "achievable": "Connects body and calm.",
+      "relevant": "For example, mindful breathing supports stress reduction and improves digestion.",
+      "time_bound": "Do this daily for 7 days.",
+      "expert_prompt": "Mindful breathing activates your parasympathetic nervous system, reducing stress and improving digestion. It’s a quick way to reset your body.\n\nStarter Steps:\n1. Pause before each meal.\n2. Inhale for 4 seconds.\n3. Exhale for 6 seconds.\n4. Repeat 3 times.\n\nInteractive Guidance:\nDo you prefer breathing exercises that are short and simple, or slightly longer and more calming?\n\nExample SMET Variations:\n- Simple: 3 slow breaths before meals.\n- Calming: 4-6 breathing for 1 minute.\n- Quick reset: One deep breath before each task.\n\nContext Logic:\nIf the user is anxious, emphasize longer exhales. If busy, keep the practice short and tied to existing routines.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    }
+  },
+  "week2_body": {
+    "wk2-body-1": {
+      "specific": "Increase movement intensity.",
+      "measurable": "Add 5 minutes to your daily walk.",
+      "achievable": "Builds endurance and confidence.",
+      "relevant": "For example, gradually increasing movement intensity supports cardiovascular health and stamina.",
+      "time_bound": "Do this for 7 days.",
+      "expert_prompt": "Increasing movement intensity strengthens your cardiovascular system and builds stamina. Small increments are the safest and most sustainable way to progress.\n\nStarter Steps:\n1. Add 5 minutes to your usual walk.\n2. Maintain a pace that feels slightly challenging.\n3. Track your total time.\n4. Notice changes in breathing and energy.\n\nInteractive Guidance:\nWould you prefer adding time, adding pace, or adding terrain (like hills)?\n\nExample SMET Variations:\n- Time-based: Add 5 minutes to your walk.\n- Pace-based: Walk briskly for the first 3 minutes.\n- Terrain-based: Add one small incline.\n\nContext Logic:\nIf the user is older or recovering, keep the increase small. If active, suggest adding pace or intervals.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk2-body-2": {
+      "specific": "Strengthen your core.",
+      "measurable": "Do a 3-minute core routine daily.",
+      "achievable": "Improves posture and stability.",
+      "relevant": "For example, core strengthening supports balance, posture, and injury prevention.",
+      "time_bound": "Complete daily for 7 days.",
+      "expert_prompt": "Core strength supports posture, balance, and injury prevention. Even short routines can create noticeable improvements.\n\nStarter Steps:\n1. Choose 3 simple exercises (plank, dead bug, glute bridge).\n2. Hold or perform each for 20–30 seconds.\n3. Focus on slow, controlled movement.\n4. Track which exercises feel easiest or hardest.\n\nInteractive Guidance:\nDo you prefer static holds (like planks) or slow movements (like crunch variations)?\n\nExample SMET Variations:\n- Beginner: 20-second plank + 10 crunches.\n- Intermediate: 30-second plank + 20 dead bugs.\n- Low-impact: Seated core twists.\n\nContext Logic:\nIf the user has back issues, recommend gentle or supported exercises. If athletic, suggest longer holds.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk2-body-3": {
+      "specific": "Improve nutrition awareness.",
+      "measurable": "Track one meal per day.",
+      "achievable": "Increases intentionality.",
+      "relevant": "For example, tracking meals helps identify patterns and supports healthier nutrition choices.",
+      "time_bound": "Do this all week.",
+      "expert_prompt": "Tracking one meal increases awareness without overwhelming you. It helps you notice patterns and make small, sustainable improvements.\n\nStarter Steps:\n1. Choose one meal to track (breakfast, lunch, or dinner).\n2. Write down what you ate and how it made you feel.\n3. Note hunger level before and after.\n4. Look for patterns after a few days.\n\nInteractive Guidance:\nWhich meal feels easiest for you to track consistently?\n\nExample SMET Variations:\n- Simple: Write down ingredients only.\n- Reflective: Add a note about energy or mood.\n- Structured: Track calories or macros (optional).\n\nContext Logic:\nIf the user is busy, keep tracking minimal. If they enjoy data, suggest more detail.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk2-body-4": {
+      "specific": "Reduce screen time before bed.",
+      "measurable": "Avoid screens 30 minutes before sleep.",
+      "achievable": "Improves rest quality.",
+      "relevant": "For example, reducing screen exposure before bed supports melatonin production and sleep quality.",
+      "time_bound": "Practice for 7 days.",
+      "expert_prompt": "Reducing screen time before bed helps your brain transition into rest mode. Blue light and stimulation delay melatonin release.\n\nStarter Steps:\n1. Set a 'screens off' time.\n2. Plug your phone in across the room.\n3. Choose a calming replacement activity.\n4. Track how quickly you fall asleep.\n\nInteractive Guidance:\nWhat calming activity would you enjoy as a replacement for screens?\n\nExample SMET Variations:\n- Gentle: 15 minutes screen-free.\n- Standard: 30 minutes screen-free.\n- Deep: 1 hour screen-free.\n\nContext Logic:\nIf the user studies or works late, suggest a shorter window. If they struggle with sleep, suggest a longer one.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk2-body-5": {
+      "specific": "Add a recovery practice.",
+      "measurable": "Do 5 minutes of foam rolling or self-massage.",
+      "achievable": "Supports physical resilience.",
+      "relevant": "For example, recovery practices help reduce muscle tension and improve mobility.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Recovery practices reduce muscle tension, improve mobility, and prevent injury. Even a few minutes can make a noticeable difference.\n\nStarter Steps:\n1. Choose one area (legs, back, shoulders).\n2. Apply gentle pressure with a roller or your hands.\n3. Move slowly and breathe deeply.\n4. Stop if you feel sharp pain.\n\nInteractive Guidance:\nWhich area of your body feels the most tense right now?\n\nExample SMET Variations:\n- Simple: 2 minutes on calves.\n- Moderate: 5 minutes on back and shoulders.\n- Desk worker: Focus on neck and upper back.\n\nContext Logic:\nIf the user is sedentary, focus on upper body. If active, focus on legs and hips.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk2-body-6": {
+      "specific": "Increase protein intake.",
+      "measurable": "Add one protein source to a meal.",
+      "achievable": "Supports muscle repair.",
+      "relevant": "For example, increasing protein intake supports muscle recovery and stable energy.",
+      "time_bound": "Do this each day.",
+      "expert_prompt": "Protein supports muscle repair, energy stability, and satiety. Adding even a small amount can improve daily nutrition.\n\nStarter Steps:\n1. Choose one meal to upgrade.\n2. Add a simple protein (eggs, beans, yogurt, chicken).\n3. Keep the rest of the meal the same.\n4. Notice how long you stay full.\n\nInteractive Guidance:\nWhich protein source feels easiest for you to add this week?\n\nExample SMET Variations:\n- Quick: Add Greek yogurt to breakfast.\n- Simple: Add beans to lunch.\n- High-protein: Add chicken or tofu to dinner.\n\nContext Logic:\nIf the user is vegetarian, suggest plant proteins. If athletic, suggest higher-protein options.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk2-body-7": {
+      "specific": "Practice posture awareness.",
+      "measurable": "Check posture 3 times per day.",
+      "achievable": "Reduces tension and improves alignment.",
+      "relevant": "For example, improving posture supports spinal health and reduces daily discomfort.",
+      "time_bound": "Do this for 7 days.",
+      "expert_prompt": "Posture awareness reduces neck and back pain, improves breathing, and increases energy. Small corrections throughout the day add up.\n\nStarter Steps:\n1. Set 3 posture reminders.\n2. Roll shoulders back and down.\n3. Align ears over shoulders.\n4. Take one slow breath.\n\nInteractive Guidance:\nDo you sit, stand, or move the most during your day?\n\nExample SMET Variations:\n- Desk worker: Check posture every hour.\n- Active person: Reset posture before each activity.\n- Beginner: One posture check in the morning and evening.\n\nContext Logic:\nIf the user sits often, emphasize upper-body alignment. If active, emphasize core engagement.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    }
+  },
+  "week3_mind": {
+    "wk3-mind-1": {
+      "specific": "Start a daily reflection practice.",
+      "measurable": "Write 3 sentences about your day.",
+      "achievable": "Builds self-awareness.",
+      "relevant": "For example, daily reflection helps identify emotional patterns and supports intentional living.",
+      "time_bound": "Do this for 7 days.",
+      "expert_prompt": "Daily reflection strengthens self-awareness and helps you notice patterns in your thoughts, emotions, and behaviors. It creates mental clarity and supports intentional living.\n\nStarter Steps:\n1. Choose a consistent time (morning or evening).\n2. Write 3 simple sentences about your day.\n3. Include one feeling and one observation.\n4. Review your notes at the end of the week.\n\nInteractive Guidance:\nDo you prefer reflecting in the morning or at night?\n\nExample SMET Variations:\n- Simple: Write 3 sentences about your mood.\n- Structured: Write 1 win, 1 challenge, 1 insight.\n- Minimalist: Write one sentence per day.\n\nContext Logic:\nIf the user is busy, suggest shorter reflections. If they enjoy journaling, suggest deeper prompts.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk3-mind-2": {
+      "specific": "Identify your top values.",
+      "measurable": "List 5 values and rank them.",
+      "achievable": "Clarifies decision-making.",
+      "relevant": "For example, identifying core values supports aligned choices and reduces internal conflict.",
+      "time_bound": "Complete this in one session.",
+      "expert_prompt": "Clarifying your values helps you make decisions that align with who you want to be. It reduces internal conflict and increases confidence.\n\nStarter Steps:\n1. Write down 5 values that matter to you.\n2. Rank them from most to least important.\n3. Write one sentence about why your top value matters.\n4. Keep the list visible for the week.\n\nInteractive Guidance:\nWhich value feels most important to you right now?\n\nExample SMET Variations:\n- Simple: List 3 values.\n- Deep: Rank 5 values and write why.\n- Quick: Choose 1 value to focus on this week.\n\nContext Logic:\nIf the user is a student, relate values to school or career. If older, relate to legacy or relationships.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk3-mind-3": {
+      "specific": "Challenge negative thoughts.",
+      "measurable": "Reframe 1 negative thought daily.",
+      "achievable": "Strengthens emotional resilience.",
+      "relevant": "For example, reframing negative thoughts supports healthier emotional responses and reduces stress.",
+      "time_bound": "Practice for 7 days.",
+      "expert_prompt": "Reframing negative thoughts helps you shift from automatic reactions to intentional interpretations. This builds emotional resilience and reduces stress.\n\nStarter Steps:\n1. Notice one negative thought today.\n2. Write it down exactly as it appears.\n3. Rewrite it into a more balanced version.\n4. Repeat the new version once aloud.\n\nInteractive Guidance:\nWhat’s one recurring thought you’d like to feel less controlled by?\n\nExample SMET Variations:\n- Quick reframe: Turn one negative thought neutral.\n- Compassion reframe: Rewrite a harsh thought kindly.\n- Evidence reframe: List 2 facts against the thought.\n\nContext Logic:\nIf the user is a student, focus on academic stress. If a professional, focus on work pressure.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk3-mind-4": {
+      "specific": "Practice focus training.",
+      "measurable": "Do 3 minutes of single-task focus.",
+      "achievable": "Improves mental clarity.",
+      "relevant": "For example, practicing single-task focus strengthens attention and reduces mental fragmentation.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Short focus training sessions strengthen your attention span and reduce mental fragmentation. Even a few minutes can improve productivity.\n\nStarter Steps:\n1. Choose one simple task.\n2. Set a 3-minute timer.\n3. Focus only on that task.\n4. Notice distractions without reacting.\n\nInteractive Guidance:\nWhat small task would you like to practice focusing on?\n\nExample SMET Variations:\n- Beginner: 2 minutes of single-task focus.\n- Standard: 3 minutes on one task.\n- Advanced: 5 minutes with no switching.\n\nContext Logic:\nIf the user struggles with attention, keep sessions short. If they’re high-performing, increase duration.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk3-mind-5": {
+      "specific": "Reduce mental clutter.",
+      "measurable": "Declutter one digital or physical space.",
+      "achievable": "Creates mental spaciousness.",
+      "relevant": "For example, decluttering small spaces reduces cognitive load and increases clarity.",
+      "time_bound": "Complete one task this week.",
+      "expert_prompt": "Decluttering reduces cognitive load and creates a sense of control. A small cleanup can dramatically improve mental clarity.\n\nStarter Steps:\n1. Choose one small area (desk, inbox, bag).\n2. Remove or archive unnecessary items.\n3. Keep only what you use.\n4. Notice how the space feels afterward.\n\nInteractive Guidance:\nWhich space feels the most mentally draining right now?\n\nExample SMET Variations:\n- Digital: Clean 10 emails.\n- Physical: Clear one drawer.\n- Quick: Remove 3 items from your workspace.\n\nContext Logic:\nIf the user is overwhelmed, suggest very small tasks. If organized, suggest deeper decluttering.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk3-mind-6": {
+      "specific": "Learn something new.",
+      "measurable": "Spend 10 minutes learning a topic.",
+      "achievable": "Stimulates growth.",
+      "relevant": "For example, learning new topics strengthens neural pathways and supports personal development.",
+      "time_bound": "Do this 3 times this week.",
+      "expert_prompt": "Learning new things strengthens neural pathways and keeps your mind adaptable. Small, consistent learning sessions are highly effective.\n\nStarter Steps:\n1. Choose a topic you're curious about.\n2. Spend 10 minutes reading or watching a video.\n3. Write one takeaway.\n4. Apply it once if possible.\n\nInteractive Guidance:\nWhat topic are you most curious about right now?\n\nExample SMET Variations:\n- Quick: Learn for 5 minutes.\n- Standard: Learn for 10 minutes.\n- Deep: Learn for 20 minutes.\n\nContext Logic:\nIf the user is busy, keep sessions short. If they’re motivated, suggest longer sessions.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk3-mind-7": {
+      "specific": "Practice gratitude.",
+      "measurable": "Write 3 things you're grateful for.",
+      "achievable": "Improves mood and perspective.",
+      "relevant": "For example, practicing gratitude shifts attention toward positive experiences and supports emotional well-being.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Gratitude shifts your brain toward noticing positive experiences. It improves mood, resilience, and overall well-being.\n\nStarter Steps:\n1. Write 3 things you're grateful for.\n2. Include one small or ordinary thing.\n3. Reflect on why each one matters.\n4. Re-read your list at the end of the week.\n\nInteractive Guidance:\nWould you prefer focusing on people, experiences, or small daily moments?\n\nExample SMET Variations:\n- Simple: Write 1 gratitude.\n- Standard: Write 3 gratitudes.\n- Deep: Write 3 gratitudes and why they matter.\n\nContext Logic:\nIf the user feels low, suggest very small gratitudes. If they’re thriving, suggest deeper reflection.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    }
+  },
+  "week4_mind": {
+    "wk4-mind-1": {
+      "specific": "Clarify your current priorities.",
+      "measurable": "List your top 5 priorities.",
+      "achievable": "Creates alignment.",
+      "relevant": "For example, clarifying priorities supports better decision-making and reduces overwhelm.",
+      "time_bound": "Complete today.",
+      "expert_prompt": "Clarifying your priorities helps you direct your time and energy toward what matters most. It reduces overwhelm and increases intentionality.\n\nStarter Steps:\n1. Write down everything currently demanding your attention.\n2. Circle the 5 items that matter most right now.\n3. Rank them from 1–5.\n4. Keep the list visible for the week.\n\nInteractive Guidance:\nWhich area of life feels most important for you to prioritize right now?\n\nExample SMET Variations:\n- Simple: List 3 priorities.\n- Standard: List and rank 5 priorities.\n- Deep: Add one sentence explaining each priority.\n\nContext Logic:\nIf the user is overwhelmed, suggest starting with 3 priorities. If they’re organized, encourage deeper ranking.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk4-mind-2": {
+      "specific": "Improve emotional regulation.",
+      "measurable": "Pause and breathe during 1 stressful moment.",
+      "achievable": "Builds inner strength.",
+      "relevant": "For example, practicing emotional regulation supports calmer responses and reduces reactive stress.",
+      "time_bound": "Practice daily.",
+      "expert_prompt": "Pausing during stress interrupts automatic reactions and helps you respond with clarity. This strengthens emotional resilience.\n\nStarter Steps:\n1. Notice when stress rises.\n2. Pause for one slow breath.\n3. Relax your shoulders.\n4. Respond only after the pause.\n\nInteractive Guidance:\nWhat situation tends to trigger stress most often for you?\n\nExample SMET Variations:\n- Simple: One slow breath during stress.\n- Standard: Pause + breath + shoulder release.\n- Deep: Add a calming phrase like 'I can handle this.'\n\nContext Logic:\nIf the user experiences frequent stress, suggest multiple pauses. If stress is rare, focus on awareness.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk4-mind-3": {
+      "specific": "Strengthen your mindset.",
+      "measurable": "Write 1 affirmation and repeat it daily.",
+      "achievable": "Reinforces positive identity.",
+      "relevant": "For example, practicing affirmations supports confidence and intentional self-talk.",
+      "time_bound": "Do this for 7 days.",
+      "expert_prompt": "Affirmations help reshape your internal dialogue and reinforce the identity you want to embody. Repetition builds new mental pathways.\n\nStarter Steps:\n1. Choose one affirmation that feels true or helpful.\n2. Write it down somewhere visible.\n3. Repeat it once in the morning.\n4. Repeat it once at night.\n\nInteractive Guidance:\nWhich area of your life would benefit most from a supportive affirmation?\n\nExample SMET Variations:\n- Confidence: 'I am capable and growing.'\n- Calm: 'I can handle challenges with clarity.'\n- Purpose: 'My actions align with what matters.'\n\nContext Logic:\nIf the user struggles with self-esteem, suggest gentle affirmations. If they’re growth-oriented, suggest ambitious ones.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk4-mind-4": {
+      "specific": "Reduce cognitive overload.",
+      "measurable": "Limit multitasking for 1 hour per day.",
+      "achievable": "Improves focus.",
+      "relevant": "For example, reducing multitasking supports deeper concentration and lowers mental fatigue.",
+      "time_bound": "Practice for 7 days.",
+      "expert_prompt": "Multitasking fragments attention and increases stress. Single-tasking improves productivity and reduces mental fatigue.\n\nStarter Steps:\n1. Choose one task at a time.\n2. Close extra tabs or put away distractions.\n3. Set a timer for 1 hour.\n4. Practice staying on one task until finished or time is up.\n\nInteractive Guidance:\nDuring which hour of the day is multitasking most tempting for you?\n\nExample SMET Variations:\n- Simple: 20 minutes of single-tasking.\n- Standard: 1 hour of single-tasking.\n- Deep: Apply single-tasking to your entire morning routine.\n\nContext Logic:\nIf the user has a high-demand job, suggest starting with 15-minute intervals. If they have more control over their schedule, suggest longer blocks.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    
+    "wk4-mind-5": {
+      "specific": "Increase self-compassion.",
+      "measurable": "Write 1 kind sentence to yourself daily.",
+      "achievable": "Softens inner criticism.",
+      "relevant": "For example, practicing self-compassion supports emotional resilience and reduces harsh self-talk.",
+      "time_bound": "Do this all week.",
+      "expert_prompt": "Self-compassion reduces harsh self-talk and builds emotional resilience. Treating yourself kindly improves motivation and well-being.\n\nStarter Steps:\n1. Notice one moment of self-criticism.\n2. Write a kind response to yourself.\n3. Read it aloud once.\n4. Save it to review later.\n\nInteractive Guidance:\nWhat area of your life do you tend to be hardest on yourself about?\n\nExample SMET Variations:\n- Simple: Write one kind sentence.\n- Reflective: Write one sentence and why it matters.\n- Deep: Write a compassionate note to yourself.\n\nContext Logic:\nIf the user struggles with perfectionism, emphasize gentleness. If they’re confident, encourage deeper reflection.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk4-mind-6": {
+      "specific": "Strengthen decision-making.",
+      "measurable": "Make 1 intentional decision without overthinking.",
+      "achievable": "Builds confidence.",
+      "relevant": "For example, practicing quick intentional decisions supports confidence and reduces mental fatigue.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Intentional decisions reduce mental fatigue and build confidence. Small, deliberate choices train your brain to trust itself.\n\nStarter Steps:\n1. Choose one small decision today.\n2. Set a 30-second limit.\n3. Make the decision without revisiting it.\n4. Notice how it feels to commit.\n\nInteractive Guidance:\nWhat type of decisions do you tend to overthink most?\n\nExample SMET Variations:\n- Simple: Decide what to eat quickly.\n- Moderate: Choose a task to start.\n- Deep: Make a personal or creative decision.\n\nContext Logic:\nIf the user is anxious, keep decisions small. If decisive, suggest slightly bigger choices.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk4-mind-7": {
+      "specific": "Practice mental stillness.",
+      "measurable": "Sit quietly for 2 minutes.",
+      "achievable": "Calms the mind.",
+      "relevant": "For example, practicing stillness supports emotional balance and reduces stress.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Mental stillness reduces stress and helps your mind reset. Even short moments of quiet can improve clarity and emotional balance.\n\nStarter Steps:\n1. Sit comfortably.\n2. Close your eyes or soften your gaze.\n3. Breathe slowly for 2 minutes.\n4. Notice any sensations without judging them.\n\nInteractive Guidance:\nDo you prefer silence, soft music, or nature sounds during stillness?\n\nExample SMET Variations:\n- Simple: 1 minute of quiet.\n- Standard: 2 minutes of stillness.\n- Deep: 5 minutes with slow breathing.\n\nContext Logic:\nIf the user is restless, keep sessions short. If they enjoy calm, suggest longer stillness.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    }
+  },
+  "week5_spirit": {
+    "wk5-spirit-1": {
+      "specific": "Practice daily stillness.",
+      "measurable": "Sit in silence for 3 minutes.",
+      "achievable": "Deepens spiritual awareness.",
+      "relevant": "For example, practicing stillness supports grounding, inner clarity, and emotional balance.",
+      "time_bound": "Do this for 7 days.",
+      "expert_prompt": "Stillness helps quiet the mind and reconnect you with your inner world. Even a few minutes can create a sense of grounding and clarity.\n\nStarter Steps:\n1. Sit comfortably with your back supported.\n2. Close your eyes or soften your gaze.\n3. Breathe slowly for 3 minutes.\n4. Notice sensations without judging them.\n\nInteractive Guidance:\nDo you prefer silence, soft music, or nature sounds during stillness?\n\nExample SMET Variations:\n- Simple: 1 minute of quiet.\n- Standard: 3 minutes of stillness.\n- Deep: 5 minutes with slow breathing.\n\nContext Logic:\nIf the user is restless or anxious, keep sessions short. If they enjoy calm, suggest longer stillness.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk5-spirit-2": {
+      "specific": "Reflect on meaning.",
+      "measurable": "Write 2 sentences about what matters most.",
+      "achievable": "Clarifies purpose.",
+      "relevant": "For example, reflecting on meaning supports deeper alignment with personal values and long-term direction.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Reflecting on meaning helps align your actions with your deeper values. It strengthens your sense of direction and inner peace.\n\nStarter Steps:\n1. Ask yourself: What mattered most today?\n2. Write 2 simple sentences.\n3. Include one feeling and one insight.\n4. Revisit your notes at the end of the week.\n\nInteractive Guidance:\nDo you prefer reflecting on your day, your relationships, or your long-term purpose?\n\nExample SMET Variations:\n- Simple: Write one meaningful moment.\n- Standard: Write 2 sentences about what mattered.\n- Deep: Add why it mattered.\n\nContext Logic:\nIf the user is overwhelmed, focus on small daily moments. If reflective, explore long-term meaning.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk5-spirit-3": {
+      "specific": "Practice compassion.",
+      "measurable": "Do 1 compassionate act daily.",
+      "achievable": "Strengthens connection.",
+      "relevant": "For example, practicing compassion supports emotional connection and reduces feelings of isolation.",
+      "time_bound": "Do this for 7 days.",
+      "expert_prompt": "Compassion expands your sense of connection and reduces emotional isolation. Small acts can shift your inner state and brighten someone else’s day.\n\nStarter Steps:\n1. Choose one person or situation.\n2. Offer a small act of kindness.\n3. Keep it simple and genuine.\n4. Notice how it affects your mood.\n\nInteractive Guidance:\nWould you prefer focusing compassion on yourself, someone close, or a stranger?\n\nExample SMET Variations:\n- Self: Speak one kind sentence to yourself.\n- Others: Send a supportive message.\n- Community: Hold the door or offer help.\n\nContext Logic:\nIf the user feels isolated, start with self-compassion. If socially connected, focus on others.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk5-spirit-4": {
+      "specific": "Connect with something greater.",
+      "measurable": "Spend 5 minutes in prayer, meditation, or reflection.",
+      "achievable": "Builds spiritual grounding.",
+      "relevant": "For example, connecting with something greater supports meaning, inner steadiness, and spiritual well-being.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Connecting with something greater—whether through prayer, meditation, or reflection—creates a sense of meaning and inner steadiness.\n\nStarter Steps:\n1. Choose a quiet space.\n2. Focus on your breath or a meaningful phrase.\n3. Spend 5 minutes in reflection, prayer, or meditation.\n4. Notice how your inner state shifts.\n\nInteractive Guidance:\nDo you prefer prayer, meditation, or open reflection for this practice?\n\nExample SMET Variations:\n- Simple: 2 minutes of quiet reflection.\n- Standard: 5 minutes of prayer or meditation.\n- Deep: 10 minutes with intentional breathing.\n\nContext Logic:\nIf the user is new to spiritual practices, keep sessions short. If experienced, deepen the practice.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk5-spirit-5": {
+      "specific": "Strengthen your sense of gratitude.",
+      "measurable": "Write 1 spiritually meaningful gratitude.",
+      "achievable": "Expands appreciation.",
+      "relevant": "For example, spiritual gratitude supports emotional well-being and a deeper sense of connection.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Spiritual gratitude helps you recognize the deeper gifts in your life—relationships, opportunities, inner strengths, or moments of grace.\n\nStarter Steps:\n1. Pause once during the day.\n2. Reflect on something meaningful or life-giving.\n3. Write one gratitude.\n4. Notice how it shifts your mood.\n\nInteractive Guidance:\nDo you feel more gratitude for people, experiences, or inner qualities?\n\nExample SMET Variations:\n- Simple: Write one gratitude.\n- Standard: Write one gratitude and why it matters.\n- Deep: Write three gratitudes related to connection.\n\nContext Logic:\nIf the user feels low, start with very small gratitudes. If thriving, deepen reflection.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk5-spirit-6": {
+      "specific": "Engage in a moment of awe.",
+      "measurable": "Spend 1 minute noticing something beautiful or inspiring.",
+      "achievable": "Opens the heart.",
+      "relevant": "For example, experiencing awe supports spiritual openness and emotional expansion.",
+      "time_bound": "Do this once today.",
+      "expert_prompt": "Awe shifts your awareness beyond the ordinary and reconnects you with wonder. It can come from nature, art, music, or meaningful moments.\n\nStarter Steps:\n1. Look for something beautiful or inspiring.\n2. Pause and take it in fully.\n3. Notice how your body responds.\n4. Reflect on why it moved you.\n\nInteractive Guidance:\nDo you experience awe more through nature, creativity, or human connection?\n\nExample SMET Variations:\n- Simple: Notice one beautiful thing.\n- Standard: Spend 1 minute observing it.\n- Deep: Write why it inspired you.\n\nContext Logic:\nIf the user feels disconnected, start with simple observations. If spiritually attuned, deepen reflection.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk5-spirit-7": {
+      "specific": "Reconnect with your inner self.",
+      "measurable": "Spend 2 minutes listening inwardly.",
+      "achievable": "Strengthens inner alignment.",
+      "relevant": "For example, listening inwardly supports intuition, clarity, and emotional grounding.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Listening inwardly helps you reconnect with your deeper self—your intuition, emotions, and inner wisdom.\n\nStarter Steps:\n1. Sit quietly.\n2. Place attention on your inner world.\n3. Notice any feelings, thoughts, or impressions.\n4. Allow them without judgment.\n\nInteractive Guidance:\nDo you tend to sense your inner world more through emotions, thoughts, or physical sensations?\n\nExample SMET Variations:\n- Simple: 1 minute of inward listening.\n- Standard: 2 minutes of quiet attention.\n- Deep: 5 minutes with gentle breathing.\n\nContext Logic:\nIf the user is new to introspection, keep it short. If experienced, deepen the practice.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    }
+  },
+  "week6_spirit": {
+    "wk6-spirit-1": {
+      "specific": "Deepen your sense of connection.",
+      "measurable": "Spend 5 minutes appreciating something larger than yourself.",
+      "achievable": "Strengthens inner peace.",
+      "relevant": "For example, connecting with something greater supports meaning, grounding, and spiritual resilience.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Taking a moment to appreciate something larger than yourself—nature, humanity, creativity, or a spiritual presence—helps cultivate humility, gratitude, and inner steadiness.\n\nStarter Steps:\n1. Choose a quiet moment.\n2. Focus on something that inspires awe or gratitude.\n3. Reflect on how it influences your life.\n4. Notice any emotional or physical shifts.\n\nInteractive Guidance:\nDo you feel most connected through nature, spirituality, creativity, or relationships?\n\nExample SMET Variations:\n- Simple: 2 minutes appreciating nature.\n- Standard: 5 minutes reflecting on something meaningful.\n- Deep: 10 minutes in contemplation or prayer.\n\nContext Logic:\nIf the user is new to spiritual practices, keep it simple. If experienced, deepen the reflection.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk6-spirit-2": {
+      "specific": "Strengthen your inner guidance.",
+      "measurable": "Write 1 intuitive insight per day.",
+      "achievable": "Builds trust in your inner voice.",
+      "relevant": "For example, recording intuitive insights supports clarity, self-trust, and spiritual awareness.",
+      "time_bound": "Do this for 7 days.",
+      "expert_prompt": "Listening to your intuition helps you make aligned decisions and strengthens your connection to your inner wisdom.\n\nStarter Steps:\n1. Pause once during the day.\n2. Notice any intuitive nudges or feelings.\n3. Write one insight or message.\n4. Reflect on how it might guide you.\n\nInteractive Guidance:\nDo your intuitive insights show up more as feelings, thoughts, or physical sensations?\n\nExample SMET Variations:\n- Simple: Write one intuitive feeling.\n- Standard: Write one insight and why it matters.\n- Deep: Track patterns across the week.\n\nContext Logic:\nIf the user struggles with intuition, start with noticing feelings. If experienced, deepen interpretation.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk6-spirit-3": {
+      "specific": "Practice presence.",
+      "measurable": "Do 1 mindful moment daily.",
+      "achievable": "Enhances spiritual awareness.",
+      "relevant": "For example, practicing presence supports calm, clarity, and deeper connection to the moment.",
+      "time_bound": "Do this for 7 days.",
+      "expert_prompt": "Mindful presence helps you slow down, reconnect with your senses, and experience life more fully. Even brief moments can shift your inner state.\n\nStarter Steps:\n1. Choose one daily activity (eating, walking, showering).\n2. Bring full attention to the sensations.\n3. Notice sounds, textures, and feelings.\n4. Return to the moment when your mind wanders.\n\nInteractive Guidance:\nWhich daily activity feels easiest to practice presence with?\n\nExample SMET Variations:\n- Simple: One mindful breath.\n- Standard: One mindful moment during a routine task.\n- Deep: 3 minutes of mindful observation.\n\nContext Logic:\nIf the user is busy, keep it short. If they enjoy mindfulness, deepen the practice.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk6-spirit-4": {
+      "specific": "Cultivate gratitude for life.",
+      "measurable": "Write 1 gratitude related to existence or connection.",
+      "achievable": "Expands appreciation.",
+      "relevant": "For example, spiritual gratitude supports emotional well-being and a sense of belonging.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Gratitude for life itself—your breath, relationships, opportunities, or experiences—deepens your sense of connection and meaning.\n\nStarter Steps:\n1. Pause once during the day.\n2. Reflect on something meaningful or life-giving.\n3. Write one gratitude.\n4. Notice how it shifts your mood.\n\nInteractive Guidance:\nDo you feel more gratitude for people, experiences, or inner qualities?\n\nExample SMET Variations:\n- Simple: Write one gratitude.\n- Standard: Write one gratitude and why it matters.\n- Deep: Write three gratitudes related to connection.\n\nContext Logic:\nIf the user feels low, start with very small gratitudes. If thriving, deepen reflection.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk6-spirit-5": {
+      "specific": "Engage in a moment of awe.",
+      "measurable": "Spend 1 minute noticing something beautiful or inspiring.",
+      "achievable": "Opens the heart.",
+      "relevant": "For example, experiencing awe supports spiritual openness and emotional expansion.",
+      "time_bound": "Do this once today.",
+      "expert_prompt": "Awe shifts your awareness beyond the ordinary and reconnects you with wonder. It can come from nature, art, music, or meaningful moments.\n\nStarter Steps:\n1. Look for something beautiful or inspiring.\n2. Pause and take it in fully.\n3. Notice how your body responds.\n4. Reflect on why it moved you.\n\nInteractive Guidance:\nDo you experience awe more through nature, creativity, or human connection?\n\nExample SMET Variations:\n- Simple: Notice one beautiful thing.\n- Standard: Spend 1 minute observing it.\n- Deep: Write why it inspired you.\n\nContext Logic:\nIf the user feels disconnected, start with simple observations. If spiritually attuned, deepen reflection.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk6-spirit-6": {
+      "specific": "Reconnect with your inner self.",
+      "measurable": "Spend 2 minutes listening inwardly.",
+      "achievable": "Strengthens inner alignment.",
+      "relevant": "For example, listening inwardly supports intuition, clarity, and emotional grounding.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Listening inwardly helps you reconnect with your deeper self—your intuition, emotions, and inner wisdom.\n\nStarter Steps:\n1. Sit quietly.\n2. Place attention on your inner world.\n3. Notice any feelings, thoughts, or impressions.\n4. Allow them without judgment.\n\nInteractive Guidance:\nDo you tend to sense your inner world more through emotions, thoughts, or physical sensations?\n\nExample SMET Variations:\n- Simple: 1 minute of inward listening.\n- Standard: 2 minutes of quiet attention.\n- Deep: 5 minutes with gentle breathing.\n\nContext Logic:\nIf the user is new to introspection, keep it short. If experienced, deepen the practice.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+    "wk6-spirit-7": {
+      "specific": "Honor your spiritual identity.",
+      "measurable": "Write 1 sentence about who you are becoming spiritually.",
+      "achievable": "Strengthens self-understanding.",
+      "relevant": "For example, articulating spiritual identity supports clarity, direction, and personal growth.",
+      "time_bound": "Do this once today.",
+      "expert_prompt": "Reflecting on who you are becoming spiritually helps you align your actions with your deeper identity and values.\n\nStarter Steps:\n1. Sit quietly for a moment.\n2. Ask yourself: Who am I becoming spiritually?\n3. Write one clear sentence.\n4. Keep it somewhere meaningful.\n\nInteractive Guidance:\nDo you feel your spiritual identity is shaped more by experience, reflection, relationships, or faith?\n\nExample SMET Variations:\n- Simple: Write one sentence.\n- Standard: Write one sentence and why it matters.\n- Deep: Write three sentences exploring your spiritual direction.\n\nContext Logic:\nIf the user feels uncertain, keep it simple. If reflective, deepen the exploration.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    }
+  },
+  "week7_misc": {
+    "wk7-misc-1": {
+      "specific": "Strengthen your sense of purpose.",
+      "measurable": "Write 1 sentence about what motivates you.",
+      "achievable": "Clarifies direction.",
+      "relevant": "For example, identifying personal motivation supports long-term consistency and meaningful action.",
+      "time_bound": "Do this once today.",
+      "expert_prompt": "Understanding what motivates you helps anchor your actions in deeper meaning. Even a single sentence can reconnect you with your purpose.\n\nStarter Steps:\n1. Pause for a moment of reflection.\n2. Ask yourself: What drives me right now?\n3. Write one clear sentence.\n4. Keep it somewhere visible.\n\nInteractive Guidance:\nDo you feel most motivated by growth, connection, creativity, or contribution?\n\nExample SMET Variations:\n- Simple: Write one motivation.\n- Standard: Write one motivation and why it matters.\n- Deep: Write three motivations and rank them.\n\nContext Logic:\nIf the user feels uncertain, start with small motivations. If clear, deepen the reflection.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk7-misc-2": {
+      "specific": "Improve daily organization.",
+      "measurable": "Plan 1 key task for tomorrow.",
+      "achievable": "Reduces overwhelm.",
+      "relevant": "For example, planning one key task supports productivity and reduces decision fatigue.",
+      "time_bound": "Do this daily.",
+      "expert_prompt": "Planning one key task for tomorrow helps you stay focused and reduces morning stress. Small planning habits create big improvements over time.\n\nStarter Steps:\n1. Review your day.\n2. Identify the most important task for tomorrow.\n3. Write it down clearly.\n4. Place it somewhere visible.\n\nInteractive Guidance:\nDo you prefer planning tasks at night or first thing in the morning?\n\nExample SMET Variations:\n- Simple: Choose one task.\n- Standard: Choose one task and a backup.\n- Deep: Plan three tasks and rank them.\n\nContext Logic:\nIf the user is overwhelmed, keep it to one task. If organized, expand the list.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk7-misc-3": {
+      "specific": "Strengthen personal growth.",
+      "measurable": "Do 1 action that supports your future self.",
+      "achievable": "Builds long-term momentum.",
+      "relevant": "For example, taking one future-focused action supports growth, confidence, and self-leadership.",
+      "time_bound": "Do this once today.",
+      "expert_prompt": "Taking one action that supports your future self—no matter how small—builds momentum and reinforces your identity as someone who grows intentionally.\n\nStarter Steps:\n1. Think of one small action your future self would appreciate.\n2. Do it within the next hour.\n3. Notice how it feels afterward.\n4. Celebrate the follow-through.\n\nInteractive Guidance:\nDo you want to focus on health, mindset, relationships, or productivity for your future-self action?\n\nExample SMET Variations:\n- Simple: Do one small helpful action.\n- Standard: Do one action and reflect on its impact.\n- Deep: Do three actions and track them.\n\nContext Logic:\nIf the user feels stuck, start with very small actions. If motivated, choose bigger ones.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk7-misc-4": {
+      "specific": "Enhance emotional awareness.",
+      "measurable": "Name 1 emotion you're feeling.",
+      "achievable": "Improves emotional clarity.",
+      "relevant": "For example, naming emotions supports emotional regulation and self-understanding.",
+      "time_bound": "Do this once today.",
+      "expert_prompt": "Naming your emotions helps you understand your internal world and respond more intentionally. Even a single word can create clarity.\n\nStarter Steps:\n1. Pause for a moment.\n2. Notice what you're feeling.\n3. Name the emotion clearly.\n4. Reflect on what may have caused it.\n\nInteractive Guidance:\nDo you tend to feel emotions more in your body, thoughts, or energy levels?\n\nExample SMET Variations:\n- Simple: Name one emotion.\n- Standard: Name one emotion and why.\n- Deep: Track emotions across the week.\n\nContext Logic:\nIf the user struggles with emotions, keep it simple. If reflective, deepen the exploration.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk7-misc-5": {
+      "specific": "Strengthen your sense of identity.",
+      "measurable": "Write 1 sentence about who you are becoming.",
+      "achievable": "Supports self-awareness.",
+      "relevant": "For example, articulating identity supports clarity, confidence, and intentional growth.",
+      "time_bound": "Do this once today.",
+      "expert_prompt": "Reflecting on who you are becoming helps you align your choices with your deeper values and long-term vision.\n\nStarter Steps:\n1. Sit quietly for a moment.\n2. Ask yourself: Who am I becoming?\n3. Write one clear sentence.\n4. Keep it somewhere meaningful.\n\nInteractive Guidance:\nDo you feel your identity is shaped more by experiences, relationships, or personal goals?\n\nExample SMET Variations:\n- Simple: Write one sentence.\n- Standard: Write one sentence and why it matters.\n- Deep: Write three sentences exploring your identity.\n\nContext Logic:\nIf the user feels uncertain, keep it simple. If reflective, deepen the exploration.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk7-misc-6": {
+      "specific": "Increase life appreciation.",
+      "measurable": "Notice 1 moment of beauty or meaning.",
+      "achievable": "Enhances presence.",
+      "relevant": "For example, noticing meaningful moments supports gratitude, mindfulness, and emotional well-being.",
+      "time_bound": "Do this once today.",
+      "expert_prompt": "Noticing small moments of beauty or meaning helps you stay present and appreciate the richness of daily life.\n\nStarter Steps:\n1. Slow down for a moment.\n2. Look for something meaningful or beautiful.\n3. Acknowledge it fully.\n4. Reflect on why it stood out.\n\nInteractive Guidance:\nDo you tend to notice beauty more in nature, people, or small daily moments?\n\nExample SMET Variations:\n- Simple: Notice one meaningful moment.\n- Standard: Reflect on why it mattered.\n- Deep: Write three meaningful moments.\n\nContext Logic:\nIf the user feels rushed, keep it simple. If mindful, deepen the reflection.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    },
+
+    "wk7-misc-7": {
+      "specific": "Reconnect with your long-term vision.",
+      "measurable": "Write 1 sentence about your ideal future.",
+      "achievable": "Clarifies direction.",
+      "relevant": "For example, articulating your ideal future supports motivation, clarity, and intentional action.",
+      "time_bound": "Do this once today.",
+      "expert_prompt": "Reflecting on your ideal future helps you align your daily actions with your long-term goals and deeper purpose.\n\nStarter Steps:\n1. Take a quiet moment.\n2. Imagine your ideal future self.\n3. Write one sentence describing that vision.\n4. Keep it somewhere inspiring.\n\nInteractive Guidance:\nDo you imagine your future more in terms of lifestyle, relationships, purpose, or personal growth?\n\nExample SMET Variations:\n- Simple: Write one sentence.\n- Standard: Write one sentence and why it matters.\n- Deep: Write three sentences exploring your future vision.\n\nContext Logic:\nIf the user feels uncertain, keep it simple. If inspired, deepen the vision.\n\nI can modify the specifics for any SMART goal you want help building and then generate it exactly in SMART format. After that, I can help you learn more or coach you step-by-step to achieve it — acting as your interactive SMART Goal Coach."
+    }
+  }
+}
+
+        let currentWeek = null;
+        let currentGoal = null;
+
+        // Initialize
+        function init() {
+            renderWeekButtons();
+            selectWeek('week1_body');
+            setupSearch();
+        }
+
+        // Setup search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                if (query.length > 0) {
+                    performSearch(query);
+                } else {
+                    document.getElementById('searchResults').classList.remove('active');
+                }
+            });
+        }
+
+        // Perform global search across all goals
+        function performSearch(query) {
+            const results = [];
+            
+            // Search through all weeks and goals
+            Object.entries(goalsData).forEach(([week, goals]) => {
+                Object.entries(goals).forEach(([id, goal]) => {
+                    const searchText = `${goal.specific} ${goal.measurable} ${goal.achievable} ${goal.time_bound} ${goal.expert_prompt}`.toLowerCase();
+                    
+                    if (searchText.includes(query)) {
+                        results.push({
+                            week: week,
+                            id: id,
+                            goal: goal,
+                            title: goal.specific
+                        });
+                    }
+                });
+            });
+
+            // Display results
+            displaySearchResults(results);
+        }
+
+        // Display search results
+        function displaySearchResults(results) {
+            const resultsList = document.getElementById('searchResultsList');
+            const resultsSection = document.getElementById('searchResults');
+            
+            resultsList.innerHTML = '';
+            
+            if (results.length === 0) {
+                resultsList.innerHTML = '<p style="font-size: 12px; color: #999;">No goals found</p>';
+            } else {
+                results.forEach(result => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'search-result-item';
+                    resultItem.onclick = () => {
+                        selectWeek(result.week);
+                        openModal(result.id, result.goal);
+                        document.getElementById('searchInput').value = '';
+                        resultsSection.classList.remove('active');
+                    };
+                    
+                    resultItem.innerHTML = `
+                        <div class="search-result-title">${result.title}</div>
+                        <div class="search-result-week">${formatWeekName(result.week)}</div>
+                    `;
+                    
+                    resultsList.appendChild(resultItem);
+                });
+            }
+            
+            resultsSection.classList.add('active');
+        }
+
+        // Render week buttons in sidebar
+        function renderWeekButtons() {
+            const container = document.getElementById('weekButtons');
+            Object.keys(goalsData).forEach(week => {
+                const btn = document.createElement('button');
+                btn.className = 'week-btn';
+                btn.textContent = formatWeekName(week);
+                btn.onclick = () => selectWeek(week);
+                container.appendChild(btn);
+            });
+        }
+
+        // Format week name
+        function formatWeekName(week) {
+            return week.replace(/_/g, ' ').toUpperCase().replace('WEEK', 'Week ');
+        }
+
+        // Select week and render goals
+        function selectWeek(week) {
+            currentWeek = week;
+            
+            // Update active button
+            document.querySelectorAll('.week-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === formatWeekName(week)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update title and render goals
+            document.getElementById('weekTitle').textContent = formatWeekName(week);
+            document.getElementById('weekSubtitle').textContent = `Your goals for this week`;
+            
+            renderGoals(week);
+        }
+
+        // Render goal tiles
+        function renderGoals(week) {
+            const grid = document.getElementById('goalsGrid');
+            grid.innerHTML = '';
+            
+            const goals = goalsData[week];
+            Object.entries(goals).forEach(([id, goal]) => {
+                const tile = document.createElement('div');
+                tile.className = 'goal-tile';
+                tile.onclick = () => openModal(id, goal);
+                
+                tile.innerHTML = `
+                    <div class="goal-id">${id}</div>
+                    <div class="goal-title">${goal.specific}</div>
+                    <div class="goal-fields">
+                        <div class="goal-field">
+                            <strong>Measurable</strong>
+                            ${goal.measurable}
+                        </div>
+                        <div class="goal-field">
+                            <strong>Time-Bound</strong>
+                            ${goal.time_bound}
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(tile);
+            });
+        }
+
+        // Open modal with full details
+        function openModal(id, goal) {
+            currentGoal = goal;
+            
+            document.getElementById('modalId').textContent = id;
+            document.getElementById('modalTitle').textContent = goal.specific;
+            document.getElementById('modalSpecific').textContent = goal.specific;
+            document.getElementById('modalMeasurable').textContent = goal.measurable;
+            document.getElementById('modalAchievable').textContent = goal.achievable;
+            document.getElementById('modalRelevant').textContent = goal.relevant;
+            document.getElementById('modalTimeBound').textContent = goal.time_bound;
+            document.getElementById('modalPrompt').textContent = goal.expert_prompt;
+
+            // Set up action button URLs
+            const prompt = goal.expert_prompt;
+            document.getElementById('chatgptBtn').href = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+            document.getElementById('geminiBtn').href = `https://google.com/?q=${encodeURIComponent(prompt)}`;
+
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        // Copy prompt to clipboard
+        function copyPrompt() {
+            if (!currentGoal) return;
+            
+            navigator.clipboard.writeText(currentGoal.expert_prompt).then(() => {
+                const btn = document.querySelector('.btn-copy');
+                btn.textContent = '✓ Copied!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = '📋 Copy Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Close modal on background click
+        document.getElementById('detailModal').addEventListener('click', (e) => {
+            if (e.target.id === 'detailModal') {
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeHelpModal();
+            }
+        });
+
+        // Help modal functions
+        function openHelpModal() {
+            document.getElementById('helpModal').classList.add('active');
+        }
+
+        function closeHelpModal() {
+            document.getElementById('helpModal').classList.remove('active');
+        }
+
+        // Close help modal on background click
+        document.getElementById('helpModal').addEventListener('click', (e) => {
+            if (e.target.id === 'helpModal') {
+                closeHelpModal();
+            }
+        });
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>

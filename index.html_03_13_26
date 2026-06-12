@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Life Strategies | Transform Passive Knowledge into Vocational Action</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c5a47e;
+            --bg: #f9f8f6;
+            --3d-blue: #2563eb;
+            --3d-purple: #7c3aed;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #1a1a1a 0%, #c5a47e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .step-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .step-card {
+            transition: all 0.3s ease;
+        }
+        .ai-badge {
+            background: linear-gradient(90deg, #7c3aed, #2563eb);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-[#f9f8f6]/80 backdrop-blur-md border-b border-black/5">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl font-bold tracking-tighter serif">3D <span class="text-[#c5a47e]">Life Strategies</span></span>
+            </div>
+            <div class="hidden md:flex gap-10 text-sm tracking-widest uppercase font-medium items-center">
+                <a href="#process" class="hover:text-[#c5a47e] transition-colors">The Process</a>
+                <a href="#dimensions" class="hover:text-[#c5a47e] transition-colors">Dimensions</a>
+                <a href="#ai-integration" class="hover:text-[#c5a47e] transition-colors">AI</a>
+                <a href="#contact" class="hover:text-[#c5a47e] transition-colors">Contact</a>
+                <a href="way_page.html" class="px-4 py-2 bg-black text-white hover:bg-[#c5a47e] transition-all rounded-sm">Secure Your Playbook</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="reveal active">
+                <span class="inline-block px-3 py-1 bg-[#c5a47e]/10 text-[#c5a47e] text-xs font-bold tracking-[0.2em] uppercase mb-6">Discovery • Decision • Development</span>
+                <!-- <h1 class="text-6xl md:text-8xl leading-[1.1] mb-8"> -->
+                <h1 class="text-5xl md:text-7xl leading-[1.1] mb-8">
+                    Your Design is the <span class="italic">Blueprint.</span><br>
+                    Your Action is the <span class="text-[#c5a47e]">Building.</span>
+                </h1>
+                <p class="text-lg text-gray-600 mb-10 max-w-lg leading-relaxed">
+                    Most development programs focus on a single area. We integrate <span class="font-semibold">Body, Mind, and Spirit</span> into a strategic framework that moves you from passive knowledge to vocational action.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="way_page.html" class="px-8 py-4 bg-black text-white text-center hover:bg-gray-800 transition-all font-medium">Start Discovering</a>
+                    <a href="#process" class="px-8 py-4 border border-black text-center hover:bg-black hover:text-white transition-all font-medium">The 3D Process</a>
+                </div>
+            </div>
+            <div class="relative reveal active" style="transition-delay: 200ms;">
+                <div class="aspect-[4/5] bg-gray-200 overflow-hidden rounded-sm shadow-2xl">                    
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" alt="Life Coach" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+                <!-- Floating Card -->
+                <div class="absolute -bottom-10 -left-10 bg-white p-8 shadow-xl max-w-xs hidden lg:block border-l-4 border-[#c5a47e]">
+                    <p class="serif italic text-xl mb-2">"Faith without works is dead."</p>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest">James 2:26</p>
+                </div>
+            </div>
+        </div>
+        <!-- Background Elements -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#c5a47e]/5 to-transparent -z-10"></div>
+    </header>
+
+    <!-- The 3D Process Section -->
+    <section id="process" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl mb-6">A Rich 3D Framework</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto">Our roadmap takes you from initial discovery to a lifelong rhythm of development.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="step-card p-10 border border-gray-100 bg-[#f9f8f6] reveal" style="transition-delay: 100ms;">
+                    <span class="text-6xl font-serif text-[#c5a47e]/20 mb-6 block font-bold italic">01</span>
+                    <h3 class="text-2xl mb-4">Discovery</h3>
+                    <p class="text-gray-600 mb-6 text-sm leading-relaxed">
+                        Complete your holistic profile. This assessment logs your KSAs (Knowledge, Skills, and Abilities) and triggers our AI engine to build your custom report.
+                    </p>
+                    <ul class="text-xs space-y-2 text-gray-400 uppercase tracking-tighter font-semibold">
+                        <li>• Complete Digital Profile</li>
+                        <li>• Personal Journey Narrative</li>
+                        <li>• Talent & Gift Inventory</li>
+                    </ul>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card p-10 border border-gray-100 bg-[#f9f8f6] reveal" style="transition-delay: 200ms;">
+                    <span class="text-6xl font-serif text-[#c5a47e]/20 mb-6 block font-bold italic">02</span>
+                    <h3 class="text-2xl mb-4">Decision</h3>
+                    <p class="text-gray-600 mb-6 text-sm leading-relaxed">
+                        Review your AI-generated Playbook with a 3D Coach. Here, you transition from data to commitment by choosing your primary growth targets.
+                    </p>
+                    <ul class="text-xs space-y-2 text-gray-400 uppercase tracking-tighter font-semibold">
+                        <li>• Professional Report Review</li>
+                        <li>• SMART/SMET Goal Locking</li>
+                        <li>• Strategic Action Plan</li>
+                    </ul>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card p-10 border border-gray-100 bg-[#f9f8f6] reveal" style="transition-delay: 300ms;">
+                    <span class="text-6xl font-serif text-[#c5a47e]/20 mb-6 block font-bold italic">03</span>
+                    <h3 class="text-2xl mb-4">Development</h3>
+                    <p class="text-gray-600 mb-6 text-sm leading-relaxed">
+                        Execute the "12-Week Adventure." Launch with the 48-Hour Sprint and use your Playbook to sustain momentum in Body, Mind, and Spirit.
+                    </p>
+                    <ul class="text-xs space-y-2 text-gray-400 uppercase tracking-tighter font-semibold">
+                        <li>• 48-Hour Sprint Launch</li>
+                        <li>• Lifelong Learning Prompts</li>
+                        <li>• Guided Accountability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Integration Section -->
+    <section id="ai-integration" class="py-24 bg-[#f1eeea]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="ai-badge">AI Integration</span>
+                        <h2 class="text-4xl serif">Intelligence in Stewardship</h2>
+                    </div>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        We don't just "take notes"—we build an engine for your growth. Our integration of AI transforms the typical coaching experience into a data-driven, personalized roadmap.
+                    </p>
+                    
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-sm shadow-sm border-t-2 border-blue-500">
+                            <h4 class="font-bold text-sm mb-2">Automated SMART/SMET Logic</h4>
+                            <p class="text-xs text-gray-500">Our AI takes your raw aspirations and calculates Specific, Measurable, and Evangelically-Timed targets, ensuring your 12-week adventure is grounded in reality.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-sm shadow-sm border-t-2 border-purple-500">
+                            <h4 class="font-bold text-sm mb-2">Personalized Synthesis</h4>
+                            <p class="text-xs text-gray-500">The Discovery Assessment posts to our AI model to correlate your unique KSA mix with professional benchmarks and biblical stewardship principles.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-sm shadow-sm border-t-2 border-accent">
+                            <h4 class="font-bold text-sm mb-2">Lifelong Learning Catalyst</h4>
+                            <p class="text-xs text-gray-500">Instead of static advice, your Playbook includes custom AI Learning Prompts designed to turn daily curiosity into technical and spiritual maturity.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-sm shadow-sm border-t-2 border-black">
+                            <h4 class="font-bold text-sm mb-2">Report Generation</h4>
+                            <p class="text-xs text-gray-500">Upon completion, the system generates a professional-grade 3D Strategy Report—the primary tool you and your coach will use to navigate your future.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal" style="transition-delay: 200ms;">
+                    <div class="bg-white p-8 rounded-sm shadow-2xl border border-black/5">
+                        <div class="flex items-center justify-between mb-6 border-b pb-4">
+                            <span class="text-xs font-bold uppercase tracking-widest">Growth Engine Interface</span>
+                            <span class="text-[10px] text-gray-400">Analysis In Progress...</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="h-4 bg-gray-100 rounded w-3/4"></div>
+                            <div class="h-2 bg-gray-50 rounded w-full"></div>
+                            <div class="p-4 bg-slate-900 text-green-400 font-mono text-[10px] rounded space-y-1">
+                                <p>> INITIALIZING KSA CORRELATION...</p>
+                                <p>> MAPPING SPIRITUAL GIFTS TO TECHNICAL SKILLS...</p>
+                                <p>> GENERATING 12-WEEK SMET TARGETS...</p>
+                                <p class="animate-pulse">> READY FOR COACH REVIEW</p>
+                            </div>
+                            <div class="h-20 bg-[#c5a47e]/5 border border-[#c5a47e]/20 rounded p-3">
+                                <span class="text-[10px] font-bold block mb-1 text-[#c5a47e]">DYNAMIC LEARNING PROMPT:</span>
+                                <p class="text-[11px] italic text-gray-600">"Act as a biblical scholar and help me understand how my analytical software engineering skills can be used to edify my church's mission outreach..."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The 3 Dimensions -->
+    <section id="dimensions" class="py-24 bg-[#1a1a1a] text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="reveal">
+                    <h2 class="text-5xl mb-10">Holistic Stewardship</h2>
+                    <p class="text-gray-400 mb-12 text-lg leading-relaxed">
+                        A healthy body supports a sharp mind, and a clear mind creates the space for a resilient spirit. We believe true maturity is the ROI of your stewardship in these three areas.
+                    </p>
+                    
+                    <div class="space-y-10">
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 flex-shrink-0 bg-[#c5a47e] rounded-full flex items-center justify-center font-bold">B</div>
+                            <div>
+                                <h4 class="text-xl mb-2">The Body (The Vessel)</h4>
+                                <p class="text-gray-400 text-sm">Managing physical energy, health, and limitations to ensure you have the stamina for your calling.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 flex-shrink-0 bg-[#c5a47e] rounded-full flex items-center justify-center font-bold">M</div>
+                            <div>
+                                <h4 class="text-xl mb-2">The Mind (The Cognitive Center)</h4>
+                                <p class="text-gray-400 text-sm">Combatting the "Expert's Curse" and lifelong learning to refine your technical and emotional intelligence.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 flex-shrink-0 bg-[#c5a47e] rounded-full flex items-center justify-center font-bold">S</div>
+                            <div>
+                                <h4 class="text-xl mb-2">The Spirit (The Core)</h4>
+                                <p class="text-gray-400 text-sm">Aligning your natural skills with divine purpose to edify the community and glorify the Creator.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative reveal" style="transition-delay: 200ms;">
+                    <div class="aspect-square rounded-full border border-white/10 flex items-center justify-center p-12">
+                        <div class="w-full h-full rounded-full border-2 border-[#c5a47e]/30 flex items-center justify-center animate-[spin_20s_linear_infinite]">
+                            <div class="absolute -top-4 bg-[#1a1a1a] px-4 font-bold text-[#c5a47e]">SPIRIT</div>
+                            <div class="absolute -bottom-4 bg-[#1a1a1a] px-4 font-bold text-[#c5a47e]">MIND</div>
+                            <div class="absolute -right-4 bg-[#1a1a1a] px-4 py-2 rotate-90 font-bold text-[#c5a47e]">BODY</div>
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center">
+                                <span class="block text-4xl font-serif italic mb-2">3D</span>
+                                <span class="text-[10px] uppercase tracking-[0.3em] opacity-50">Integration</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action / Get Started Section -->
+    <section id="get-started" class="py-24 bg-white text-center">
+        <div class="max-w-4xl mx-auto px-6 reveal">
+            <h2 class="text-4xl mb-6">Ready to Build Your Building?</h2>
+            <p class="text-gray-600 mb-10 text-lg">
+                Your Discovery Assessment is the first step toward a personalized 3D Growth Playbook. This comprehensive report is the foundation for your coaching sessions and your lifelong action plan.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="p-8 bg-[#f9f8f6] border border-gray-100 rounded-sm text-left">
+                    <h4 class="font-bold mb-4">The Assessment</h4>
+                    <p class="text-sm text-gray-500 mb-6">Complete a deep-dive survey covering your Personality, Character, and 20+ specific Knowledge, Skills, and Ability markers.</p>
+                    <a href="way_page.html" class="text-xs font-bold text-[#c5a47e] hover:underline uppercase tracking-widest">Start For Free</a>
+                </div>
+                <div class="p-8 bg-[#1a1a1a] text-white rounded-sm text-left">
+                    <h4 class="font-bold mb-4">The AI Playbook</h4>
+                    <p class="text-sm text-gray-400 mb-6">Unlock your full report, custom SMET goal logic, and lifelong learning prompts to review with your assigned Coach.</p>
+                    <a href="way_page.html" class="text-xs font-bold text-[#c5a47e] hover:underline uppercase tracking-widest">Secure the Full Strategy</a>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center">
+                <a href="way_page.html" class="bg-black text-white px-12 py-5 hover:bg-[#c5a47e] transition-colors font-bold text-lg rounded-sm shadow-xl inline-block">
+                    Begin Your Discovery Assessment
+                </a>
+                <p class="mt-6 text-xs text-gray-400 uppercase tracking-widest">No credit card required to start discovery phase</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 px-6 bg-white">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-24">
+            <div class="reveal">
+                <h2 class="text-5xl serif mb-8">Ready to start?</h2>
+                <p class="text-gray-600 mb-12">I offer a complimentary 30-minute discovery call to see if we're a good fit for your growth journey.</p>
+                
+                <div class="space-y-6"> 
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 border border-accent flex items-center justify-center rounded-full text-accent">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        </div>
+                        <span class="text-sm font-medium">neal.hayes@3dlifestrategies.org</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 border border-accent flex items-center justify-center rounded-full text-accent">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        </div>
+                        <span class="text-sm font-medium">Gainesville, FL | Remote Globally</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal">
+                <form class="space-y-6" onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-400">First Name</label>
+                            <input type="text" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-black transition-colors" required>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-400">Last Name</label>
+                            <input type="text" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-black transition-colors" required>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400">Email Address</label>
+                        <input type="email" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-black transition-colors" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400">Subject</label>
+                        <select class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-black bg-transparent transition-colors">
+                            <option>Life Coaching</option>
+                            <option>Executive Coaching</option>
+                            <option>Speaking Engagement</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400">Message</label>
+                        <textarea rows="4" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-black transition-colors" required></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-black text-white text-xs uppercase tracking-widest hover:bg-gray-800 transition-all">
+                        Send Inquiry
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>    
+
+    <!-- Footer -->
+    <footer class="py-20 bg-[#f9f8f6] border-t border-black/5">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+            <div class="col-span-2">
+                <span class="text-2xl font-bold tracking-tighter serif mb-6 block">3D <span class="text-[#c5a47e]">Life Strategies</span></span>
+                <p class="text-gray-500 max-w-sm mb-6">Empowering individuals to realize their God-given gifts through strategic development and holistic stewardship.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-xs uppercase tracking-widest mb-6">Philosophy</h4>
+                <ul class="text-sm text-gray-500 space-y-4">
+                    <li><a href="#" class="hover:text-black transition-colors">The Theology of Action</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Talent vs. Spiritual Gift</a></li>
+                    <li><a href="#" class="hover:text-black transition-colors">Overcoming Inaction</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xs uppercase tracking-widest mb-6">Connect</h4>
+                <div class="flex gap-4">
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">Instagram</a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-black/5 text-center text-xs text-gray-400">
+            &copy; 2026 3D Life Strategies. Built for Stewardship.
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        };
+
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, observerOptions);
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Smooth Scroll handling for internal navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- TO TEST LOCALLY: python -m http.server 8000 -->
+<head>
+    <meta charset="UTF-8">
+    <title>Mind Body Spirit Resource Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #c5a47e;
+            --gold-light: #e8d5b7;
+            --gold-dark: #a07848;
+            --slate: #2d3748;
+            --slate-light: #4a5568;
+            --slate-mid: #718096;
+            --bg: #f7f5f0;
+            --bg-card: #ffffff;
+            --border: #e2ddd5;
+            --text-body: #3d3530;
+            --text-muted: #7a6e64;
+            --accent-spirit: #7c6fa0;
+            --accent-mind: #4a8fa3;
+            --accent-body: #6a9e6f;
+            --accent-work: #c5825a;
+            --accent-learning: #b08040;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-body);
+            min-height: 100vh;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            background: var(--slate);
+            padding: 14px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        nav a {
+            color: var(--gold-light);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        nav a:hover { color: #fff; }
+
+        nav .nav-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            opacity: 0.85;
+        }
+
+        /* ─── HEADER ─── */
+        .page-header {
+            background: var(--slate);
+            padding: 32px 40px 28px;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+        }
+
+        .page-header h1 span {
+            color: var(--gold);
+        }
+
+        .page-header .subtitle {
+            color: var(--gold-light);
+            font-size: 12px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 300;
+            opacity: 0.75;
+        }
+
+        /* ─── CONTROLS BAR ─── */
+        .controls-bar {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 14px 40px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            max-width: 340px;
+            min-width: 180px;
+        }
+
+        .search-wrap svg {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-mid);
+            pointer-events: none;
+        }
+
+        .controls-bar input {
+            width: 100%;
+            padding: 9px 12px 9px 36px;
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            color: var(--text-body);
+            background: var(--bg);
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .controls-bar input:focus {
+            border-color: var(--gold);
+            background: #fff;
+        }
+
+        .controls-bar select {
+            padding: 9px 32px 9px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            color: var(--text-body);
+            background: var(--bg);
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            transition: border-color 0.2s;
+        }
+
+        .controls-bar select:focus { border-color: var(--gold); }
+
+        .controls-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .result-count {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 300;
+            white-space: nowrap;
+        }
+
+        /* Toggle Switch */
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--slate-light);
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 22px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            background: var(--border);
+            border-radius: 22px;
+            transition: background 0.25s;
+            cursor: pointer;
+        }
+
+        .toggle-track::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.25s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch input:checked + .toggle-track {
+            background: var(--gold);
+        }
+
+        .toggle-switch input:checked + .toggle-track::after {
+            transform: translateX(18px);
+        }
+
+        /* ─── CARD VIEW ─── */
+        #card-view {
+            padding: 24px 40px 24px 24px;
+            max-width: 960px;
+        }
+
+        .card {
+            display: flex;
+	    position: relative;  /* ADD THIS */
+            align-items: flex-start;
+            gap: 0;
+            background: var(--bg-card);
+            border-left: 4px solid var(--gold);
+            border-radius: 0 8px 8px 0;
+            padding: 14px 18px 12px 20px;
+            margin: 0 0 10px 32px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            transition: box-shadow 0.2s, border-left-color 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.11);
+            border-left-color: var(--gold-dark);
+        }
+
+        .card-body {
+            flex: 1;
+        }
+
+        .card a {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--slate);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 3px;
+            transition: color 0.2s;
+            line-height: 1.3;
+        }
+
+        .card a:hover {
+            color: var(--gold-dark);
+            text-decoration: underline;
+        }
+
+        .card .desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 7px;
+            line-height: 1.5;
+        }
+
+        .card .tags-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+        }
+
+        .tag-Spirit  { background: #ece8f5; color: var(--accent-spirit);  border-color: #c9bfe8; }
+        .tag-Mind    { background: #e6f2f7; color: var(--accent-mind);    border-color: #b5d8e6; }
+        .tag-Body    { background: #e8f5e9; color: var(--accent-body);    border-color: #b8deba; }
+        .tag-Work    { background: #fdf0ea; color: var(--accent-work);    border-color: #e8c3aa; }
+        .tag-Learning{ background: #fdf5e6; color: var(--accent-learning);border-color: #e2c98a; }
+        .tag-default { background: #eef0f4; color: var(--slate-mid);      border-color: #d2d6de; }
+
+        /* ─── TABLE VIEW ─── */
+        #table-view { display: none; padding: 24px 40px; }
+
+        .table-wrap {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: var(--slate);
+        }
+
+        thead th {
+            padding: 13px 16px;
+            text-align: left;
+            color: var(--gold-light);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            transition: color 0.15s;
+        }
+
+        thead th:hover { color: #fff; }
+
+        thead th .sort-icon {
+            display: inline-block;
+            margin-left: 5px;
+            opacity: 0.5;
+            font-size: 10px;
+        }
+
+        thead th.sort-asc .sort-icon::after  { content: ' ▲'; opacity: 1; color: var(--gold); }
+        thead th.sort-desc .sort-icon::after { content: ' ▼'; opacity: 1; color: var(--gold); }
+        thead th:not(.sort-asc):not(.sort-desc) .sort-icon::after { content: ' ⇅'; }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: #faf8f4; }
+
+        tbody td {
+            padding: 11px 16px;
+            vertical-align: middle;
+            color: var(--text-body);
+            line-height: 1.4;
+        }
+
+        tbody td a {
+            font-family: 'Playfair Display', serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--slate);
+            text-decoration: none;
+        }
+
+        tbody td a:hover {
+            color: var(--gold-dark);
+            text-decoration: underline;
+        }
+
+        tbody td.desc-cell {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-style: italic;
+            max-width: 320px;
+        }
+
+        tbody td.cat-cell .tag {
+            margin: 2px 2px 0 0;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg {
+            margin: 0 auto 16px;
+            display: block;
+            opacity: 0.3;
+        }
+
+        .empty-state p {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: var(--slate-mid);
+        }
+
+        .empty-state small {
+            font-size: 12px;
+        }
+
+
+        /* ─── FOOTER ─── */
+        footer {
+            text-align: center;
+            padding: 32px 20px;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        footer span { color: var(--gold); }
+		
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="way_page.html">← Dashboard</a>
+        <span class="nav-title">3D Life Strategies</span>
+    </nav>
+
+    <div class="page-header">
+        <h1>Mind <span>•</span> Body <span>•</span> Spirit Resource Library</h1>
+        <p class="subtitle">Discovery &nbsp;·&nbsp; Decision &nbsp;·&nbsp; Development</p>
+    </div>
+
+    <div class="controls-bar">
+        <div class="search-wrap">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input id="search" type="text" placeholder="Search resources…" autocomplete="off">
+        </div>
+
+        <select id="category">
+            <option value="All">All Categories</option>
+            <option value="Spirit">Spirit</option>
+            <option value="Mind">Mind</option>
+            <option value="Body">Body</option>
+            <option value="Work">Work</option>
+            <option value="Learning">Learning</option>
+        </select>
+
+        <div class="controls-right">
+            <span class="result-count" id="count"></span>
+
+            <label class="toggle-label" for="view-toggle">
+                Show Table
+                <span class="toggle-switch">
+                    <input type="checkbox" id="view-toggle">
+                    <span class="toggle-track"></span>
+                </span>
+            </label>
+        </div>
+    </div>
+
+    <!-- CARD VIEW -->
+    <div id="card-view"></div>
+
+    <!-- TABLE VIEW -->
+    <div id="table-view">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-col="name" class="sort-asc">Name <span class="sort-icon"></span></th>
+                        <th data-col="description">Description <span class="sort-icon"></span></th>
+                        <th data-col="category">Categories <span class="sort-icon"></span></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>Stewardship Over Vanity &nbsp;·&nbsp; <span>© 2024 3D Life Strategies</span></footer>
+
+    <script>
+        let allData = [];
+        let filtered = [];
+        let sortCol = 'name';
+        let sortDir = 1; // 1 = asc, -1 = desc
+
+        // ─── TAG COLOUR ───────────────────────────────────
+        function tagClass(cat) {
+            const map = { Spirit: 'tag-Spirit', Mind: 'tag-Mind', Body: 'tag-Body', Work: 'tag-Work', Learning: 'tag-Learning' };
+            return 'tag ' + (map[cat] || 'tag-default');
+        }
+
+        // ─── LOAD DATA ────────────────────────────────────
+        fetch("helpful_3d_links.json")
+            .then(r => r.json())
+            .then(json => {
+                allData = json;
+                applyFilter();
+            })
+            .catch(() => {
+                // Demo data so the page looks right without the JSON
+	        alert("Problem ");
+                allData = [
+                    { name: "Calm", url: "https://calm.com", description: "Meditation, sleep, and relaxation app.", category: ["Mind", "Spirit"], tags: ["meditation", "sleep"] },
+                    { name: "Headspace", url: "https://headspace.com", description: "Guided mindfulness and meditation.", category: ["Mind", "Spirit"], tags: ["mindfulness"] },
+                    { name: "MyFitnessPal", url: "https://myfitnesspal.com", description: "Nutrition tracking and fitness logging.", category: ["Body"], tags: ["nutrition", "fitness"] },
+                    { name: "Coursera", url: "https://coursera.org", description: "Online university courses.", category: ["Learning", "Work"], tags: ["education"] },
+                    { name: "Bible Gateway", url: "https://biblegateway.com", description: "Scripture search and reading plans.", category: ["Spirit"], tags: ["scripture", "faith"] }
+                ];
+                applyFilter();
+            });
+
+        // ─── FILTER ───────────────────────────────────────
+        function applyFilter() {
+            const q = document.getElementById("search").value.toLowerCase().trim();
+            const cat = document.getElementById("category").value;
+
+            filtered = allData.filter(r => {
+                const tags = (r.tags || []).join(" ").toLowerCase();
+                const matchSearch = !q ||
+                    r.name.toLowerCase().includes(q) ||
+                    r.description.toLowerCase().includes(q) ||
+                    tags.includes(q);
+                const matchCat = cat === "All" || r.category.includes(cat);
+                return matchSearch && matchCat;
+            });
+
+            document.getElementById("count").textContent =
+                filtered.length + " resource" + (filtered.length !== 1 ? "s" : "");
+
+            renderCards(filtered);
+            renderTable(sortData(filtered));
+        }
+
+        // ─── SORT ─────────────────────────────────────────
+        function sortData(list) {
+            return [...list].sort((a, b) => {
+                let va = a[sortCol], vb = b[sortCol];
+                if (Array.isArray(va)) va = va.join(", ");
+                if (Array.isArray(vb)) vb = vb.join(", ");
+                va = (va || "").toString().toLowerCase();
+                vb = (vb || "").toString().toLowerCase();
+                return va < vb ? -sortDir : va > vb ? sortDir : 0;
+            });
+        }
+
+        // ─── RENDER CARDS ─────────────────────────────────
+        function renderCards(list) {
+            const container = document.getElementById("card-view");
+            if (!list.length) {
+                container.innerHTML = `<div class="empty-state">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <p>No resources found</p>
+                    <small>Try adjusting your search or category filter</small>
+                </div>`;
+                return;
+            }
+            container.innerHTML = list.map(item => `
+                <div class="card">
+                    <div class="card-body">
+                        <a href="${item.url}" target="_blank" rel="noopener">${item.name}</a>
+                        <p class="desc">${item.description}</p>
+                        <div class="tags-row">
+                            ${item.category.map(c => `<span class="${tagClass(c)}">${c}</span>`).join("")}
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // ─── RENDER TABLE ─────────────────────────────────
+        function renderTable(list) {
+            const tbody = document.getElementById("table-body");
+            if (!list.length) {
+                tbody.innerHTML = `<tr><td colspan="3"><div class="empty-state">
+                    <p>No resources found</p>
+                    <small>Try adjusting your search or category filter</small>
+                </div></td></tr>`;
+                return;
+            }
+            tbody.innerHTML = list.map(item => `
+                <tr>
+                    <td><a href="${item.url}" target="_blank" rel="noopener">${item.name}</a></td>
+                    <td class="desc-cell">${item.description}</td>
+                    <td class="cat-cell">${item.category.map(c => `<span class="${tagClass(c)}">${c}</span>`).join("")}</td>
+                </tr>
+            `).join("");
+        }
+
+        // ─── TABLE SORT HEADERS ───────────────────────────
+        document.querySelectorAll("thead th[data-col]").forEach(th => {
+            th.addEventListener("click", () => {
+                const col = th.dataset.col;
+                if (col === sortCol) {
+                    sortDir *= -1;
+                } else {
+                    sortCol = col;
+                    sortDir = 1;
+                }
+                document.querySelectorAll("thead th").forEach(h => {
+                    h.classList.remove("sort-asc", "sort-desc");
+                });
+                th.classList.add(sortDir === 1 ? "sort-asc" : "sort-desc");
+                renderTable(sortData(filtered));
+            });
+        });
+
+        // ─── VIEW TOGGLE ──────────────────────────────────
+        document.getElementById("view-toggle").addEventListener("change", function () {
+            const tableMode = this.checked;
+            document.getElementById("card-view").style.display  = tableMode ? "none"  : "";
+            document.getElementById("table-view").style.display = tableMode ? "block" : "none";
+            if (tableMode) renderTable(sortData(filtered));
+        });
+
+        // ─── LIVE FILTERS ─────────────────────────────────
+        document.getElementById("search").addEventListener("input", applyFilter);
+        document.getElementById("category").addEventListener("change", applyFilter);
+    </script>
+
+</body>
+</html>
+

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Momentum Tracker</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #4f46e5;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 pb-20 md:pb-0">
+
+    <!-- Header -->
+    <header class="bg-indigo-700 text-white p-6 shadow-lg">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold flex items-center gap-2">
+                    <i data-lucide="trophy" class="text-yellow-400"></i> Momentum Coach
+                </h1>
+                <p class="text-indigo-100 text-sm">Goal: 4 Days/Week @ Wellness Center</p>
+            </div>
+            <div class="hidden md:flex gap-2 bg-indigo-800 p-1 rounded-xl">
+                <button onclick="showView('dashboard')" class="nav-btn px-4 py-2 rounded-lg text-sm font-bold transition-all bg-white text-indigo-700" data-view="dashboard">Dashboard</button>
+                <button onclick="showView('history')" class="nav-btn px-4 py-2 rounded-lg text-sm font-bold transition-all text-indigo-100" data-view="history">History</button>
+                <button onclick="showView('stats')" class="nav-btn px-4 py-2 rounded-lg text-sm font-bold transition-all text-indigo-100" data-view="stats">Analytics</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-4 md:p-8">
+        
+        <!-- DASHBOARD VIEW -->
+        <section id="dashboard" class="tab-content active space-y-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+                    <div class="bg-indigo-50 p-2 rounded-xl text-indigo-600"><i data-lucide="calendar"></i></div>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">30-Day Sessions</p>
+                        <p id="stat-workouts" class="text-lg font-black text-slate-800">0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+                    <div class="bg-orange-50 p-2 rounded-xl text-orange-500"><i data-lucide="zap"></i></div>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Avg Energy</p>
+                        <p id="stat-energy" class="text-lg font-black text-slate-800">0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+                    <div class="bg-green-50 p-2 rounded-xl text-green-600"><i data-lucide="trending-up"></i></div>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Current Goal</p>
+                        <p class="text-lg font-black text-slate-800">4x/wk</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+                    <div class="bg-red-50 p-2 rounded-xl text-red-500"><i data-lucide="heart"></i></div>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Target</p>
+                        <p class="text-lg font-black text-slate-800">3 Months</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-indigo-700">
+                    <i data-lucide="plus-circle"></i> Log Today's Session
+                </h2>
+                <form id="logForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-600 mb-1">Date</label>
+                            <input type="date" id="form-date" required class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-600 mb-1">Energy Level (1-10)</label>
+                            <div class="flex items-center gap-4">
+                                <input type="range" id="form-energy" min="1" max="10" value="7" class="w-full accent-indigo-600">
+                                <span id="energy-val" class="text-xl font-bold text-indigo-700 w-8">7</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-600 mb-1">Reflections</label>
+                            <textarea id="form-reflection" placeholder="How did it feel? Any resistance?" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none h-24 resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition-all shadow-md">Save Entry</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-lg font-bold mb-6 text-slate-700">Trend Analysis</h2>
+                <div class="h-64">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- HISTORY VIEW -->
+        <section id="history" class="tab-content space-y-4">
+            <h2 class="text-2xl font-bold">Training History</h2>
+            <div id="history-list" class="space-y-3">
+                <!-- Entries will appear here -->
+            </div>
+        </section>
+
+        <!-- ANALYTICS VIEW -->
+        <section id="stats" class="tab-content space-y-6">
+            <h2 class="text-2xl font-bold">Momentum Analytics</h2>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="font-bold mb-4 text-slate-700">Weekly Consistency</h3>
+                <div class="h-64">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-indigo-600 text-white p-6 rounded-2xl">
+                    <h4 class="text-indigo-100 text-sm font-bold mb-1">CONSISTENCY SCORE</h4>
+                    <div id="consistency-score" class="text-4xl font-black">0%</div>
+                    <p class="text-xs text-indigo-200 mt-2">Based on 16 target sessions per month.</p>
+                </div>
+                <div class="bg-white border border-slate-200 p-6 rounded-2xl">
+                    <h4 class="text-slate-400 text-sm font-bold mb-1">COACH'S ADVICE</h4>
+                    <p id="coach-advice" class="text-slate-700 text-sm leading-relaxed">Log your first workout to get feedback!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Mobile Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-2 md:hidden flex justify-around items-center shadow-lg">
+        <button onclick="showView('dashboard')" class="flex flex-col items-center p-2 text-indigo-600">
+            <i data-lucide="layout-dashboard" size="20"></i>
+            <span class="text-[10px] font-bold mt-1">Home</span>
+        </button>
+        <button onclick="showView('history')" class="flex flex-col items-center p-2 text-slate-400">
+            <i data-lucide="history" size="20"></i>
+            <span class="text-[10px] font-bold mt-1">History</span>
+        </button>
+        <button onclick="showView('stats')" class="flex flex-col items-center p-2 text-slate-400">
+            <i data-lucide="trending-up" size="20"></i>
+            <span class="text-[10px] font-bold mt-1">Stats</span>
+        </button>
+    </nav>
+
+    <script>
+        // State Management
+        let logs = JSON.parse(localStorage.getItem('fitness_momentum_logs')) || [];
+        let trendChart, barChart;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            document.getElementById('form-date').value = new Date().toISOString().split('T')[0];
+            updateUI();
+            
+            // Slider display
+            document.getElementById('form-energy').addEventListener('input', (e) => {
+                document.getElementById('energy-val').innerText = e.target.value;
+            });
+
+            // Form Submit
+            document.getElementById('logForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newLog = {
+                    id: Date.now(),
+                    date: document.getElementById('form-date').value,
+                    energy: document.getElementById('form-energy').value,
+                    reflection: document.getElementById('form-reflection').value,
+                    completed: true
+                };
+                logs.unshift(newLog);
+                saveLogs();
+                updateUI();
+                e.target.reset();
+                document.getElementById('form-date').value = new Date().toISOString().split('T')[0];
+                document.getElementById('energy-val').innerText = "7";
+            });
+        });
+
+        function saveLogs() {
+            localStorage.setItem('fitness_momentum_logs', JSON.stringify(logs));
+        }
+
+        function deleteLog(id) {
+            logs = logs.filter(l => l.id !== id);
+            saveLogs();
+            updateUI();
+        }
+
+        function showView(viewId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            
+            // Update nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if(btn.dataset.view === viewId) {
+                    btn.classList.add('bg-white', 'text-indigo-700');
+                    btn.classList.remove('text-indigo-100');
+                } else {
+                    btn.classList.remove('bg-white', 'text-indigo-700');
+                    btn.classList.add('text-indigo-100');
+                }
+            });
+
+            if (viewId === 'stats' || viewId === 'dashboard') {
+                renderCharts();
+            }
+        }
+
+        function updateUI() {
+            renderHistory();
+            updateStats();
+            renderCharts();
+        }
+
+        function updateStats() {
+            const today = new Date();
+            const last30Days = logs.filter(l => (today - new Date(l.date)) / (1000*60*60*24) <= 30);
+            
+            const total = last30Days.length;
+            const avgEnergy = total > 0 ? (last30Days.reduce((a, b) => a + Number(b.energy), 0) / total).toFixed(1) : 0;
+            
+            document.getElementById('stat-workouts').innerText = total;
+            document.getElementById('stat-energy').innerText = avgEnergy;
+            document.getElementById('consistency-score').innerText = Math.min(100, (total / 16 * 100).toFixed(0)) + "%";
+            
+            const advice = document.getElementById('coach-advice');
+            if(total === 0) advice.innerText = "Start your journey today!";
+            else if(avgEnergy < 5) advice.innerText = "Energy is low. Focus on recovery and sleep this week.";
+            else advice.innerText = "Great momentum! Consider pushing your limits slightly next session.";
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('history-list');
+            if (logs.length === 0) {
+                list.innerHTML = `<div class="text-center p-8 bg-white rounded-xl border-2 border-dashed border-slate-200 text-slate-400 italic">No sessions logged yet...</div>`;
+                return;
+            }
+            list.innerHTML = logs.map(log => `
+                <div class="bg-white p-4 rounded-xl border border-slate-200 flex justify-between items-start shadow-sm">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="font-bold text-slate-800">${new Date(log.date).toLocaleDateString(undefined, {weekday:'short', month:'short', day:'numeric'})}</span>
+                            <span class="px-2 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full">60 Min</span>
+                            <span class="px-2 py-0.5 ${log.energy > 7 ? 'bg-orange-100 text-orange-700' : 'bg-slate-100 text-slate-600'} text-xs font-bold rounded-full">Energy: ${log.energy}</span>
+                        </div>
+                        <p class="text-slate-600 text-sm italic mt-1 border-l-2 border-indigo-100 pl-3">"${log.reflection || 'No notes added.'}"</p>
+                    </div>
+                    <button onclick="deleteLog(${log.id})" class="text-slate-300 hover:text-red-500 p-1 transition-colors"><i data-lucide="trash-2"></i></button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderCharts() {
+            const weeklyData = {};
+            const sortedLogs = [...logs].sort((a,b) => new Date(a.date) - new Date(b.date));
+            
+            sortedLogs.forEach(log => {
+                const d = new Date(log.date);
+                const key = `W${Math.ceil(d.getDate() / 7)} ${d.toLocaleString('default', { month: 'short' })}`;
+                if(!weeklyData[key]) weeklyData[key] = { name: key, count: 0, energy: 0, entries: 0 };
+                weeklyData[key].count++;
+                weeklyData[key].energy += Number(log.energy);
+                weeklyData[key].entries++;
+            });
+
+            const labels = Object.keys(weeklyData).slice(-6);
+            const workoutCounts = labels.map(l => weeklyData[l].count);
+            const energyAvgs = labels.map(l => (weeklyData[l].energy / weeklyData[l].entries).toFixed(1));
+
+            // Trend Chart (Line)
+            const ctx1 = document.getElementById('trendChart').getContext('2d');
+            if(trendChart) trendChart.destroy();
+            trendChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        { label: 'Workouts', data: workoutCounts, borderColor: '#4f46e5', backgroundColor: '#4f46e5', tension: 0.3, borderWidth: 3, pointRadius: 5 },
+                        { label: 'Energy', data: energyAvgs, borderColor: '#f97316', borderDash: [5,5], tension: 0.3, pointRadius: 0 }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 10, ticks: { stepSize: 2 } }, x: { grid: { display: false } } } }
+            });
+
+            // Analytics Chart (Bar)
+            const ctx2 = document.getElementById('barChart').getContext('2d');
+            if(barChart) barChart.destroy();
+            barChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Sessions',
+                        data: workoutCounts,
+                        backgroundColor: workoutCounts.map(c => c >= 4 ? '#10b981' : '#6366f1'),
+                        borderRadius: 6
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 7 }, x: { grid: { display: false } } } }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Life Strategies - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #f4f4f9; }
+        .login-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 300px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #status { margin-top: 15px; font-size: 0.9rem; text-align: center; }
+        .success { color: green; }
+        .error { color: red; }
+        .token-box { word-break: break-all; background: #eee; padding: 10px; font-size: 0.7rem; margin-top: 10px; display: none; }
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c5a47e;
+            --bg: #f9f8f6;
+            --3d-blue: #2563eb;
+            --3d-purple: #7c3aed;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #1a1a1a 0%, #c5a47e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <h2>3D Life Strategies - Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="attemptLogin()">Login</button>
+
+    <div id="status"></div>
+    <div id="token-display" class="token-box"></div>
+</div>
+
+<script>
+    async function attemptLogin() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const statusDiv = document.getElementById('status');
+        const tokenDiv = document.getElementById('token-display');
+
+        statusDiv.innerText = "Checking...";
+        statusDiv.className = "";
+        tokenDiv.style.display = "none";
+
+        try {
+            // NOTE: Since Nginx proxies /api to your Node server,
+            // we use the relative path /api/auth/login
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: user, password: pass })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                statusDiv.innerText = "Login Successful!";
+                statusDiv.className = "success";
+
+                // Save the token to local storage for later use
+                localStorage.setItem('3d_auth_token', data.token);
+
+                // Show the token just so you can see it working
+                tokenDiv.innerText = "Token Saved: " + data.token;
+                tokenDiv.style.display = "block";
+            } else {
+                // DONT Give reason
+	        // statusDiv.innerText = data.message || "Login Failed";
+                statusDiv.innerText = "Login Failed, invalid user or credential.";
+                statusDiv.className = "error";
+            }
+        } catch (err) {
+            statusDiv.innerText = "Error connecting to server.";
+            statusDiv.className = "error";
+            console.error(err);
+        }
+    }
+</script>
+
+</body>
+</html>
+
