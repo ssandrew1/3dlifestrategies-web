@@ -14,6 +14,67 @@
       });
    })();
 
+function screenFieldOnLeave(event) {
+    // 1) Get the element that triggered the 'blur' (on leave) event
+    const inputElement = event.target;
+    if (!inputElement) return;
+
+    const rawValue = inputElement.value;
+    if (!rawValue.trim()) return;
+
+    // 2) Define your 18 HIPAA patterns (optimized to minimize UI disruption)
+    const patterns = [
+        { name: "EMAIL", regex: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}\b/gi },
+        { name: "PHONE", regex: /(?:\+?\d{1,3}[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/g },
+        { name: "FAX", regex: /\bFax:\s*\+?\d[\d\s().-]{7,}\d/gi },
+        { name: "SSN", regex: /\b\d{3}-\d{2}-\d{4}\b/g },
+        { name: "MRN", regex: /\bMR[- ]?\d{6,}\b/gi },
+        { name: "HEALTHPLAN", regex: /\bHP[- ]?\d{4}[- ]?\d{4}\b/gi },
+        { name: "ACCOUNT", regex: /\bACCT[- ]?\d{4}[- ]?\d{6}\b/gi },
+        { name: "LICENSE", regex: /\bD\d{3}-\d{3}-\d{2}-\d{3}-\d\b/gi },
+        { name: "VIN", regex: /\b[A-HJ-NPR-Z0-9]{17}\b/gi },
+        { name: "DEVICE", regex: /\bSN[- ]?\d{4}[- ]?\d{4}\b/gi },
+        { name: "URL", regex: /\bhttps?:\/\/[^\s]+/gi },
+        { name: "IP", regex: /\b\d{1,3}(\.\d{1,3}){3}\b/g },
+        { name: "BIOMETRIC", regex: /\bFP[- ]?\d{6}\b/gi },
+        { name: "UNIQUE", regex: /\bPAT[- ]?UNIQUE[- ]?[A-Z]{2}[- ]?\d{4}\b/gi },
+        { name: "DATE", regex: /\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g },
+        { name: "AGE_OVER_89", regex: /\b(9[0-9]|[1-9][0-9]{2,})\b/g },
+        { name: "ADDRESS", regex: /\d{3,5} [A-Za-z0-9 .]+(Lane|St|Street|Ave|Avenue|Rd|Road|Blvd|Drive|Dr)/gi },
+        { name: "ZIP", regex: /\b\d{5}(-\d{4})?\b/g },
+        { name: "PHOTO_PATH", regex: /\/images\/patients\/[^\s]+/gi },
+        // NOTE: Generic NAME regex is omitted here to prevent tearing apart 
+        // ordinary survey text. Your local AI can cleanly catch names on post-to-disk.
+    ];
+
+    // 3) Perform replacement loop directly on the text value
+    let redactedText = rawValue;
+    let matchCounter = 0;
+
+    patterns.forEach(p => {
+        redactedText = redactedText.replace(p.regex, () => {
+            const token = `[REDACTED_${p.name}_${matchCounter}]`;
+            matchCounter++;
+            return token;
+        });
+    });
+
+    // 4) Update the input field value only if changes were actually made
+    if (rawValue !== redactedText) {
+        inputElement.value = redactedText;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Target every textarea on your workbook survey
+    const surveyFields = document.querySelectorAll("textarea");
+    
+    surveyFields.forEach(field => {
+        field.addEventListener("blur", screenFieldOnLeave);
+    });
+});
+
+
 </script>
 <style>
 :root {
@@ -775,6 +836,98 @@ function allSurveyPagesVisited() {
 }
 
 function sendEmail() {
+    if (!allSurveyPagesVisited()) {
+        const notification = document.createElement('div');
+        notification.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #dc2626; color: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 9999; max-width: 520px; font-weight: 600; text-align: center;';
+        notification.textContent = 'You must complete all 5 pages and then Submit on end of Summary and Action Page 5';
+        document.body.appendChild(notification);
+        setTimeout(function() { notification.remove(); }, 7000);
+        return;
+    }
+
+    let result = "Mind • Body • Spirit Workbook Submission\n";
+    result += "=======================================\n\n";
+
+    document.querySelectorAll('.step').forEach((step, idx) => {
+        const title = step.querySelector('h1').textContent;
+        result += `${title}\n`;
+        result += "----------------------------------------\n";
+
+        step.querySelectorAll('textarea').forEach((textarea, qIdx) => {
+            const label = (textarea.previousElementSibling && textarea.previousElementSibling.textContent)
+              || `Question ${qIdx + 1}`;
+            const answer = textarea.value.trim() || '[no answer]';
+            result += `${label}\n`;
+            result += `Answer: ${answer}\n\n`;
+        });
+
+        result += "\n";
+    });
+
+    // Show loading state
+    const sendBtn = document.getElementById('sendBtn');
+    const originalText = sendBtn.textContent;
+    sendBtn.textContent = 'Sending...';
+    sendBtn.disabled = true;
+
+    // Build the file blob from the result text and post it
+    const surveyId = document.getElementById('intro-q1').value.trim();
+    const blob = new Blob([result], { type: 'text/plain' });
+    const file = new File([blob], `survey_${surveyId}.txt`, { type: 'text/plain' });
+
+    const formData = new FormData();
+    formData.append('id', surveyId);
+    formData.append('file', file);
+
+    // fetch('http://127.0.0.1:3001/survey/upload-survey', {
+    fetch('https://3dlifestrategies.org/survey/upload-survey', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => {
+        if (!res.ok) return res.text().then(t => Promise.reject(t));
+        return res.text();
+    })
+    .then(function(response) {
+        console.log('Survey uploaded successfully:', response);
+        try {
+            localStorage.setItem('3d_survey_submitted', 'true');
+        } catch (err) {
+            console.warn('Could not save survey submitted flag:', err);
+        }
+        try {
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({ type: '3d:wizard', event: 'survey:submitted' }, '*');
+            }
+        } catch (err) {}
+
+        const notification = document.createElement('div');
+        notification.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #10b981; color: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 9999; max-width: 400px;';
+        notification.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-check-circle" style="width: 20px; height: 20px;"></i><span><b>Thank you for submitting your workbook!</b><br /><i>We\'ll start working on the next steps and get back to you soon.</i></span></div>';
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+            window.location.href = "https://3dlifestrategies.org/beta/steps.html";
+        }, 5000);
+    })
+    .catch(function(error) {
+        console.error('Failed to upload survey:', error);
+
+        const notification = document.createElement('div');
+        notification.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #ef4444; color: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 9999; max-width: 400px;';
+        notification.innerHTML = `<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-exclamation-circle" style="width: 20px; height: 20px;"></i><span>Failed to submit: ${error}</span></div>`;
+        document.body.appendChild(notification);
+
+        setTimeout(() => { notification.remove(); }, 7000);
+    })
+    .finally(function() {
+        sendBtn.textContent = originalText;
+        sendBtn.disabled = false;
+    });
+}
+
+function sendEmailOLD() {
     if (!allSurveyPagesVisited()) {
         const notification = document.createElement('div');
         notification.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #dc2626; color: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 9999; max-width: 520px; font-weight: 600; text-align: center;';
