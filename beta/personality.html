@@ -82,7 +82,7 @@
             </header>
 
             <div class="bg-white p-6 mb-12 flex flex-col md:flex-row items-center justify-between gap-4 border border-black/5">
-                <div class="text-sm"><b>Important:</b> <i>Copy and Save for Next Survey or Download/Print !</i></div>
+                <div class="text-sm"><b>Important:</b> <i>Optionally Save your personallity report to Print !</i></div>
                 <div class="flex items-center gap-4">                     
                     <button id="copyResultsBtn" onclick="copyPersonalityResults()" class="border border-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">Copy Scores to Clipboard</button>
                     <span id="copyStatus" style="color: green; display: none;" class="text-xs font-bold uppercase">Copied!</span>
@@ -109,7 +109,7 @@
             <div class="mt-12 jjkflex flex-wrap justify-center gap-4">
                 <button onclick="undo()" class="border border-gray-300 px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-gray-100 transition-all">← Edit Last Answer</button>
                 <button onclick="window.print()" class="border border-black px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">Download/Print Report</button>
-                <a href="steps.html" class="px-8 py-3 text-xs font-bold uppercase tracking-widest underline decoration-[#c5a47e]">Back to Steps</a>
+		&nbsp;&nbsp;<i/>Click the top right</i><b>"NEXT"</b>
             </div>
         </div>
     </main>
@@ -282,7 +282,7 @@
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const s = document.getElementById('copyStatus');
                 s.style.display = 'inline';
-                setTimeout(() => s.style.display = 'none', 2000);
+                setTimeout(() => s.style.display = 'none', 10000);
             });
         }
     </script>

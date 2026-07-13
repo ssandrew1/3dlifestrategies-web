@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Life Strategies - Action Items</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #f8f4ee;
+            --dark: #1a1612;
+            --gold: #c9922a;
+            --gold-light: #f0c96a;
+            --body: #2e2a26;
+            --accent-blue: #2a5c8f;
+            --accent-green: #2d6a52;
+            --card-bg: #ffffff;
+            --muted: #7a7369;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background-color: var(--cream);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            color: var(--body);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--dark);
+            background-image: repeating-linear-gradient(
+                -45deg,
+                rgba(201, 146, 42, 0.04),
+                rgba(201, 146, 42, 0.04) 40px,
+                transparent 40px,
+                transparent 80px
+            );
+            padding: 60px 40px;
+            width: 100%;
+        }
+
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            color: var(--cream);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        h1 .highlight {
+            color: var(--gold-light);
+        }
+
+        .header-subtitle {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            font-size: 1rem;
+            color: rgba(248, 244, 238, 0.65);
+            max-width: 560px;
+            margin-bottom: 32px;
+        }
+
+        .domain-pills {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .domain-pill {
+            border: 1.5px solid;
+            border-radius: 100px;
+            padding: 8px 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        .domain-pill.blue {
+            border-color: #7ab4e8;
+            color: #7ab4e8;
+        }
+
+        .domain-pill.gold {
+            border-color: var(--gold-light);
+            color: var(--gold-light);
+        }
+
+        .domain-pill.green {
+            border-color: #7ecfaa;
+            color: #7ecfaa;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 56px 24px 80px;
+        }
+
+        .section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            margin-top: 56px;
+        }
+
+        .section-label:first-of-type {
+            margin-top: 0;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #d6cfc5;
+        }
+
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .domain-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+            animation: fadeUp 0.6s ease both;
+            transition: transform 0.25s ease;
+        }
+
+        .domain-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .domain-card:nth-child(1) { animation-delay: 0.1s; }
+        .domain-card:nth-child(2) { animation-delay: 0.2s; }
+        .domain-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .domain-header {
+            padding: 22px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .domain-card.body .domain-header {
+            background: #eef5fc;
+        }
+
+        .domain-card.mind .domain-header {
+            background: #fdf5e6;
+        }
+
+        .domain-card.spirit .domain-header {
+            background: #edf7f2;
+        }
+
+        .domain-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .domain-card.body .domain-icon {
+            background: #cde2f7;
+        }
+
+        .domain-card.mind .domain-icon {
+            background: #fce9b3;
+        }
+
+        .domain-card.spirit .domain-icon {
+            background: #b8e8d3;
+        }
+
+        .domain-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--body);
+        }
+
+        .domain-body {
+            padding: 0 22px 22px;
+        }
+
+        .domain-body ul {
+            list-style: none;
+        }
+
+        .domain-body li {
+            margin-bottom: 12px;
+            padding-left: 16px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .domain-body li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        .domain-card.body li::before {
+            color: var(--accent-blue);
+        }
+
+        .domain-card.mind li::before {
+            color: var(--gold);
+        }
+
+        .domain-card.spirit li::before {
+            color: var(--accent-green);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border-left: 4px solid;
+            padding: 20px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+            animation: fadeUp 0.6s ease both;
+            transition: transform 0.25s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .book-card.body {
+            border-left-color: var(--accent-blue);
+        }
+
+        .book-card.mind {
+            border-left-color: var(--gold);
+        }
+
+        .book-card.spirit {
+            border-left-color: var(--accent-green);
+        }
+
+        .book-domain-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 8px;
+            letter-spacing: 0.1em;
+        }
+
+        .book-card.body .book-domain-tag {
+            color: var(--accent-blue);
+        }
+
+        .book-card.mind .book-domain-tag {
+            color: var(--gold);
+        }
+
+        .book-card.spirit .book-domain-tag {
+            color: var(--accent-green);
+        }
+
+        .book-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--body);
+            margin-bottom: 8px;
+        }
+
+        .book-author {
+            font-family: 'DM Sans', sans-serif;
+            font-style: italic;
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .book-why {
+            font-size: 0.88rem;
+            color: var(--body);
+            line-height: 1.6;
+        }
+
+        .prompts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .prompt-card {
+            background: var(--dark);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .prompt-card:nth-child(1) { animation-delay: 0.1s; }
+        .prompt-card:nth-child(2) { animation-delay: 0.2s; }
+        .prompt-card:nth-child(3) { animation-delay: 0.3s; }
+        .prompt-card:nth-child(4) { animation-delay: 0.4s; }
+        .prompt-card:nth-child(5) { animation-delay: 0.5s; }
+        .prompt-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .prompt-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .prompt-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .prompt-badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            border: 1px solid;
+            border-radius: 100px;
+            padding: 4px 10px;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+        }
+
+        .prompt-badge.pb-blue {
+            border-color: #7ab4e8;
+            color: #7ab4e8;
+        }
+
+        .prompt-badge.pb-gold {
+            border-color: var(--gold-light);
+            color: var(--gold-light);
+        }
+
+        .prompt-badge.pb-green {
+            border-color: #7ecfaa;
+            color: #7ecfaa;
+        }
+
+        .prompt-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            color: rgba(248, 244, 238, 0.9);
+            max-width: 400px;
+        }
+
+        .prompt-number {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-weight: 500;
+            letter-spacing: 0.08em;
+        }
+
+        .prompt-body {
+            padding: 18px 22px;
+        }
+
+        .prompt-text {
+            font-family: 'DM Sans', sans-serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: rgba(248, 244, 238, 0.82);
+            margin-bottom: 14px;
+            line-height: 1.6;
+        }
+
+        .try-prompt-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--gold);
+            color: var(--dark);
+            padding: 8px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .try-prompt-btn:hover {
+            background: var(--gold-light);
+        }
+
+        .milestones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .milestone-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+            animation: fadeUp 0.6s ease both;
+            transition: transform 0.25s ease;
+        }
+
+        .milestone-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .milestone-card:nth-child(1) { animation-delay: 0.1s; }
+        .milestone-card:nth-child(2) { animation-delay: 0.2s; }
+        .milestone-card:nth-child(3) { animation-delay: 0.3s; }
+        .milestone-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .milestone-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .milestone-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--body);
+            margin-bottom: 10px;
+        }
+
+        .milestone-text {
+            font-size: 0.83rem;
+            color: #5a5550;
+            line-height: 1.6;
+        }
+
+        .final-quote {
+            background: var(--dark);
+            border-radius: 18px;
+            padding: 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.6s ease both 0.4s;
+        }
+
+        .final-quote::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 14rem;
+            color: rgba(201, 146, 42, 0.08);
+            line-height: 1;
+        }
+
+        .final-quote p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.2rem, 3vw, 1.7rem);
+            color: var(--cream);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.4;
+        }
+
+        .final-quote .quote-highlight {
+            color: var(--gold-light);
+        }
+
+        .quote-attribution {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 40px 20px;
+            }
+
+            main {
+                padding: 36px 16px 56px;
+            }
+
+            .final-quote {
+                padding: 36px 24px;
+            }
+        }
+
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #1a1612;
+            }
+
+            main {
+                background-color: #ffffff;
+            }
+
+            header {
+                background-color: #f4f4f2;
+                background-image: none;
+            }
+
+            .header-eyebrow,
+            .domain-pill {
+                color: #1a1612;
+                border-color: #1a1612;
+            }
+
+            h1 {
+                color: #1a1612;
+            }
+
+            h1 .highlight {
+                color: #966b1d;
+            }
+
+            .header-subtitle {
+                color: #1a1612;
+            }
+
+            .domain-pill {
+                border: 1px solid #ccc;
+            }
+
+            .domain-card {
+                background: #ffffff;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+
+            .domain-header {
+                background-color: #f4f4f2 !important;
+            }
+
+            .domain-title {
+                color: #1a1612;
+            }
+
+            .domain-body li {
+                color: #1a1612;
+            }
+
+            .book-card {
+                background: #ffffff;
+                border: 1px solid #ccc;
+                border-left: 4px solid;
+                break-inside: avoid;
+            }
+
+            .book-title {
+                color: #1a1612;
+            }
+
+            .book-why {
+                color: #1a1612;
+            }
+
+            .prompt-card {
+                background: #f4f4f2;
+                border: 1px solid #ccc;
+                color: #1a1612;
+                break-inside: avoid;
+            }
+
+            .prompt-text {
+                color: #1a1612;
+            }
+
+            .prompt-label {
+                color: #1a1612;
+            }
+
+            .try-prompt-btn {
+                display: none;
+            }
+
+            .milestone-card {
+                background: #ffffff;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+
+            .milestone-title {
+                color: #1a1612;
+            }
+
+            .milestone-text {
+                color: #1a1612;
+            }
+
+            .final-quote {
+                background: #f4f4f2;
+                border: 1px solid #ccc;
+                color: #1a1612;
+            }
+
+            .final-quote p {
+                color: #1a1612;
+            }
+
+            .final-quote .quote-highlight {
+                color: #966b1d;
+            }
+
+            .section-label {
+                color: #1a1612;
+            }
+
+            .section-label::after {
+                background: #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="header-eyebrow">3D Life Strategies 2026 · Action Plan</div>
+            <h1>Your <span class="highlight">Action Items</span></h1>
+            <p class="header-subtitle">A man of genuine character called to ministry, ready to invest in personal renewal while honoring his calling and family.</p>
+            <div class="domain-pills">
+                <div class="domain-pill blue">⚡ Body — 3/5</div>
+                <div class="domain-pill gold">🧠 Mind — 3/5</div>
+                <div class="domain-pill green">✝ Spirit — 4/5</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="section-label">Priority Actions by Domain</div>
+
+        <div class="domain-grid">
+            <div class="domain-card body">
+                <div class="domain-header">
+                    <div class="domain-icon">🏃</div>
+                    <div class="domain-title">Body</div>
+                </div>
+                <div class="domain-body">
+                    <ul>
+                        <li>Schedule a physician checkup and baseline fitness assessment within 30 days before intensifying exercise</li>
+                        <li>Protect a consistent 3x/week gym schedule with early morning time blocks before ministry demands begin</li>
+                        <li>Schedule pickleball with your wife 1–2 times per week as both cardio and marriage investment</li>
+                        <li>Establish one wind-down sleep anchor habit such as no screens 30 minutes before bed or short prayer time</li>
+                        <li>Request basic bloodwork for Vitamin D, Magnesium, and B12 deficiencies before starting any supplement regimen</li>
+                        <li>Begin with 2x/week gym sessions for the first 3 weeks, then progress to 3x/week to avoid early injury or burnout</li>
+                        <li>Practice the two-minute morning movement rule: five push-ups, stretching, or a brisk walk before checking messages</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="domain-card mind">
+                <div class="domain-header">
+                    <div class="domain-icon">💡</div>
+                    <div class="domain-title">Mind</div>
+                </div>
+                <div class="domain-body">
+                    <ul>
+                        <li>Select 2–3 high-quality health and fitness podcasts and assign them to commute and gym time for zero-overhead learning</li>
+                        <li>Schedule a 90-minute consultation with a certified financial planner to create a clear 12-month financial priority list</li>
+                        <li>Identify and reach out to an accountability partner—a trusted pastoral peer, mentor, or coach—within the next 30 days</li>
+                        <li>Research part-time or online seminary programs to keep advanced education dreams alive without immediate commitment</li>
+                        <li>Commit to consuming one exercise science or nutrition podcast episode per week for 60 days to build foundational knowledge</li>
+                        <li>Read at least one chapter per week from either Deep Work or The Automatic Millionaire to reclaim mental focus and financial clarity</li>
+                        <li>Track body metrics beyond weight—energy levels, sleep quality, and mood—to measure real progress aligned with ministry capacity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="domain-card spirit">
+                <div class="domain-header">
+                    <div class="domain-icon">✝</div>
+                    <div class="domain-title">Spirit</div>
+                </div>
+                <div class="domain-body">
+                    <ul>
+                        <li>Establish one protected family day or half-day per week where ministry demands are absolutely not permitted to intrude</li>
+                        <li>Actively seek an older pastoral mentor through your denomination network or seminary contacts within 30 days</li>
+                        <li>Commit to attending a minimum of two of your son's sporting events per month and record the memory</li>
+                        <li>Conduct a quarterly "State of the Family" conversation with your wife to align vision, name costs, and renew marriage covenant</li>
+                        <li>Study the biblical Sabbath theologically through Exodus 20, Deuteronomy 5, and Isaiah 58 to reframe rest as spiritual discipline</li>
+                        <li>Journal weekly about one moment where family came first over ministry demand to train attention toward relational wins</li>
+                        <li>Name specific fears (about your son, daughter's care, aging parents, financial pressure) in writing and anchor each to a biblical promise</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-label">Books to Read</div>
+
+        <div class="books-grid">
+            <div class="book-card body">
+                <div class="book-domain-tag">Body</div>
+                <div class="book-title">Younger Next Year</div>
+                <div class="book-author">Chris Crowley & Henry S. Lodge, M.D.</div>
+                <div class="book-why">A science-backed case for why consistent exercise in your forties is transformational. Explains the biology of aging and how the body responds remarkably well to regular strength and cardio work—perfectly aligned with your 12-month physical goal and deep need to understand the why.</div>
+            </div>
+
+            <div class="book-card body">
+                <div class="book-domain-tag">Body</div>
+                <div class="book-title">The Daniel Plan: 40 Days to a Healthier Life</div>
+                <div class="book-author">Rick Warren, Dr. Daniel Amen & Dr. Mark Hyman</div>
+                <div class="book-why">Uniquely integrates Christian faith with practical nutrition, fitness, and wellness guidance. Frames health as a spiritual discipline and emphasizes community—perfect for someone in ministry who wants health grounded in faith language and shared with his wife's involvement.</div>
+            </div>
+
+            <div class="book-card mind">
+                <div class="book-domain-tag">Mind</div>
+                <div class="book-title">Deep Work</div>
+                <div class="book-author">Cal Newport</div>
+                <div class="book-why">Provides practical strategies for carving out periods of deep, uninterrupted focus even in a schedule full of demands. Directly relevant for someone whose work is constantly interrupt-driven and whose learning requires protected mental space.</div>
+            </div>
+
+            <div class="book-card mind">
+                <div class="book-domain-tag">Mind</div>
+                <div class="book-title">The Automatic Millionaire</div>
+                <div class="book-author">David Bach</div>
+                <div class="book-why">Presents a simple system for financial security that does not require complex knowledge. Particularly suited to someone whose schedule leaves no margin for active financial management. Addresses debt, retirement, and building margin over time.</div>
+            </div>
+
+            <div class="book-card spirit">
+                <div class="book-domain-tag">Spirit</div>
+                <div class="book-title">Strengthening the Soul of Your Leadership</div>
+                <div class="book-author">Ruth Haley Barton</div>
+                <div class="book-why">Writes directly to ministry leaders about the critical importance of inner spiritual formation. Explores how even gifted leaders become dangerously depleted without intentional soul care. Speaks directly to the tension between serving God and protecting family.</div>
+            </div>
+
+            <div class="book-card spirit">
+                <div class="book-domain-tag">Spirit</div>
+                <div class="book-title">Boundaries</div>
+                <div class="book-author">Dr. Henry Cloud & Dr. John Townsend</div>
+                <div class="book-why">Reframes limits as spiritually healthy and biblically grounded. Specifically addresses how high-agreeable, service-oriented individuals struggle to protect their own time and energy. Provides both theological permission and practical tools.</div>
+            </div>
+        </div>
+
+        <div class="section-label">AI Prompts to Try Now</div>
+
+        <div class="prompts-list">
+            <div class="prompt-card">
+                <div class="prompt-top">
+                    <div class="prompt-left">
+                        <div class="prompt-badge pb-blue">Body</div>
+                        <div class="prompt-label">Age-Appropriate Fitness Programming</div>
+                    </div>
+                    <div class="prompt-number">#01</div>
+                </div>
+                <div class="prompt-body">
+                    <p class="prompt-text">"Act as an experienced personal fitness trainer who specializes in men in their early forties returning to regular exercise after a long break. Ask me about my current fitness level, any physical limitations, and my available time, then recommend a beginner-friendly 3-day-per-week gym routine that balances strength training and cardiovascular health."</p>
+                    <a href="https://chatgpt.com?prompt=Act%20as%20an%20experienced%20personal%20fitness%20trainer%20who%20specializes%20in%20men%20in%20their%20early%20forties%20returning%20to%20regular%20exercise%20after%20a%20long%20break.%20Ask%20me%20about%20my%20current%20fitness%20level%2C%20any%20physical%20limitations%2C%20and%20my%20available%20time%2C%20then%20recommend%20a%20beginner-friendly%203-day-per-week%20gym%20routine%20that%20balances%20strength%20training%20and%20cardiovascular%20health." class="try-prompt-btn">Try This Prompt →</a>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-top">
+                    <div class="prompt-left">
+                        <div class="prompt-badge pb-blue">Body</div>
+                        <div class="prompt-label">Supplement Strategy for Men Over 40</div>
+                    </div>
+                    <div class="prompt-number">#02</div>
+                </div>
+                <div class="prompt-body">
+                    <p class="prompt-text">"Act as a registered dietitian and sports nutrition expert. I am a man in my early forties who eats a generally healthy diet and is returning to regular exercise after several years away. Ask me about my specific fitness goals and current diet, then explain which supplements (if any) are evidence-based and appropriate for my situation, and which ones I should discuss with my doctor first."</p>
+                    <a href="https://chatgpt.com?prompt=Act%20as%20a%20registered%20dietitian%20and%20sports%20nutrition%20expert.%20I%20am%20a%20man%20in%20my%20early%20forties%20who%20eats%20a%20generally%20healthy%20diet%20and%20is%20returning%20to%20regular%20exercise%20after%20several%20years%20away.%20Ask%20me%20about%20my%20specific%20fitness%20goals%20and%20current%20diet%2C%20then%20explain%20which%20supplements%20%28if%20any%29%20are%20evidence-based%20and%20appropriate%20for%20my%20situation%2C%20and%20which%20ones%20I%20should%20discuss%20with%20my%20doctor%20first." class="try-prompt-btn">Try This Prompt →</a>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-top">
+                    <div class="prompt-left">
+                        <div class="prompt-badge pb-gold">Mind</div>
+                        <div class="prompt-label">Financial Planning for Ministry Families</div>
+                    </div>
+                    <div class="prompt-number">#03</div>
+                </div>
+                <div class="prompt-body">
+                    <p class="prompt-text">"Act as a certified financial planner and explain the key priorities for a family in their early forties with a mortgage, some debt, retirement savings underway, and one spouse considering re-entering the workforce part-time. Ask me about our current situation and help me build a simple financial priority list for the next 12 months."</p>
+                    <a href="https://chatgpt.com?prompt=Act%20as%20a%20certified%20financial%20planner%20and%20explain%20the%20key%20priorities%20for%20a%20family%20in%20their%20early%20forties%20with%20a%20mortgage%2C%20some%20debt%2C%20retirement%20savings%20underway%2C%20and%20one%20spouse%20considering%20re-entering%20the%20workforce%20part-time.%20Ask%20me%20about%20our%20current%20situation%20and%20help%20me%20build%20a%20simple%20financial%20priority%20list%20for%20the%20next%2012%20months." class="try-prompt-btn">Try This Prompt →</a>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-top">
+                    <div class="prompt-left">
+                        <div class="prompt-badge pb-gold">Mind</div>
+                        <div class="prompt-label">Fitness Habit Tracking System</div>
+                    </div>
+                    <div class="prompt-number">#04</div>
+                </div>
+                <div class="prompt-body">
+                    <p class="prompt-text">"Act as an expert in fitness habit formation and accountability systems. Generate a simple weekly workout tracking worksheet for a man in his early forties who is targeting 3 gym sessions per week plus 1–2 pickleball sessions with his spouse. Include checkboxes for each session, a space for a brief energy/mood rating after each workout, a weekly reflection prompt, and a list of 2–3 smartphone apps that can send workout reminders and track weekly consistency."</p>
+                    <a href="https://chatgpt.com?prompt=Act%20as%20an%20expert%20in%20fitness%20habit%20formation%20and%20accountability%20systems.%20Generate%20a%20simple%20weekly%20workout%20tracking%20worksheet%20for%20a%20man%20in%20his%20early%20forties%20who%20is%20targeting%203%20gym%20sessions%20per%20week%20plus%201%E2%80%932%20pickleball%20sessions%20with%20his%20spouse.%20Include%20checkboxes%20for%20each%20session%2C%20a%20space%20for%20a%20brief%20energy%2Fmood%20rating%20after%20each%20workout%2C%20a%20weekly%20reflection%20prompt%2C%20and%20a%20list%20of%202%E2%80%933%20smartphone%20apps%20that%20can%20send%20workout%20reminders%20and%20track%20weekly%20consistency." class="try-prompt-btn">Try This Prompt →</a>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-top">
+                    <div class="prompt-left">
+                        <div class="prompt-badge pb-green">Spirit</div>
+                        <div class="prompt-label">Ministry-Family Balance Strategy</div>
+                    </div>
+                    <div class="prompt-number">#05</div>
+                </div>
+                <div class="prompt-body">
+                    <p class="prompt-text">"Act as an experienced Christian pastor and marriage counselor who has worked with ministry couples for decades. I am a pastor in my early forties who loves my calling but is feeling the strain of long hours on my family. Walk me through a framework for creating healthy rhythms between ministry and family life, with specific weekly and monthly habits I can implement."</p>
+                    <a href="https://chatgpt.com?prompt=Act%20as%20an%20experienced%20Christian%20pastor%20and%20marriage%20counselor%20who%20has%20worked%20with%20ministry%20couples%20for%20decades.%20I%20am%20a%20pastor%20in%20my%20early%20forties%20who%20loves%20my%20calling%20but%20is%20feeling%20the%20strain%20of%20long%20hours%20on%20my%20family.%20Walk%20me%20through%20a%20framework%20for%20creating%20healthy%20rhythms%20between%20ministry%20and%20family%20life%2C%20with%20specific%20weekly%20and%20monthly%20habits%20I%20can%20implement." class="try-prompt-btn">Try This Prompt →</a>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-top">
+                    <div class="prompt-left">
+                        <div class="prompt-badge pb-green">Spirit</div>
+                        <div class="prompt-label">Family Vision & Covenant Renewal</div>
+                    </div>
+                    <div class="prompt-number">#06</div>
+                </div>
+                <div class="prompt-body">
+                    <p class="prompt-text">"Act as a family life coach who specializes in ministry families. Help me design a simple 'Family Vision Statement' that my wife and I can create together. Ask me questions about our values, our daughter's needs, our son's season, and our marriage, and then help me draft a one-paragraph vision that we can use to evaluate decisions throughout the year."</p>
+                    <a href="https://chatgpt.com?prompt=Act%20as%20a%20family%20life%20coach%20who%20specializes%20in%20ministry%20families.%20Help%20me%20design%20a%20simple%20%27Family%20Vision%20Statement%27%20that%20my%20wife%20and%20I%20can%20create%20together.%20Ask%20me%20questions%20about%20our%20values%2C%20our%20daughter%27s%20needs%2C%20our%20son%27s%20season%2C%20and%20our%20marriage%2C%20and%20then%20help%20me%20draft%20a%20one-paragraph%20vision%20that%20we%20can%20use%20to%20evaluate%20decisions%20throughout%20the%20year." class="try-prompt-btn">Try This Prompt →</a>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-top">
+                    <div class="prompt-left">
+                        <div class="prompt-badge pb-green">Spirit</div>
+                        <div class="prompt-label">Fear Management Through Scripture & Action</div>
+                    </div>
+                    <div class="prompt-number">#07</div>
+                </div>
+                <div class="prompt-body">
+                    <p class="prompt-text">"Act as a Christian counselor and pastor who is well-versed in both Scripture and practical emotional health. I am a man in ministry in my early forties who struggles with low-level anxiety and fear about my family's future, my teenage son's choices, and whether my calling is costing my family too much. Walk me through a biblically grounded framework for understanding and overcoming fear. Include specific Scripture passages, practical daily habits, and questions I can reflect on to identify what specific fears are most present in my life right now."</p>
+                    <a href="https://chatgpt.com?prompt=Act%20as%20a%20Christian%20counselor%20and%20pastor%20who%20is%20well-versed%20in%20both%20Scripture%20and%20practical%20emotional%20health.%20I%20am%20a%20man%20in%20ministry%20in%20my%20early%20forties%20who%20struggles%20with%20low-level%20anxiety%20and%20fear%20about%20my%20family%27s%20future%2C%20my%20teenage%20son%27s%20choices%2C%20and%20whether%20my%20calling%20is%20costing%20my%20family%20too%20much.%20Walk%20me%20through%20a%20biblically%20grounded%20framework%20for%20understanding%20and%20overcoming%20fear.%20Include%20specific%20Scripture%20passages%2C%20practical%20daily%20habits%2C%20and%20questions%20I%20can%20reflect%20on%20to%20identify%20what%20specific%20fears%20are%20most%20present%20in%20my%20life%20right%20now." class="try-prompt-btn">Try This Prompt →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-label">90-Day Foundation Milestones</div>
+
+        <div class="milestones">
+            <div class="milestone-card">
+                <div class="milestone-icon">🏃</div>
+                <div class="milestone-title">Body</div>
+                <div class="milestone-text">Complete physician checkup, establish 2x/week gym habit with baseline assessment, attend 4 pickleball sessions with wife</div>
+            </div>
+
+            <div class="milestone-card">
+                <div class="milestone-icon">💡</div>
+                <div class="milestone-title">Mind</div>
+                <div class="milestone-text">Listen to 15 health/fitness podcast episodes, complete one financial planning consultation, identify accountability partner</div>
+            </div>
+
+            <div class="milestone-card">
+                <div class="milestone-icon">✝</div>
+                <div class="milestone-title">Spirit</div>
+                <div class="milestone-text">Establish protected weekly family day, attend 6 of son's sporting events, connect with potential pastoral mentor, conduct first family vision conversation</div>
+            </div>
+
+            <div class="milestone-card">
+                <div class="milestone-icon">👫</div>
+                <div class="milestone-title">Marriage</div>
+                <div class="milestone-text">Schedule and complete one couples date night per month, initiate quarterly "State of the Family" conversation, research couples retreat or ministry wives' community</div>
+            </div>
+        </div>
+
+        <div class="final-quote">
+            <p>The invitation is not to deny the reality of what is at stake, but to practice the discipline of <span class="quote-highlight">casting</span> — the active, repeated, intentional act of releasing what cannot be controlled and trusting what is known about God's character.</p>
+            <div class="quote-attribution">From Your 3D Life Strategies Report</div>
+        </div>
+    </main>
+
+</body>
+</html>

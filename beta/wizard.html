@@ -181,7 +181,7 @@
         personalityCompleted = true;
         updateUI();
         // Optional: auto-advance to survey after a short beat (only if currently on personality step).
-        if (idx === 2) setTimeout(() => go(1), 700);
+        // if (idx === 2) setTimeout(() => go(1), 30000);
       }
       if (data.event === 'survey:submitted') {
         updateUI();
